@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+<meta charset="UTF-8">
+<title>إنشاء حساب تاجر</title>
+<style>
+body{
+  background:#f4f4f9;
+  font-family: Arial, sans-serif;
+}
+.container{
+  width:380px;
+  margin:60px auto;
+  background:white;
+  padding:25px;
+  border-radius:10px;
+  box-shadow:0 5px 15px rgba(0,0,0,.1);
+  text-align:center;
+}
+input{
+  width:100%;
+  padding:8px;
+  margin:8px 0;
+}
+button{
+  width:100%;
+  padding:10px;
+  background:#28a745;
+  color:white;
+  border:none;
+  border-radius:5px;
+  cursor:pointer;
+}
+a{
+  display:block;
+  margin-top:10px;
+}
+#msg{color:red;}
+</style>
+</head>
+
+<body>
+<div class="container">
+  <h2>🆕 إنشاء حساب تاجر</h2>
+
+  <input id="name" placeholder="اسم التاجر">
+  <input id="email" type="email" placeholder="البريد الإلكتروني">
+  <input id="phone" placeholder="رقم الهاتف">
+  <input id="password" type="password" placeholder="كلمة المرور">
+
+  <button onclick="register()">إنشاء الحساب</button>
+
+  <p id="msg"></p>
+
+  <a href="login.html">لديك حساب؟ تسجيل الدخول</a>
+</div>
+
+<script>
+function register(){
+  const name = document.getElementById("name").value;
+  const email = document.getElementById("email").value;
+  const phone = document.getElementById("phone").value;
+  const password = document.getElementById("password").value;
+
+  fetch("http://localhost:3000/merchant/register", {
+    method:"POST",
+    headers:{"Content-Type":"application/json"},
+    body: JSON.stringify({name, email, phone, password})
+  })
+  .then(res => res.json())
+  .then(data => {
+    if(data.error){
+      document.getElementById("msg").textContent = data.error;
+    } else {
+      alert("تم إنشاء الحساب بنجاح ✅");
+      window.location = "login.html";
+    }
+  })
+  .catch(err => console.error(err));
+}
+</script>
+</body>
+</html>

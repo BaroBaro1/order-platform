@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>تأكيد الطلب</title>
+  <style>
+    /* ----------------- Reset ----------------- */
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+
+    body {
+      background: #f4f4f9;
+      padding: 20px;
+      display: flex;
+      justify-content: center;
+    }
+
+    .container {
+      max-width: 600px;
+      width: 100%;
+      background: #fff;
+      border-radius: 10px;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+      padding: 20px;
+    }
+
+    h2 { text-align: center; margin-bottom: 20px; color: #333; }
+
+    .product {
+      text-align: center;
+      margin-bottom: 30px;
+    }
+
+    .product img {
+      max-width: 100%;
+      border-radius: 10px;
+      margin-bottom: 10px;
+      height: auto;
+    }
+
+    .product h3 { font-size: 24px; margin-bottom: 5px; color: #007bff; }
+    .product p { font-size: 18px; color: #555; }
+
+    form label {
+      display: block;
+      margin-top: 15px;
+      font-weight: bold;
+      color: #333;
+    }
+
+    form input, form select, form textarea {
+      width: 100%;
+      padding: 10px;
+      margin-top: 5px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      font-size: 16px;
+    }
+
+    form textarea { resize: vertical; }
+
+    button {
+      width: 100%;
+      padding: 12px;
+      margin-top: 20px;
+      background-color: #007bff;
+      color: white;
+      font-size: 18px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+
+    button:hover { background-color: #0056b3; }
+
+    #result {
+      margin-top: 20px;
+      text-align: center;
+      font-size: 18px;
+      font-weight: bold;
+    }
+
+    .success { color: green; }
+    .error { color: red; }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <h2>تأكيد الطلب</h2>
+
+    <div class="product">
+      <img id="productImage" src="https://via.placeholder.com/400x300?text=جارٍ+تحميل+الصورة" alt="صورة المنتج" />
+      <h3 id="productName">جاري التحميل...</h3>
+      <p>السعر: <span id="price"></span> دج</p>
+    </div>
+
+    <form id="orderForm">
+      <input type="hidden" id="productId" name="productId" />
+
+      <label>الاسم واللقب</label>
+      <input type="text" id="customerName" name="customerName" required />
+
+      <label>الهاتف</label>
+      <input type="text" id="customerPhone" name="customerPhone" required />
+
+      <label>الولاية</label>
+      <input type="text" id="wilaya" name="wilaya" required />
+
+      <label>البلدية</label>
+      <input type="text" id="commune" name="commune" required />
+
+      <label>العنوان</label>
+      <textarea id="address" name="address" required></textarea>
+
+      <label>طريقة التوصيل</label>
+      <select id="deliveryType" name="deliveryType" required>
+        <option value="عادي">عادي</option>
+        <option value="سريع">سريع</option>
+      </select>
+
+      <label>سعر التوصيل</label>
+      <input type="number" id="deliveryPrice" name="deliveryPrice" value="0" required />
+
+      <button type="submit">تأكيد الطلب</button>
+    </form>
+
+    <p id="result"></p>
+  </div>
+
+  <script>
+    const urlParams = new URLSearchParams(window.location.search);
+    const link = urlParams.get("link");
+
+    const productImage = document.getElementById("productImage");
+    const productName = document.getElementById("productName");
+    const priceEl = document.getElementById("price");
+    const productIdEl = document.getElementById("productId");
+    const resultEl = document.getElementById("result");
+
+    // جلب بيانات المنتج من Backend
+    fetch(`http://localhost:3000/order/${link}`)
+      .then(res => res.json())
+      .then(product => {
+        if(product.error){
+          productName.textContent = product.error;
+          return;
+        }
+
+        productName.textContent = product.name;
+        priceEl.textContent = product.price.toLocaleString();
+        productIdEl.value = product.id;
+        productImage.src = product.image ? `http://localhost:3000${product.image}` : 'https://via.placeholder.com/400x300?text=لا+يوجد+صورة';
+      })
+      .catch(err => {
+        console.error(err);
+        productName.textContent = "حدث خطأ في جلب المنتج";
+      });
+
+    // إرسال الطلب
+    const form = document.getElementById("orderForm");
+    form.addEventListener("submit", e => {
+      e.preventDefault();
+
+      const data = {
+        productId: Number(productIdEl.value),
+        customerName: document.getElementById("customerName").value,
+        customerPhone: document.getElementById("customerPhone").value,
+        wilaya: document.getElementById("wilaya").value,
+        commune: document.getElementById("commune").value,
+        address: document.getElementById("address").value,
+        deliveryType: document.getElementById("deliveryType").value,
+        deliveryPrice: Number(document.getElementById("deliveryPrice").value)
+      };
+
+      fetch("http://localhost:3000/orders", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(data)
+      })
+      .then(res => res.json())
+      .then(resp => {
+        if(resp.success){
+          resultEl.textContent = "✅ تم تسجيل الطلب بنجاح";
+          resultEl.className = "success";
+          form.reset();
+        } else {
+          resultEl.textContent = "❌ حدث خطأ أثناء تسجيل الطلب";
+          resultEl.className = "error";
+        }
+      })
+      .catch(err => {
+        console.error(err);
+        resultEl.textContent = "❌ خطأ في الاتصال بالخادم";
+        resultEl.className = "error";
+      });
+    });
+  </script>
+
+</body>
+</html>

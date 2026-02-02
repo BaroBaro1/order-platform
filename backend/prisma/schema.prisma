@@ -1,0 +1,77 @@
+// schema.prisma
+// قاعدة البيانات: MySQL
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = "mysql://root:@localhost:3306/order_platform"
+}
+
+// ------------------------
+// الجداول
+// ------------------------
+
+// جدول التجار
+model Merchant {
+  id               Int        @id @default(autoincrement())
+  name             String
+  email            String     @unique
+  phone            String?    
+  password         String
+  status           String     @default("trial") // trial, active, frozen
+  trialEndsAt      DateTime?  // نهاية الفترة التجريبية
+  subscriptionPlan String?    @default("basic") // نوع الاشتراك
+  createdAt        DateTime   @default(now())
+
+  products         Product[]
+  notifications    Notification[]
+}
+
+// جدول المنتجات
+model Product {
+  id          Int      @id @default(autoincrement())
+  merchantId  Int
+  name        String
+  category    String
+  price       Float
+  image       String?
+  description String?
+  features    Json?    // حقل مرن لتخزين خصائص المنتج
+  orderLink   String   @unique
+  status      String   @default("active") // active / inactive
+  createdAt   DateTime @default(now())
+
+  merchant    Merchant @relation(fields: [merchantId], references: [id])
+  orders      Order[]
+}
+
+// جدول الطلبات
+model Order {
+  id           Int      @id @default(autoincrement())
+  productId    Int
+  customerName String
+  customerPhone String
+  wilaya       String
+  commune      String
+  address      String
+  deliveryType String
+  deliveryPrice Float
+  totalPrice    Float
+  createdAt    DateTime @default(now())
+  status        String @default("pending")
+
+  product      Product @relation(fields: [productId], references: [id])
+}
+
+// جدول الإشعارات
+model Notification {
+  id          Int      @id @default(autoincrement())
+  merchantId  Int
+  message     String
+  isRead      Boolean  @default(false)
+  createdAt   DateTime @default(now())
+
+  merchant    Merchant @relation(fields: [merchantId], references: [id])
+}

@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+  <meta charset="UTF-8">
+  <title>طلبات المنتج</title>
+  <style>
+    body {
+      background:#f4f4f9;
+      font-family: Arial, sans-serif;
+      padding: 20px;
+    }
+
+    .container {
+      max-width: 900px;
+      margin: auto;
+      background: white;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 5px 15px rgba(0,0,0,.1);
+    }
+
+    h2 { text-align:center; margin-bottom:20px; }
+
+    table {
+      width:100%;
+      border-collapse: collapse;
+      margin-top:20px;
+    }
+
+    th, td {
+      border:1px solid #ddd;
+      padding:10px;
+      text-align:center;
+    }
+
+    th {
+      background:#007bff;
+      color:white;
+    }
+
+    .status {
+      padding:5px 10px;
+      border-radius:5px;
+      color:white;
+    }
+
+    .pending { background:#ffc107; color:black; }
+    .done { background:#28a745; }
+
+    .back {
+      display:inline-block;
+      margin-bottom:15px;
+      text-decoration:none;
+      background:#333;
+      color:white;
+      padding:8px 12px;
+      border-radius:5px;
+    }
+
+    #empty {
+      text-align:center;
+      margin-top:20px;
+      color:#777;
+    }
+    .canceled {
+  background: #dc3545;
+}
+
+  </style>
+</head>
+
+<body>
+
+<div class="container">
+
+  <a class="back" href="dashboard.html">⬅ العودة للوحة التاجر</a>
+
+  <h2>📦 طلبات المنتج</h2>
+
+  <table>
+    <thead>
+  <tr>
+    <th>ID الطلب</th>
+    <th>اسم الزبون</th>
+    <th>الهاتف</th>
+    <th>الولاية</th>
+    <th>السعر الإجمالي</th>
+    <th>الحالة</th>
+    <th>الإجراءات</th>
+  </tr>
+</thead>
+
+    <tbody id="ordersBody"></tbody>
+  </table>
+
+  <p id="empty"></p>
+</div>
+
+<script>
+const ordersBody = document.getElementById("ordersBody");
+const emptyMsg = document.getElementById("empty");
+
+// قراءة productId من الرابط
+const params = new URLSearchParams(window.location.search);
+const productId = params.get('productId');
+
+if (!productId) {
+  emptyMsg.textContent = "لم يتم تحديد المنتج!";
+  throw new Error("Product ID missing in URL");
+}
+
+// رقم التاجر
+const merchantId = 1;
+
+// جلب الطلبات الخاصة بالتاجر
+fetch(`http://localhost:3000/merchants/${merchantId}/orders`)
+  .then(res => res.json())
+  .then(data => {
+    console.log("Orders from API:", data);
+
+    // فلترة الطلبات الخاصة بالمنتج فقط
+    const filteredOrders = data.filter(order => order.product.id == productId);
+
+    if (filteredOrders.length === 0) {
+      emptyMsg.textContent = "لا توجد طلبات لهذا المنتج حالياً";
+      return;
+    }
+
+    filteredOrders.forEach(order => {
+      const tr = document.createElement("tr");
+      tr.innerHTML = `
+  <td>${order.id}</td>
+  <td>${order.customerName}</td>
+  <td>${order.customerPhone}</td>
+  <td>${order.wilaya}</td>
+  <td>${order.totalPrice} دج</td>
+  <td id="status-${order.id}" 
+      class="status ${order.status === 'done' ? 'done' : 'pending'}">
+    ${order.status === 'done' ? 'مكتمل' : 'معلق'}
+  </td>
+  <td>
+    <button onclick="updateStatus(${order.id}, 'done')">✅ تأكيد</button>
+    <button onclick="updateStatus(${order.id}, 'canceled')">❌ إلغاء</button>
+  </td>
+`;
+      ordersBody.appendChild(tr);
+    });
+  })
+  .catch(err => {
+    console.error("Error:", err);
+    emptyMsg.textContent = "حدث خطأ أثناء جلب الطلبات";
+  });
+  function updateStatus(orderId, newStatus) {
+  fetch(`http://localhost:3000/orders/${orderId}`, {
+    method: "PATCH",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ status: newStatus })
+  })
+  .then(res => res.json())
+  .then(updatedOrder => {
+    console.log("Updated:", updatedOrder);
+
+    const statusCell = document.getElementById(`status-${orderId}`);
+
+    if (newStatus === "done") {
+      statusCell.textContent = "مكتمل";
+      statusCell.className = "status done";
+    } else {
+      statusCell.textContent = "ملغى";
+      statusCell.className = "status canceled";
+    }
+  })
+  .catch(err => console.error("Update error:", err));
+}
+
+</script>
+
+</body>
+</html>

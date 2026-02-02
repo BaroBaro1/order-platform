@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+<meta charset="UTF-8">
+<title>تسجيل دخول التاجر</title>
+<style>
+body{
+  background:#f4f4f9;
+  font-family: Arial, sans-serif;
+}
+.container{
+  width:350px;
+  margin:80px auto;
+  background:white;
+  padding:25px;
+  border-radius:10px;
+  box-shadow:0 5px 15px rgba(0,0,0,.1);
+  text-align:center;
+}
+input{
+  width:100%;
+  padding:8px;
+  margin:8px 0;
+}
+button{
+  width:100%;
+  padding:10px;
+  background:#007bff;
+  color:white;
+  border:none;
+  border-radius:5px;
+  cursor:pointer;
+}
+a{
+  display:block;
+  margin-top:10px;
+}
+#msg{color:red;}
+</style>
+</head>
+
+<body>
+<div class="container">
+  <h2>🔐 تسجيل دخول التاجر</h2>
+
+  <input id="email" type="email" placeholder="البريد الإلكتروني">
+  <input id="password" type="password" placeholder="كلمة المرور">
+
+  <button onclick="login()">تسجيل الدخول</button>
+
+  <p id="msg"></p>
+
+  <a href="register.html">ليس لديك حساب؟ إنشاء حساب</a>
+</div>
+
+<script>
+function login(){
+  const email = document.getElementById("email").value;
+  const password = document.getElementById("password").value;
+
+  fetch("http://localhost:3000/merchant/login", {
+    method:"POST",
+    headers:{"Content-Type":"application/json"},
+    body: JSON.stringify({email, password})
+  })
+  .then(res => res.json())
+  .then(data => {
+    if(data.error){
+      document.getElementById("msg").textContent = data.error;
+    } else {
+      // حفظ معرف التاجر محليًا
+      localStorage.setItem("merchantId", data.id);
+
+      // الانتقال للوحة التاجر
+      window.location = "dashboard.html";
+    }
+  })
+  .catch(err => console.error(err));
+}
+</script>
+</body>
+</html>
