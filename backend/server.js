@@ -29,6 +29,19 @@ const upload = multer({ storage });
 // السماح بالوصول للصور عبر URL
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
+app.post("/merchants/:id/upload-image", upload.single("image"), async (req, res) => {
+  const merchantId = parseInt(req.params.id);
+
+  const imagePath = "/uploads/" + req.file.filename;
+
+  await prisma.merchant.update({
+    where: { id: merchantId },
+    data: { storeImage: imagePath }
+  });
+
+  res.json({ success: true, image: imagePath });
+});
+
 // -------------------------------
 // دالة توليد كود عشوائي للرابط
 // -------------------------------
@@ -259,6 +272,29 @@ if (isNaN(merchantId)) {
     console.error(error);
     res.status(500).json({ error: "خطأ في جلب الإشعارات" });
   }
+}); 
+// تحديد إشعار كمقروء
+app.patch("/notifications/:id/read", async (req, res) => {
+  const id = Number(req.params.id);
+
+  const updated = await prisma.notification.update({
+    where: { id },
+    data: { isRead: true }
+  });
+
+  res.json(updated);
+});
+
+// تحديد كل الإشعارات كمقروء
+app.patch("/merchants/:id/notifications/read-all", async (req, res) => {
+  const merchantId = Number(req.params.id);
+
+  await prisma.notification.updateMany({
+    where: { merchantId },
+    data: { isRead: true }
+  });
+
+  res.json({ success: true });
 });
 app.patch("/orders/:id", async (req, res) => {
   const orderId = Number(req.params.id);
@@ -329,6 +365,80 @@ app.post("/merchant/login", async (req, res) => {
   } catch (err) {
     console.error(err);
     res.status(500).json({ error: "خطأ في الخادم" });
+  }
+});
+// ===============================
+// 🔹 جلب تاجر واحد (مهم للإعدادات)
+// ===============================
+app.get("/merchants/:id", async (req, res) => {
+  try {
+    const merchantId = Number(req.params.id);
+
+    if (isNaN(merchantId)) {
+      return res.status(400).json({ error: "merchantId يجب أن يكون رقمًا" });
+    }
+
+    const merchant = await prisma.merchant.findUnique({
+      where: { id: merchantId }
+    });
+
+    if (!merchant) {
+      return res.status(404).json({ error: "التاجر غير موجود" });
+    }
+
+    res.json(merchant);
+
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "خطأ في جلب بيانات التاجر" });
+  }
+});
+// ===============================
+// 🔐 تغيير كلمة مرور التاجر
+// ===============================
+app.patch("/merchants/:id/password", async (req, res) => {
+  const merchantId = Number(req.params.id);
+  const { newPassword } = req.body;
+
+  if (!newPassword || newPassword.length < 6) {
+    return res.status(400).json({
+      error: "كلمة المرور يجب أن تكون 6 أحرف على الأقل"
+    });
+  }
+
+  try {
+    await prisma.merchant.update({
+      where: { id: merchantId },
+      data: { password: newPassword }
+    });
+
+    res.json({ success: true, message: "تم تغيير كلمة المرور بنجاح" });
+
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "فشل تحديث كلمة المرور" });
+  }
+});
+app.put("/merchants/:id", async (req, res) => {
+  const merchantId = Number(req.params.id);
+  const { name, phone, email, storeName } = req.body;
+
+  try {
+    const updated = await prisma.merchant.update({
+      where: { id: merchantId },
+      data: {
+        name,
+        phone,
+        email,
+        storeName      // ← مهم
+      }
+    });
+
+    res.json({ success: true, merchant: updated });
+
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "فشل تحديث بيانات التاجر" });
   }
 });
 

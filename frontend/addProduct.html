@@ -4,51 +4,296 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>إضافة منتج جديد</title>
+
 <style>
-  body { font-family: Arial, sans-serif; background: #f5f5f5; padding: 20px; }
-  form { background: #fff; padding: 20px; border-radius: 8px; max-width: 500px; margin: auto; box-shadow: 0 0 10px rgba(0,0,0,0.1); }
-  input, textarea, button { width: 100%; padding: 10px; margin: 10px 0; border-radius: 5px; border: 1px solid #ccc; }
-  button { background-color: #007bff; color: white; border: none; cursor: pointer; }
-  button:hover { background-color: #0056b3; }
-  #preview { max-width: 100%; max-height: 200px; margin-top: 10px; border-radius: 5px; }
+body {
+  margin:0;
+  font-family: Arial, sans-serif;
+  background:#f4f4f9;
+  direction:rtl;
+}
+
+/* ========== الهيدر (نفس الداشبورد) ========== */
+.navbar {
+  background:white;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  padding:12px 30px;
+  box-shadow:0 2px 8px rgba(0,0,0,.1);
+}
+
+.right-side{
+  display:flex;
+  align-items:center;
+  gap:10px;
+}
+
+.store-img{
+  width:45px;
+  height:45px;
+  border-radius:50%;
+  object-fit:cover;
+  border:1px solid #ddd;
+}
+
+#welcomeText{
+  font-weight:bold;
+  color:#333;
+}
+
+.left-side{
+  display:flex;
+  align-items:center;
+  gap:15px;
+}
+
+.notifications{
+  text-decoration:none;
+  font-weight:bold;
+  font-size:20px;
+  cursor:pointer;
+}
+
+/* ===== عدّاد الإشعارات ===== */
+.notification-wrapper{
+  position: relative;
+  display: inline-block;
+}
+
+.badge{
+  position:absolute;
+  top:-5px;
+  right:-5px;
+  background:red;
+  color:white;
+  font-size:12px;
+  width:18px;
+  height:18px;
+  border-radius:50%;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-weight:bold;
+}
+
+.logout{
+  text-decoration:none;
+  color:#ff3366;
+  font-weight:bold;
+}
+
+.logo{
+  font-size:22px;
+  font-weight:bold;
+  color:#ff3366;
+}
+
+/* ========== تخطيط الصفحة ========== */
+.layout{
+  display:flex;
+}
+
+/* ========== القائمة الجانبية ========== */
+.sidebar{
+  width:230px;
+  background:#cbced2;
+  min-height:100vh;
+  padding-top:20px;
+}
+
+.sidebar a{
+  display:block;
+  color:rgb(14, 12, 12);
+  text-decoration:none;
+  padding:12px 20px;
+  margin:5px 10px;
+  border-radius:8px;
+}
+
+.sidebar a:hover{
+  background:#adadab;
+}
+
+.sidebar a.active{
+  background:#adadab;
+  font-weight:bold;
+}
+
+/* ========== المحتوى الرئيسي ========== */
+.main{
+  flex:1;
+  padding:25px;
+}
+
+/* ===== الفورم (محسّن + متناسق) ===== */
+.form-box {
+  max-width: 650px;
+  margin: 0 auto;
+  background:white;
+  padding:25px;
+  border-radius:10px;
+  box-shadow:0 5px 15px rgba(0,0,0,.1);
+}
+
+.form-box h2{
+  text-align:center;
+}
+
+input, textarea, button {
+  width: 100%;
+  padding: 10px;
+  margin: 10px 0;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+}
+
+button {
+  background:#007bff;
+  color:white;
+  border:none;
+  cursor:pointer;
+}
+
+button:hover{
+  background:#0056b3;
+}
+
+#preview {
+  max-width: 100%;
+  max-height: 220px;
+  margin-top: 10px;
+  border-radius: 8px;
+  display:none;
+}
+
+/* ===== الفوتر ===== */
+footer {
+  background: #222;
+  color: white;
+  text-align: center;
+  padding: 20px;
+  margin-top: 40px;
+}
+
+footer a {
+  color: #ffd000;
+  text-decoration: none;
+  margin: 0 10px;
+}
 </style>
 </head>
+
 <body>
 
-<h2 style="text-align:center;">إضافة منتج جديد</h2>
+<!-- ========== HEADER ========== -->
+<div class="navbar">
 
-<form id="addProductForm" enctype="multipart/form-data">
-  <input type="text" name="merchantId" placeholder="ID التاجر" required />
-  <input type="text" name="name" placeholder="اسم المنتج" required />
-  <input type="text" name="category" placeholder="الفئة" required />
-  <input type="number" name="price" placeholder="السعر" required />
-  <textarea name="description" placeholder="وصف المنتج"></textarea>
-  
-  <label>صورة المنتج:</label>
-  <input type="file" name="image" accept="image/*" id="imageInput" />
-  <img id="preview" src="" alt="معاينة الصورة" style="display:none;" />
+  <div class="right-side">
+    <img id="storeImg"
+         src="https://via.placeholder.com/45"
+         class="store-img">
+    <span id="welcomeText">مرحبًا، التاجر</span>
+  </div>
 
-  <button type="submit">إضافة المنتج</button>
-</form>
+  <div class="left-side">
+    <div class="notification-wrapper">
+      <a class="notifications" href="notifications.html">🔔</a>
+      <span id="notifBadge" class="badge" style="display:none;">0</span>
+    </div>
+
+    <a class="logout" href="login.html"> تسجيل الخروج</a>
+    <div class="logo">Baro</div>
+  </div>
+
+</div>
+
+<!-- ========== تخطيط الصفحة ========== -->
+<div class="layout">
+
+  <!-- ===== SIDEBAR ===== -->
+  <div class="sidebar">
+    <a href="dashboard.html">🏠 لوحة التحكم</a>
+    <a href="allorders.html">🛒 الطلبات</a>
+    <a href="settings.html">⚙️ الإعدادات</a>
+    <a href="addProduct.html" class="active">➕ إضافة منتج</a>
+  </div>
+
+  <!-- ===== المحتوى الرئيسي ===== -->
+  <div class="main">
+
+    <div class="form-box">
+      <h2>➕ إضافة منتج جديد</h2>
+
+      <form id="addProductForm" enctype="multipart/form-data">
+
+        <!-- نضعه مخفي ويُملأ تلقائيًا -->
+        <input type="hidden" name="merchantId" id="merchantIdField">
+
+        <input type="text" name="name" placeholder="اسم المنتج" required />
+        <input type="text" name="category" placeholder="الفئة" required />
+        <input type="number" name="price" placeholder="السعر (دج)" required />
+        <textarea name="description" placeholder="وصف المنتج"></textarea>
+
+        <label>صورة المنتج:</label>
+        <input type="file" name="image" accept="image/*" id="imageInput" />
+        <img id="preview" alt="معاينة الصورة" />
+
+        <button type="submit">إضافة المنتج</button>
+      </form>
+    </div>
+
+  </div>
+</div>
 
 <script>
+const merchantId = localStorage.getItem("merchantId") || 1;
+document.getElementById("merchantIdField").value = merchantId;
+
+// ===== جلب بيانات التاجر (مثل الداشبورد) =====
+fetch(`http://localhost:3000/merchants/${merchantId}`)
+.then(res => res.json())
+.then(merchant => {
+  document.getElementById("welcomeText").textContent =
+    "مرحبًا، " + (merchant.name || "التاجر");
+
+  if(merchant.storeImage){
+    document.getElementById("storeImg").src =
+      "http://localhost:3000" + merchant.storeImage;
+  }
+});
+
+// ===== عدّاد الإشعارات =====
+fetch(`http://localhost:3000/merchants/${merchantId}/notifications`)
+.then(res => res.json())
+.then(notifs => {
+  const unread = notifs.filter(n => !n.isRead).length;
+  const badge = document.getElementById("notifBadge");
+
+  if(unread > 0){
+    badge.style.display = "flex";
+    badge.textContent = unread;
+  } else {
+    badge.style.display = "none";
+  }
+});
+
+// ===== معاينة الصورة =====
 const form = document.getElementById("addProductForm");
 const imageInput = document.getElementById("imageInput");
 const preview = document.getElementById("preview");
 
-// عرض معاينة الصورة فور اختيارها
 imageInput.addEventListener("change", () => {
   const file = imageInput.files[0];
   if (file) {
     preview.src = URL.createObjectURL(file);
     preview.style.display = "block";
   } else {
-    preview.src = "";
     preview.style.display = "none";
   }
 });
 
-// إرسال المنتج مع الصورة
+// ===== إرسال المنتج =====
 form.addEventListener("submit", async (e) => {
   e.preventDefault();
 
@@ -64,8 +309,7 @@ form.addEventListener("submit", async (e) => {
 
     if (data.success) {
       alert("تم إضافة المنتج بنجاح!");
-      form.reset();
-      preview.style.display = "none";
+      window.location = "dashboard.html"; // رجوع تلقائي
     } else {
       alert("حدث خطأ أثناء الإضافة");
     }
@@ -75,6 +319,14 @@ form.addEventListener("submit", async (e) => {
   }
 });
 </script>
+
+<footer>
+  <p>
+    <a href="#">من نحن</a> |
+    <a href="#">اتصل بنا</a>
+  </p>
+  <p>© 2026 Baro - جميع الحقوق محفوظة</p>
+</footer>
 
 </body>
 </html>

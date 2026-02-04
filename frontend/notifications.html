@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+<meta charset="UTF-8">
+<title>الإشعارات</title>
+<style>
+body {
+  margin:0;
+  font-family: Arial, sans-serif;
+  background:#f4f4f9;
+  direction:rtl;
+}
+
+/* ========== الهيدر ========== */
+.navbar {
+  background:white;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  padding:12px 30px;
+  box-shadow:0 2px 8px rgba(0,0,0,.1);
+}
+
+.right-side{
+  display:flex;
+  align-items:center;
+  gap:10px;
+}
+
+.store-img{
+  width:45px;
+  height:45px;
+  border-radius:50%;
+  object-fit:cover;
+  border:1px solid #ddd;
+}
+
+#welcomeText{
+  font-weight:bold;
+  color:#333;
+}
+
+.left-side{
+  display:flex;
+  align-items:center;
+  gap:15px;
+}
+
+.notifications{
+  text-decoration:none;
+  font-weight:bold;
+  font-size:20px;
+  cursor:pointer;
+}
+/* ===== عدّاد الإشعارات ===== */
+.notification-wrapper{
+  position: relative;
+  display: inline-block;
+}
+
+.badge{
+  position:absolute;
+  top:-5px;
+  right:-5px;
+  background:red;
+  color:white;
+  font-size:12px;
+  width:18px;
+  height:18px;
+  border-radius:50%;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-weight:bold;
+}
+
+.logout{
+  text-decoration:none;
+  color:#ff3366;
+  font-weight:bold;
+}
+
+.logo{
+  font-size:22px;
+  font-weight:bold;
+  color:#ff3366;
+}
+
+/* ========== التخطيط ========== */
+.layout{
+  display:flex;
+}
+
+/* ========== القائمة الجانبية ========== */
+.sidebar{
+  width:230px;
+  background:#e5e7eb;
+  min-height:100vh;
+  padding-top:20px;
+}
+
+.sidebar a{
+  display:block;
+  color:#111;
+  text-decoration:none;
+  padding:12px 20px;
+  margin:5px 10px;
+  border-radius:8px;
+}
+
+.sidebar a:hover{
+  background:#cfd2d6;
+}
+
+/* ========== المحتوى ========== */
+.main{
+  flex:1;
+  padding:25px;
+}
+
+.container{
+  max-width: 900px;
+  margin: 0 auto;
+  background:white;
+  padding:20px;
+  border-radius:10px;
+  box-shadow:0 5px 15px rgba(0,0,0,.1);
+}
+
+/* ===== رأس الإشعارات ===== */
+.header-row{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin-bottom:15px;
+}
+
+.mark-all{
+  background:#007bff;
+  color:white;
+  border:none;
+  padding:8px 12px;
+  border-radius:6px;
+  cursor:pointer;
+}
+
+/* ===== بطاقة الإشعار ===== */
+.notification{
+  display:flex;
+  align-items:center;
+  gap:15px;
+  padding:12px;
+  border-bottom:1px solid #ddd;
+}
+
+.icon{
+  font-size:24px;
+}
+
+.content{
+  flex:1;
+}
+
+.time{
+  color:#777;
+  font-size:13px;
+}
+
+/* حالات الإشعارات */
+.new{
+  background:#eef6ff;
+}
+
+.read{
+  background:white;
+}
+
+/* زر قراءة */
+.read-btn{
+  background:#28a745;
+  color:white;
+  border:none;
+  padding:6px 10px;
+  border-radius:6px;
+  cursor:pointer;
+}
+
+/* ===== الفوتر ===== */
+footer {
+  background: #222;
+  color: white;
+  text-align: center;
+  padding: 20px;
+  margin-top: 40px;
+}
+
+footer a {
+  color: #ffd000;
+  text-decoration: none;
+  margin: 0 10px;
+}
+</style>
+</head>
+
+<body>
+
+<!-- ========== HEADER ========== -->
+<div class="navbar">
+  <div class="right-side">
+    <img id="storeImg"
+         src="https://via.placeholder.com/45"
+         class="store-img">
+    <span id="welcomeText">مرحبًا، التاجر</span>
+  </div>
+
+  <div class="left-side">
+<div class="notification-wrapper">
+  <a class="notifications" href="notifications.html">🔔</a>
+  <span id="notifBadge" class="badge" style="display:none;">0</span>
+</div>  
+    <a class="logout" href="login.html">تسجيل الخروج</a>
+    <div class="logo">Baro</div>
+  </div>
+</div>
+
+<div class="layout">
+
+<!-- ===== SIDEBAR ===== -->
+<div class="sidebar">
+  <a href="dashboard.html">🏠 لوحة التحكم</a>
+  <a href="allorders.html">🛒 الطلبات</a>
+  <a href="settings.html">⚙️ الإعدادات</a>
+  <a href="addProduct.html">➕ إضافة منتج</a>
+</div>
+<!-- ===== المحتوى ===== -->
+<div class="main">
+<div class="container">
+
+<div class="header-row">
+  <h2>🔔 الإشعارات</h2>
+  <button class="mark-all" onclick="markAllRead()">
+    تحديد الكل كمقروء
+  </button>
+</div>
+
+<div id="notificationsList">
+
+  <!-- مثال إشعار 1 -->
+  <div class="notification new" data-id="1">
+    <div class="icon">🛒</div>
+    <div class="content">
+      <b>طلب جديد</b><br>
+      لديك طلب جديد على منتج "هاتف سامسونغ"
+      <div class="time">منذ 5 دقائق</div>
+    </div>
+    <button class="read-btn" onclick="markRead(1)">مقروء</button>
+  </div>
+
+  <!-- مثال إشعار 2 -->
+  <div class="notification new" data-id="2">
+    <div class="icon">📦</div>
+    <div class="content">
+      <b>طلب مكتمل</b><br>
+      تم تسليم طلب رقم #12 بنجاح
+      <div class="time">منذ 30 دقيقة</div>
+    </div>
+    <button class="read-btn" onclick="markRead(2)">مقروء</button>
+  </div>
+
+  <!-- مثال إشعار 3 -->
+  <div class="notification read" data-id="3">
+    <div class="icon">⚙️</div>
+    <div class="content">
+      <b>تحديث حساب</b><br>
+      تم تحديث صورة متجرك بنجاح
+      <div class="time">أمس</div>
+    </div>
+  </div>
+
+</div>
+
+</div>
+</div>
+</div>
+
+<footer>
+  <p>
+    <a href="#">من نحن</a> |
+    <a href="#">اتصل بنا</a>
+  </p>
+  <p>© 2026 Baro - جميع الحقوق محفوظة</p>
+</footer>
+
+<script>
+const merchantId = localStorage.getItem("merchantId") || 1;
+
+// جلب بيانات التاجر (كما في الداشبورد)
+fetch(`http://localhost:3000/merchants/${merchantId}`)
+.then(r=>r.json())
+.then(m=>{
+  document.getElementById("welcomeText").textContent =
+    "مرحبًا، " + (m.name || "التاجر");
+
+  if(m.storeImage){
+    document.getElementById("storeImg").src =
+      "http://localhost:3000" + m.storeImage;
+  }
+});
+
+// ====== جلب الإشعارات الحقيقية من الباك‌اند ======
+fetch(`http://localhost:3000/merchants/${merchantId}/notifications`)
+.then(res => res.json())
+.then(notifications => {
+  const list = document.getElementById("notificationsList");
+  list.innerHTML = "";
+
+  if(notifications.length === 0){
+    list.innerHTML = "<p>لا توجد إشعارات حالياً.</p>";
+    return;
+  }
+
+  notifications.forEach(n => {
+    const div = document.createElement("div");
+    div.className = `notification ${n.isRead ? "read" : "new"}`;
+    div.dataset.id = n.id;
+
+    div.innerHTML = `
+      <div class="icon">
+        ${n.type === "new_order" ? "🛒" :
+          n.type === "order_done" ? "📦" : "🔔"}
+      </div>
+
+      <div class="content">
+        <b>${n.type === "new_order" ? "طلب جديد" : "إشعار"}</b><br>
+        ${n.message}
+        <div class="time">${new Date(n.createdAt).toLocaleString("ar-DZ")}</div>
+      </div>
+
+      ${n.isRead ? "" :
+        `<button class="read-btn" onclick="markRead(${n.id})">مقروء</button>`}
+    `;
+
+    list.appendChild(div);
+  });
+});
+
+// ====== تحديد إشعار كمقروء ======
+function markRead(id){
+  fetch(`http://localhost:3000/notifications/${id}/read`, {
+    method: "PATCH"
+  })
+  .then(res => res.json())
+  .then(data => {
+    const notif = document.querySelector(`.notification[data-id='${id}']`);
+    notif.classList.remove("new");
+    notif.classList.add("read");
+
+    const btn = notif.querySelector(".read-btn");
+    if(btn) btn.remove();
+  });
+}
+
+// ====== تحديد الكل كمقروء ======
+function markAllRead(){
+  fetch(`http://localhost:3000/merchants/${merchantId}/notifications/read-all`, {
+    method: "PATCH"
+  })
+  .then(res => res.json())
+  .then(() => {
+    document.querySelectorAll(".notification").forEach(n=>{
+      n.classList.remove("new");
+      n.classList.add("read");
+      const btn = n.querySelector(".read-btn");
+      if(btn) btn.remove();
+    });
+  });
+}
+// ====== جلب عدد الإشعارات غير المقروءة ======
+fetch(`http://localhost:3000/merchants/${merchantId}/notifications`)
+.then(res => res.json())
+.then(notifs => {
+  const unread = notifs.filter(n => !n.isRead).length;
+  const badge = document.getElementById("notifBadge");
+
+  if(unread > 0){
+    badge.style.display = "flex";
+    badge.textContent = unread;
+  } else {
+    badge.style.display = "none";
+  }
+});
+
+</script>
+
+</body>
+</html>

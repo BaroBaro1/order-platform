@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+<meta charset="UTF-8">
+<title>جميع الطلبات</title>
+<style>
+body {
+  margin:0;
+  font-family: Arial, sans-serif;
+  background:#f4f4f9;
+  direction:rtl;
+}
+
+/* ========== الهيدر (نفسه) ========== */
+.navbar {
+  background:white;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  padding:12px 30px;
+  box-shadow:0 2px 8px rgba(0,0,0,.1);
+}
+
+.right-side{
+  display:flex;
+  align-items:center;
+  gap:10px;
+}
+
+.store-img{
+  width:45px;
+  height:45px;
+  border-radius:50%;
+  object-fit:cover;
+  border:1px solid #ddd;
+}
+
+#welcomeText{
+  font-weight:bold;
+  color:#333;
+}
+
+.left-side{
+  display:flex;
+  align-items:center;
+  gap:15px;
+}
+
+.notifications{
+  text-decoration:none;
+  font-weight:bold;
+  font-size:20px;
+  cursor:pointer;
+}
+/* ===== عدّاد الإشعارات ===== */
+.notification-wrapper{
+  position: relative;
+  display: inline-block;
+}
+
+.badge{
+  position:absolute;
+  top:-5px;
+  right:-5px;
+  background:red;
+  color:white;
+  font-size:12px;
+  width:18px;
+  height:18px;
+  border-radius:50%;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-weight:bold;
+}
+
+.logout{
+  text-decoration:none;
+  color:#ff3366;
+  font-weight:bold;
+}
+
+.logo{
+  font-size:22px;
+  font-weight:bold;
+  color:#ff3366;
+}
+
+/* ========== التخطيط ========== */
+.layout{
+  display:flex;
+}
+
+/* ========== القائمة الجانبية ========== */
+.sidebar{
+  width:230px;
+  background:#e5e7eb;
+  min-height:100vh;
+  padding-top:20px;
+}
+
+.sidebar a{
+  display:block;
+  color:rgb(14, 12, 12);
+  text-decoration:none;
+  padding:12px 20px;
+  margin:5px 10px;
+  border-radius:8px;
+}
+
+.sidebar a:hover{
+  background:#adadab;
+}
+
+.sidebar a.active{
+  background:#adadab;
+  font-weight:bold;
+}
+
+/* ========== المحتوى ========== */
+.main{
+  flex:1;
+  padding:25px;
+}
+
+.container{
+  max-width: 1000px;
+  margin: 0 auto;
+  background:white;
+  padding:20px;
+  border-radius:10px;
+  box-shadow:0 5px 15px rgba(0,0,0,.1);
+}
+
+/* ===== أدوات الفلترة ===== */
+.filters{
+  display:flex;
+  gap:10px;
+  margin-bottom:15px;
+}
+
+.filters button{
+  padding:8px 12px;
+  border:none;
+  border-radius:5px;
+  cursor:pointer;
+  background:#ddd;
+}
+
+.filters button.active{
+  background:#007bff;
+  color:white;
+}
+
+#search{
+  padding:8px;
+  width:250px;
+  border-radius:5px;
+  border:1px solid #ccc;
+}
+
+/* ===== جدول الطلبات ===== */
+table{
+  width:100%;
+  border-collapse:collapse;
+}
+
+th, td{
+  border:1px solid #ddd;
+  padding:8px;
+  text-align:center;
+}
+
+th{
+  background:#f0f0f0;
+}
+
+/* حالات الطلب */
+.pending{
+  color:#ff9800;
+  font-weight:bold;
+}
+
+.done{
+  color:green;
+  font-weight:bold;
+}
+
+/* زر تحديث الحالة */
+.update-btn{
+  background:#28a745;
+  color:white;
+  border:none;
+  padding:6px 10px;
+  border-radius:5px;
+  cursor:pointer;
+}
+
+/* رسالة الحالة */
+#status{
+  margin-top:10px;
+  color:green;
+  text-align:center;
+}
+
+/* ===== الفوتر ===== */
+footer {
+  background: #222;
+  color: white;
+  text-align: center;
+  padding: 20px;
+  margin-top: 40px;
+}
+
+footer a {
+  color: #ffd000;
+  text-decoration: none;
+  margin: 0 10px;
+}
+</style>
+</head>
+
+<body>
+
+<!-- ========== HEADER ========== -->
+<div class="navbar">
+  <div class="right-side">
+    <img id="storeImg"
+         src="https://via.placeholder.com/45"
+         class="store-img">
+    <span id="welcomeText">مرحبًا، التاجر</span>
+  </div>
+
+  <div class="left-side">
+<div class="notification-wrapper">
+  <a class="notifications" href="notifications.html">🔔</a>
+  <span id="notifBadge" class="badge" style="display:none;">0</span>
+</div>   
+ <a class="logout" href="login.html">تسجيل الخروج</a>
+    <div class="logo">Baro</div>
+  </div>
+</div>
+
+<div class="layout">
+
+<!-- ===== SIDEBAR ===== -->
+<div class="sidebar">
+<a href="dashboard.html">🏠 لوحة التحكم</a>
+  <a href="allorders.html" class="active">🛒 الطلبات</a>
+  <a href="settings.html">⚙️ الإعدادات</a>
+  <a href="addProduct.html">➕ إضافة منتج</a>
+</div>
+
+<!-- ===== المحتوى الرئيسي ===== -->
+<div class="main">
+<div class="container">
+
+<h2>🛒 جميع الطلبات</h2>
+
+<div class="filters">
+  <button id="btnAll" class="active" onclick="filterStatus('all')">الكل</button>
+  <button id="btnPending" onclick="filterStatus('pending')">معلّقة</button>
+  <button id="btnDone" onclick="filterStatus('done')">مكتملة</button>
+
+  <input id="search" type="text"
+   placeholder="🔍 بحث بالاسم أو الهاتف..."
+   onkeyup="searchOrders()">
+</div>
+
+<table>
+  <thead>
+    <tr>
+      <th>رقم الطلب</th>
+      <th>المنتج</th>
+      <th>الاسم</th>
+      <th>الهاتف</th>
+      <th>السعر</th>
+      <th>الحالة</th>
+      <th>الإجراء</th>
+    </tr>
+  </thead>
+
+  <tbody id="ordersBody"></tbody>
+</table>
+
+<p id="status"></p>
+
+</div>
+</div>
+</div>
+
+<footer>
+  <p>
+    <a href="#">من نحن</a> |
+    <a href="#">اتصل بنا</a>
+  </p>
+  <p>© 2026 Baro - جميع الحقوق محفوظة</p>
+</footer>
+
+<script>
+const merchantId = localStorage.getItem("merchantId") || 1;
+
+/* تحميل بيانات التاجر */
+fetch(`http://localhost:3000/merchants/${merchantId}`)
+.then(r=>r.json())
+.then(m=>{
+  document.getElementById("welcomeText").textContent =
+    "مرحبًا، " + (m.name || "التاجر");
+
+  if(m.storeImage){
+    document.getElementById("storeImg").src =
+      "http://localhost:3000" + m.storeImage;
+  }
+});
+
+/* تحميل جميع الطلبات */
+let allOrders = [];
+
+fetch(`http://localhost:3000/merchants/${merchantId}/orders`)
+.then(r=>r.json())
+.then(orders=>{
+  allOrders = orders;
+  renderTable(orders);
+});
+
+function renderTable(orders){
+  const body = document.getElementById("ordersBody");
+  body.innerHTML = "";
+
+  if(orders.length === 0){
+    body.innerHTML = `
+      <tr><td colspan="7">لا توجد طلبات.</td></tr>`;
+    return;
+  }
+
+  orders.forEach(o=>{
+    const tr = document.createElement("tr");
+
+    const statusClass = o.status === "done" ? "done" : "pending";
+    const statusText = o.status === "done" ? "مكتمل" : "معلّق";
+
+    tr.innerHTML = `
+      <td>${o.id}</td>
+      <td>${o.productName || "—"}</td>
+      <td>${o.customerName}</td>
+      <td>${o.customerPhone}</td>
+      <td>${o.totalPrice} دج</td>
+      <td class="${statusClass}">${statusText}</td>
+      <td>
+        ${o.status !== "done"
+          ? `<button class="update-btn"
+             onclick="markDone(${o.id})">
+             تم التسليم
+           </button>`
+          : "—"}
+      </td>
+    `;
+
+    body.appendChild(tr);
+  });
+}
+
+/* فلترة حسب الحالة */
+function filterStatus(type){
+  document.querySelectorAll(".filters button")
+    .forEach(b=>b.classList.remove("active"));
+
+  if(type==="all"){
+    document.getElementById("btnAll").classList.add("active");
+    renderTable(allOrders);
+  }
+  else if(type==="pending"){
+    document.getElementById("btnPending").classList.add("active");
+    renderTable(allOrders.filter(o=>o.status!=="done"));
+  }
+  else{
+    document.getElementById("btnDone").classList.add("active");
+    renderTable(allOrders.filter(o=>o.status==="done"));
+  }
+}
+
+/* بحث بالاسم أو الهاتف */
+function searchOrders(){
+  const q = document.getElementById("search").value.toLowerCase();
+
+  const filtered = allOrders.filter(o =>
+    o.customerName.toLowerCase().includes(q) ||
+    o.customerPhone.includes(q)
+  );
+
+  renderTable(filtered);
+}
+
+/* تحديث الحالة إلى done */
+function markDone(orderId){
+  fetch(`http://localhost:3000/orders/${orderId}`,{
+    method:"PUT",
+    headers:{"Content-Type":"application/json"},
+    body: JSON.stringify({status:"done"})
+  })
+  .then(r=>r.json())
+  .then(()=>{
+    document.getElementById("status").textContent =
+      "تم تحديث حالة الطلب بنجاح ✅";
+
+    // تحديث محليًا
+    allOrders = allOrders.map(o =>
+      o.id===orderId ? {...o, status:"done"} : o
+    );
+
+    renderTable(allOrders);
+  });
+}
+// ====== جلب عدد الإشعارات غير المقروءة ======
+fetch(`http://localhost:3000/merchants/${merchantId}/notifications`)
+.then(res => res.json())
+.then(notifs => {
+  const unread = notifs.filter(n => !n.isRead).length;
+  const badge = document.getElementById("notifBadge");
+
+  if(unread > 0){
+    badge.style.display = "flex";
+    badge.textContent = unread;
+  } else {
+    badge.style.display = "none";
+  }
+});
+
+</script>
+</body>
+</html>

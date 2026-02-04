@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+  <meta charset="UTF-8">
+  <title>Baro - منصة إدارة الطلبات</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #f4f4f9;
+      direction: rtl;
+    }
+
+    /* ===== الهيدر ===== */
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: white;
+      padding: 15px 40px;
+      box-shadow: 0 2px 10px rgba(0,0,0,.1);
+    }
+
+    .logo {
+      font-size: 22px;
+      font-weight: bold;
+      color: #ff3366;
+    }
+
+    nav a {
+      margin: 0 10px;
+      text-decoration: none;
+      color: #333;
+      font-weight: 600;
+    }
+
+    nav a:hover {
+      color: #ff3366;
+    }
+
+    /* ===== القسم الرئيسي ===== */
+    .hero {
+      text-align: center;
+      padding: 80px 20px;
+      background: linear-gradient(to bottom, #ffffff, #f0f0ff);
+    }
+
+    .hero h1 {
+      font-size: 36px;
+      color: #222;
+    }
+
+    .hero p {
+      max-width: 700px;
+      margin: 20px auto;
+      color: #555;
+      line-height: 1.7;
+    }
+
+    .buttons {
+      margin-top: 25px;
+    }
+
+    .btn {
+      padding: 10px 20px;
+      border: none;
+      border-radius: 8px;
+      margin: 0 10px;
+      cursor: pointer;
+      font-weight: bold;
+    }
+
+    .primary {
+      background: #ff3366;
+      color: white;
+    }
+
+    .secondary {
+      background: #ffd000;
+      color: black;
+    }
+
+    /* ===== لماذا Baro ===== */
+    .why {
+      background: white;
+      padding: 50px 20px;
+      text-align: center;
+    }
+
+    .why h2 {
+      margin-bottom: 20px;
+    }
+
+    .why-container {
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+      flex-wrap: wrap;
+    }
+
+    .card {
+      background: #f8f8ff;
+      padding: 20px;
+      border-radius: 10px;
+      width: 250px;
+      box-shadow: 0 2px 8px rgba(0,0,0,.05);
+    }
+
+    /* ===== الفوتر ===== */
+    footer {
+      background: #222;
+      color: white;
+      text-align: center;
+      padding: 20px;
+      margin-top: 40px;
+    }
+
+    footer a {
+      color: #ffd000;
+      text-decoration: none;
+      margin: 0 10px;
+    }
+
+  </style>
+</head>
+
+<body>
+
+<!-- الهيدر -->
+<header>
+  <div class="logo">Baro</div>
+
+  <nav>
+    <a href="index.html">الرئيسية</a>
+    <a href="register.html">إنشاء حساب</a>
+    <a href="login.html">تسجيل الدخول</a>
+    <a href="faq.html">الأسئلة الشائعة</a>
+  </nav>
+</header>
+
+<!-- القسم التعريفي -->
+<section class="hero">
+  <h1>Baro — منصة إدارة وتأكيد الطلبات</h1>
+
+  <p>
+    Baro هي منصة ذكية تساعد التجار على إدارة طلباتهم بسهولة،  
+    وتسمح للعملاء بتأكيد طلباتهم بسرعة مع نظام تتبع بسيط وواضح  
+    وإشعارات فورية لحالة كل طلب.
+  </p>
+
+  <div class="buttons">
+    <button class="btn primary" onclick="location.href='register.html'">
+      ابدأ الآن
+    </button>
+
+    <button class="btn secondary" onclick="location.href='login.html'">
+      تسجيل الدخول
+    </button>
+  </div>
+</section>
+
+<!-- لماذا Baro -->
+<section class="why">
+  <h2>لماذا تختار Baro؟</h2>
+
+  <div class="why-container">
+    <div class="card">
+      <h3>سهولة الاستخدام</h3>
+      <p>واجهة بسيطة ومفهومة للتجار والعملاء.</p>
+    </div>
+
+    <div class="card">
+      <h3>تتبع الطلبات</h3>
+      <p>تعرف حالة الطلب في أي وقت.</p>
+    </div>
+
+    <div class="card">
+      <h3>إشعارات فورية</h3>
+      <p>تنبيهات مباشرة عند كل تحديث.</p>
+    </div>
+
+    <div class="card">
+      <h3>إدارة مركزية</h3>
+      <p>لوحة تحكم واحدة لكل المنتجات.</p>
+    </div>
+  </div>
+</section>
+
+<!-- الفوتر -->
+<footer>
+  <p>
+    <a href="#">À propos</a> |
+    <a href="#">Contact</a>
+  </p>
+
+  <p>© 2026 Baro - جميع الحقوق محفوظة</p>
+</footer>
+
+</body>
+</html>

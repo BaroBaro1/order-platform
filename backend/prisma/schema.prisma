@@ -17,12 +17,15 @@ datasource db {
 model Merchant {
   id               Int        @id @default(autoincrement())
   name             String
+    storeName        String?         // ← اسم المتجر (جديد)
+
   email            String     @unique
   phone            String?    
   password         String
   status           String     @default("trial") // trial, active, frozen
   trialEndsAt      DateTime?  // نهاية الفترة التجريبية
   subscriptionPlan String?    @default("basic") // نوع الاشتراك
+  storeImage  String?
   createdAt        DateTime   @default(now())
 
   products         Product[]

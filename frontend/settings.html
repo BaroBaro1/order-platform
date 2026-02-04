@@ -1,0 +1,491 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+<meta charset="UTF-8">
+<title>إعدادات التاجر</title>
+<style>
+body {
+  margin:0;
+  font-family: Arial, sans-serif;
+  background:#f4f4f9;
+  direction:rtl;
+}
+
+/* ===== الهيدر (موحّد مع الداشبورد) ===== */
+.navbar {
+  background:white;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  padding:12px 30px;
+  box-shadow:0 2px 8px rgba(0,0,0,.1);
+}
+
+.right-side{
+  display:flex;
+  align-items:center;
+  gap:10px;
+}
+
+.store-img{
+  width:45px;
+  height:45px;
+  border-radius:50%;
+  object-fit:cover;
+  border:1px solid #ddd;
+}
+
+#welcomeText{
+  font-weight:bold;
+  color:#333;
+}
+
+.left-side{
+  display:flex;
+  align-items:center;
+  gap:15px;
+}
+.notifications{
+  text-decoration:none;
+  font-weight:bold;
+  font-size:20px;
+  cursor:pointer;
+}
+.notification-wrapper{
+  position: relative;
+  display: inline-block;
+}
+
+.badge{
+  position:absolute;
+  top:-5px;
+  right:-5px;
+  background:red;
+  color:white;
+  font-size:12px;
+  width:18px;
+  height:18px;
+  border-radius:50%;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-weight:bold;
+}
+
+.logout{
+  text-decoration:none;
+  color:#ff3366;
+  font-weight:bold;
+}
+
+.logo{
+  font-size:22px;
+  font-weight:bold;
+  color:#ff3366;
+}
+
+/* ===== التخطيط ===== */
+.layout{
+  display:flex;
+}
+
+/* ===== السايدبار ===== */
+.sidebar{
+  width:230px;
+  background:#cbced2;
+  min-height:100vh;
+  padding-top:20px;
+}
+
+.sidebar a{
+  display:block;
+  color:black;
+  text-decoration:none;
+  padding:12px 20px;
+  margin:5px 10px;
+  border-radius:8px;
+}
+
+.sidebar a:hover{
+  background:#adadab;
+}
+
+.sidebar a.active{
+  background:#adadab;
+  font-weight:bold;
+}
+
+/* ===== المحتوى ===== */
+.main{
+  flex:1;
+  padding:25px;
+}
+
+/* ===== بطاقات الإعدادات ===== */
+.settings-grid{
+  display:grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap:20px;
+}
+
+.card{
+  background:white;
+  padding:20px;
+  border-radius:12px;
+  box-shadow:0 2px 8px rgba(0,0,0,.1);
+}
+
+/* ===== صورة المتجر ===== */
+.store-photo{
+  text-align:center;
+  margin-bottom:15px;
+}
+
+.store-photo img{
+  width:90px;
+  height:90px;
+  border-radius:50%;
+  border:1px solid #ddd;
+  margin-bottom:8px;
+}
+
+/* ===== الحقول ===== */
+.input-group{
+  margin-bottom:12px;
+}
+
+.input-group label{
+  display:block;
+  font-weight:bold;
+  margin-bottom:5px;
+}
+
+.input-group input, 
+.input-group textarea{
+  width:100%;
+  padding:8px;
+  border-radius:5px;
+  border:1px solid #ccc;
+  background:#f9f9f9;
+}
+
+
+
+/* ===== الأزرار ===== */
+.btn-row{
+  margin-top:20px;
+  text-align:right;
+}
+
+button{
+  padding:10px 15px;
+  border:none;
+  border-radius:8px;
+  cursor:pointer;
+  font-weight:bold;
+}
+
+.edit-btn{
+  background:#007bff;
+  color:white;
+}
+
+.save-btn{
+  background:#28a745;
+  color:white;
+}
+
+/* ===== الفوتر ===== */
+footer {
+  background: #222;
+  color: white;
+  text-align: center;
+  padding: 20px;
+  margin-top: 40px;
+}
+
+footer a {
+  color: #ffd000;
+  text-decoration: none;
+  margin: 0 10px;
+}
+</style>
+</head>
+
+<body>
+
+<!-- ===== HEADER ===== -->
+<div class="navbar">
+  <div class="right-side">
+    <img id="storeImg" src="https://via.placeholder.com/55" class="store-img">
+    <span id="welcomeText">مرحبًا، التاجر</span>
+  </div>
+
+  <div class="left-side">
+    <div class="notification-wrapper">
+      <a href="notifications.html" class="notifications">🔔</a>
+      <span id="notifBadge" class="badge" style="display:none;">0</span>
+    </div>
+    <a class="logout" href="login.html">تسجيل الخروج</a>
+    <div class="logo">Baro</div>
+  </div>
+</div>
+
+<!-- ===== LAYOUT ===== -->
+<div class="layout">
+
+<!-- SIDEBAR -->
+<div class="sidebar">
+  <a href="dashboard.html">🏠 لوحة التحكم</a>
+  <a href="allorders.html">🛒 الطلبات</a>
+  <a href="settings.html" class="active">⚙️ الإعدادات</a>
+  <a href="addProduct.html">➕ إضافة منتج</a>
+</div>
+
+<!-- ===== MAIN (تصميم جديد + احترافي + مرتبط بالباك‌اند) ===== -->
+<div class="main">
+
+<h2 style="margin-bottom:10px;">⚙️ إعدادات المتجر</h2>
+<p style="color:#666;margin-bottom:20px;">
+يمكنك تعديل بيانات متجرك، الصورة، ومعلومات الحساب ثم حفظ التغييرات.
+</p>
+
+<!-- شريط الأزرار العلوي الثابت داخل المحتوى -->
+<div style="
+background:#fff;
+padding:12px;
+border-radius:10px;
+box-shadow:0 2px 8px rgba(0,0,0,.08);
+margin-bottom:20px;
+display:flex;
+justify-content:space-between;
+align-items:center;
+position:sticky;
+top:10px;
+z-index:10;
+">
+  <strong>إعدادات المتجر</strong>
+
+  <div>
+    <button class="edit-btn" id="editBtn">✏️ تعديل</button>
+    <button class="save-btn" id="saveBtn" style="display:none;">💾 حفظ التغييرات</button>
+  </div>
+</div>
+
+<div class="settings-grid">
+
+<!-- بطاقة الهوية البصرية للمتجر -->
+<div class="card">
+  <h3>🖼️ صورة المتجر</h3>
+
+  <div class="store-photo">
+    <img id="previewImg" src="https://via.placeholder.com/90">
+  </div>
+
+  <input type="file" id="storeImageInput" accept="image/*">
+  <p style="color:#666;font-size:13px;">
+    يفضّل مقاس 400×400 — ستُحفظ الصورة بعد الضغط على "حفظ التغييرات".
+  </p>
+</div>
+
+<!-- بطاقة المعلومات الأساسية -->
+<div class="card">
+  <h3>📦 معلومات المتجر</h3>
+
+  <div class="input-group">
+    <label>اسم التاجر</label>
+    <input id="name" >
+  </div>
+
+  <div class="input-group">
+    <label>رقم الهاتف</label>
+    <input id="storePhone" >
+  </div>
+
+  <div class="input-group">
+    <label>البريد الإلكتروني</label>
+    <input id="storeEmail" >
+  </div>
+</div>
+
+<!-- بطاقة الحساب -->
+<div class="card">
+  <h3>🔐 إعدادات الحساب</h3>
+
+  <div class="input-group">
+    <label>اسم المتجر</label>
+    <input id="storeName" >
+  </div>
+
+  <button id="showPassBtn" style="margin-top:10px;">🔑 تغيير كلمة المرور</button>
+
+  <div id="passwordBox" style="display:none; margin-top:10px;">
+    <div class="input-group">
+      <label>كلمة المرور الجديدة</label>
+      <input type="password" id="password">
+    </div>
+
+    <div class="input-group">
+      <label>تأكيد كلمة المرور</label>
+      <input type="password" id="confirmPassword">
+    </div>
+  </div>
+</div>
+
+</div>
+
+<!-- رسالة الحالة -->
+<p id="status" style="margin-top:15px;"></p>
+
+</div>
+</div>
+<footer>
+  <p>
+    <a href="#">من نحن</a> |
+    <a href="#">اتصل بنا</a>
+  </p>
+  <p>© 2026 Baro - جميع الحقوق محفوظة</p>
+</footer>
+
+<script>
+const merchantId = localStorage.getItem("merchantId") || 1;
+
+/* ===== معاينة الصورة ===== */
+document.getElementById("storeImageInput").addEventListener("change", (e)=>{
+  const file = e.target.files[0];
+  if(file){
+    document.getElementById("previewImg").src = URL.createObjectURL(file);
+  }
+});
+
+/* ===== إظهار حقول كلمة المرور ===== */
+document.getElementById("showPassBtn").addEventListener("click", ()=>{
+  document.getElementById("passwordBox").style.display = "block";
+});
+
+/* ===== جلب بيانات التاجر ===== */
+function loadMerchantData(){
+  fetch(`http://localhost:3000/merchants/${merchantId}`)
+  .then(res => res.json())
+  .then(merchant => {
+
+    document.getElementById("welcomeText").textContent =
+      "مرحبًا، " + (merchant.name || "التاجر");
+
+    if(merchant.storeImage){
+      document.getElementById("storeImg").src =
+        "http://localhost:3000" + merchant.storeImage;
+
+      document.getElementById("previewImg").src =
+        "http://localhost:3000" + merchant.storeImage;
+    }
+
+    document.getElementById("name").value = merchant.name || "";
+    document.getElementById("storePhone").value = merchant.phone || "";
+    document.getElementById("storeEmail").value = merchant.email || "";
+    document.getElementById("storeName").value = merchant.storeName || "";
+  });
+}
+
+/* ===== وضع التعديل ===== */
+const editBtn = document.getElementById("editBtn");
+const saveBtn = document.getElementById("saveBtn");
+
+editBtn.addEventListener("click", ()=>{
+  document.querySelectorAll(".readonly").forEach(el=>{
+    el.removeAttribute("readonly");
+    el.style.background="#fff";
+  });
+
+  editBtn.style.display="none";
+  saveBtn.style.display="inline-block";
+});
+
+/* ===== حفظ التغييرات ===== */
+saveBtn.addEventListener("click", async ()=>{
+
+  const pass = document.getElementById("password").value;
+  const confirmPass = document.getElementById("confirmPassword").value;
+
+  if(pass && pass !== confirmPass){
+    document.getElementById("status").textContent =
+      "❌ كلمة المرور غير متطابقة";
+    return;
+  }
+
+  // ===== رفع الصورة إن وُجدت =====
+  const fileInput = document.getElementById("storeImageInput");
+
+  if (fileInput.files.length > 0) {
+    const formData = new FormData();
+    formData.append("image", fileInput.files[0]);
+
+    await fetch(`http://localhost:3000/merchants/${merchantId}/upload-image`, {
+      method: "POST",
+      body: formData
+    });
+  }
+
+  // ===== حفظ باقي البيانات =====
+  const data = {
+    name: document.getElementById("name").value,
+    phone: document.getElementById("storePhone").value,
+    email: document.getElementById("storeEmail").value,
+    storeName: document.getElementById("storeName").value,
+  };
+
+  const res = await fetch(
+    `http://localhost:3000/merchants/${merchantId}`,
+    {
+      method:"PUT",
+      headers:{"Content-Type":"application/json"},
+      body: JSON.stringify(data)
+    }
+  );
+
+  // ===== تغيير كلمة المرور إن وُجدت =====
+  if (pass) {
+    await fetch(
+      `http://localhost:3000/merchants/${merchantId}/password`,
+      {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ newPassword: pass })
+      }
+    );
+  }
+
+  // إذا وصلنا هنا = كل شيء نجح
+  document.getElementById("status").textContent =
+    "تم حفظ كل التغييرات بنجاح ✅";
+
+  document.querySelectorAll(".readonly").forEach(el=>{
+    el.setAttribute("readonly", true);
+    el.style.background="#eee";
+  });
+
+  saveBtn.style.display="none";
+  editBtn.style.display="inline-block";
+
+});
+
+
+/* ===== عداد الإشعارات ===== */
+fetch(`http://localhost:3000/merchants/${merchantId}/notifications`)
+.then(res => res.json())
+.then(notifs => {
+  const unread = notifs.filter(n => !n.isRead).length;
+  const badge = document.getElementById("notifBadge");
+
+  if(unread > 0){
+    badge.style.display = "flex";
+    badge.textContent = unread;
+  } else {
+    badge.style.display = "none";
+  }
+});
+
+loadMerchantData();
+</script>
+</body>
+</html>

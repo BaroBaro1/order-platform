@@ -5,41 +5,112 @@
 <title>تسجيل دخول التاجر</title>
 <style>
 body{
-  background:#f4f4f9;
+  margin:0;
   font-family: Arial, sans-serif;
+  background:#f4f4f9;
+  direction:rtl;
 }
+
+/* ===== الهيدر (مطابق لـ index.html) ===== */
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: white;
+  padding: 15px 40px;
+  box-shadow: 0 2px 10px rgba(0,0,0,.1);
+}
+
+.logo {
+  font-size: 22px;
+  font-weight: bold;
+  color: #ff3366;
+}
+nav {
+  display: flex;          /* ← هذا هو المفتاح */
+  align-items: center;
+}
+nav a {
+  margin: 0 10px;
+  text-decoration: none;
+  color: #333;
+  font-weight: 600;
+}
+
+nav a:hover {
+  color: #ff3366;
+}
+
+/* ===== نافذة تسجيل الدخول ===== */
 .container{
-  width:350px;
-  margin:80px auto;
+  width:360px;
+  margin:70px auto;
   background:white;
-  padding:25px;
-  border-radius:10px;
+  padding:30px;
+  border-radius:12px;
   box-shadow:0 5px 15px rgba(0,0,0,.1);
   text-align:center;
 }
+
 input{
   width:100%;
-  padding:8px;
-  margin:8px 0;
+  padding:10px;
+  margin:10px 0;
+  border:1px solid #ddd;
+  border-radius:8px;
 }
+
 button{
   width:100%;
-  padding:10px;
-  background:#007bff;
+  padding:12px;
+  background:#ff3366;
   color:white;
   border:none;
-  border-radius:5px;
+  border-radius:8px;
+  font-weight:bold;
   cursor:pointer;
 }
+
 a{
   display:block;
-  margin-top:10px;
+  margin-top:12px;
+  color:#ff3366;
 }
+
 #msg{color:red;}
+
+/* ===== الفوتر (مطابق لـ index.html) ===== */
+footer{
+  background:#222;
+  color:white;
+  text-align:center;
+  padding:20px;
+  margin-top:40px;
+}
+
+footer a{
+  color:#ffd000;
+  text-decoration:none;
+  margin: 0 10px;
+}
 </style>
 </head>
 
 <body>
+
+<!-- ========== HEADER (موحّد) ========== -->
+<header>
+  <div class="logo">Baro</div>
+
+  <nav>
+    <a href="index.html">الرئيسية</a>
+    <a href="register.html">إنشاء حساب</a>
+    <a href="login.html">تسجيل الدخول</a>
+    <a href="faq.html">الأسئلة الشائعة</a>
+  </nav>
+</header>
+
+<!-- ========== محتوى الصفحة ========== -->
 <div class="container">
   <h2>🔐 تسجيل دخول التاجر</h2>
 
@@ -52,6 +123,15 @@ a{
 
   <a href="register.html">ليس لديك حساب؟ إنشاء حساب</a>
 </div>
+
+<!-- ========== FOOTER (موحّد) ========== -->
+<footer>
+  <p>
+    <a href="#">À propos</a> |
+    <a href="#">Contact</a>
+  </p>
+  <p>© 2026 Baro - جميع الحقوق محفوظة</p>
+</footer>
 
 <script>
 function login(){
@@ -78,5 +158,6 @@ function login(){
   .catch(err => console.error(err));
 }
 </script>
+
 </body>
 </html>
