@@ -4,6 +4,7 @@ const { PrismaClient } = require("@prisma/client");
 const cors = require("cors");
 const multer = require("multer");
 const path = require("path");
+const bcrypt = require("bcrypt");
 
 const app = express();
 const prisma = new PrismaClient();
@@ -329,9 +330,9 @@ app.post("/merchant/register", async (req, res) => {
     if (existing) {
       return res.json({ error: "البريد الإلكتروني موجود بالفعل" });
     }
-
+const hashedPassword = await bcrypt.hash(password, 10);
     const merchant = await prisma.merchant.create({
-      data: { name, email, phone, password }
+      data: { name, email, phone,  password: hashedPassword, }
     });
 
     res.json({ message: "تم إنشاء الحساب بنجاح" });
@@ -342,9 +343,10 @@ app.post("/merchant/register", async (req, res) => {
   }
 });
 app.post("/merchant/login", async (req, res) => {
-  const { email, password } = req.body;
-
   try {
+    const email = req.body.email.trim();
+    const password = req.body.password.trim();
+
     const merchant = await prisma.merchant.findUnique({
       where: { email }
     });
@@ -353,7 +355,13 @@ app.post("/merchant/login", async (req, res) => {
       return res.json({ error: "البريد الإلكتروني غير موجود" });
     }
 
-    if (merchant.password !== password) {
+    if (!merchant.password) {
+      return res.json({ error: "هذا الحساب بدون كلمة مرور، سجّل من جديد" });
+    }
+
+    const isMatch = await bcrypt.compare(password, merchant.password);
+
+    if (!isMatch) {
       return res.json({ error: "كلمة المرور خاطئة" });
     }
 
@@ -367,6 +375,7 @@ app.post("/merchant/login", async (req, res) => {
     res.status(500).json({ error: "خطأ في الخادم" });
   }
 });
+
 // ===============================
 // 🔹 جلب تاجر واحد (مهم للإعدادات)
 // ===============================
@@ -400,25 +409,20 @@ app.patch("/merchants/:id/password", async (req, res) => {
   const merchantId = Number(req.params.id);
   const { newPassword } = req.body;
 
-  if (!newPassword || newPassword.length < 6) {
-    return res.status(400).json({
-      error: "كلمة المرور يجب أن تكون 6 أحرف على الأقل"
-    });
+  if (!newPassword) {
+    return res.status(400).json({ error: "يجب إدخال كلمة مرور جديدة" });
   }
 
-  try {
-    await prisma.merchant.update({
-      where: { id: merchantId },
-      data: { password: newPassword }
-    });
+  const hashedPassword = await bcrypt.hash(newPassword, 10);
 
-    res.json({ success: true, message: "تم تغيير كلمة المرور بنجاح" });
+  await prisma.merchant.update({
+    where: { id: merchantId },
+    data: { password: hashedPassword }
+  });
 
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ error: "فشل تحديث كلمة المرور" });
-  }
+  res.json({ success: true, message: "تم تغيير كلمة المرور بنجاح" });
 });
+
 app.put("/merchants/:id", async (req, res) => {
   const merchantId = Number(req.params.id);
   const { name, phone, email, storeName } = req.body;
