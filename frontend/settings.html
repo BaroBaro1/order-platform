@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <title>إعدادات التاجر</title>
 <style>
-body {
+body {  
   margin:0;
   font-family: Arial, sans-serif;
   background:#f4f4f9;
@@ -349,6 +349,7 @@ z-index:10;
 
 <script>
 const merchantId = localStorage.getItem("merchantId") || 1;
+const token = localStorage.getItem("token");   // ✅ أضف هذا السطر
 
 /* ===== معاينة الصورة ===== */
 document.getElementById("storeImageInput").addEventListener("change", (e)=>{
@@ -365,7 +366,11 @@ document.getElementById("showPassBtn").addEventListener("click", ()=>{
 
 /* ===== جلب بيانات التاجر ===== */
 function loadMerchantData(){
-  fetch(`http://localhost:3000/merchants/${merchantId}`)
+  const token = localStorage.getItem("token");
+
+  fetch(`http://localhost:3000/merchants/${merchantId}`, {
+    headers: { "Authorization": `Bearer ${token}` }
+  })
   .then(res => res.json())
   .then(merchant => {
 
@@ -414,7 +419,7 @@ saveBtn.addEventListener("click", async ()=>{
   }
 
   // ===== رفع الصورة إن وُجدت =====
-  const fileInput = document.getElementById("storeImageInput");
+const fileInput = document.getElementById("storeImageInput");
 
   if (fileInput.files.length > 0) {
     const formData = new FormData();
@@ -422,11 +427,13 @@ saveBtn.addEventListener("click", async ()=>{
 
     await fetch(`http://localhost:3000/merchants/${merchantId}/upload-image`, {
       method: "POST",
+      headers: { "Authorization": `Bearer ${token}` },
       body: formData
     });
   }
 
-  // ===== حفظ باقي البيانات =====
+  // ===== حفظ باقي البيانات ===== 
+
   const data = {
     name: document.getElementById("name").value,
     phone: document.getElementById("storePhone").value,
@@ -438,18 +445,19 @@ saveBtn.addEventListener("click", async ()=>{
     `http://localhost:3000/merchants/${merchantId}`,
     {
       method:"PUT",
-      headers:{"Content-Type":"application/json"},
+      headers:{"Content-Type":"application/json", "Authorization": `Bearer ${token}`},
       body: JSON.stringify(data)
     }
   );
 
   // ===== تغيير كلمة المرور إن وُجدت =====
+
   if (pass) {
     await fetch(
       `http://localhost:3000/merchants/${merchantId}/password`,
       {
         method: "PATCH",
-        headers: { "Content-Type": "application/json" },
+        headers: { "Content-Type": "application/json", "Authorization": `Bearer ${token}` },
         body: JSON.stringify({ newPassword: pass })
       }
     );
@@ -471,7 +479,10 @@ saveBtn.addEventListener("click", async ()=>{
 
 
 /* ===== عداد الإشعارات ===== */
-fetch(`http://localhost:3000/merchants/${merchantId}/notifications`)
+
+fetch(`http://localhost:3000/merchants/${merchantId}/notifications`, {
+  headers: { "Authorization": `Bearer ${token}` }
+})
 .then(res => res.json())
 .then(notifs => {
   const unread = notifs.filter(n => !n.isRead).length;

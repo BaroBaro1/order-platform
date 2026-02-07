@@ -4,6 +4,7 @@
 <meta charset="UTF-8">
 <title>جميع الطلبات</title>
 <style>
+/* ======= احتفظت بكل الستايل الذي عندك كما هو ======= */
 body {
   margin:0;
   font-family: Arial, sans-serif;
@@ -11,7 +12,7 @@ body {
   direction:rtl;
 }
 
-/* ========== الهيدر (نفسه) ========== */
+/* ========== الهيدر (لم أغيّره) ========== */
 .navbar {
   background:white;
   display:flex;
@@ -21,77 +22,20 @@ body {
   box-shadow:0 2px 8px rgba(0,0,0,.1);
 }
 
-.right-side{
-  display:flex;
-  align-items:center;
-  gap:10px;
-}
-
-.store-img{
-  width:45px;
-  height:45px;
-  border-radius:50%;
-  object-fit:cover;
-  border:1px solid #ddd;
-}
-
-#welcomeText{
-  font-weight:bold;
-  color:#333;
-}
-
-.left-side{
-  display:flex;
-  align-items:center;
-  gap:15px;
-}
-
-.notifications{
-  text-decoration:none;
-  font-weight:bold;
-  font-size:20px;
-  cursor:pointer;
-}
-/* ===== عدّاد الإشعارات ===== */
-.notification-wrapper{
-  position: relative;
-  display: inline-block;
-}
-
-.badge{
-  position:absolute;
-  top:-5px;
-  right:-5px;
-  background:red;
-  color:white;
-  font-size:12px;
-  width:18px;
-  height:18px;
-  border-radius:50%;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  font-weight:bold;
-}
-
-.logout{
-  text-decoration:none;
-  color:#ff3366;
-  font-weight:bold;
-}
-
-.logo{
-  font-size:22px;
-  font-weight:bold;
-  color:#ff3366;
-}
+.right-side{display:flex;align-items:center;gap:10px;}
+.store-img{width:45px;height:45px;border-radius:50%;object-fit:cover;border:1px solid #ddd;}
+#welcomeText{font-weight:bold;color:#333;}
+.left-side{display:flex;align-items:center;gap:15px;}
+.notifications{text-decoration:none;font-weight:bold;font-size:20px;cursor:pointer;}
+.notification-wrapper{position: relative;display: inline-block;}
+.badge{position:absolute;top:-5px;right:-5px;background:red;color:white;font-size:12px;width:18px;height:18px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:bold;}
+.logout{text-decoration:none;color:#ff3366;font-weight:bold;}
+.logo{font-size:22px;font-weight:bold;color:#ff3366;}
 
 /* ========== التخطيط ========== */
-.layout{
-  display:flex;
-}
+.layout{display:flex;}
 
-/* ========== القائمة الجانبية ========== */
+/* ========== القائمة الجانبية (لم أغيّرها) ========== */
 .sidebar{
   width:230px;
   background:#e5e7eb;
@@ -108,20 +52,11 @@ body {
   border-radius:8px;
 }
 
-.sidebar a:hover{
-  background:#adadab;
-}
-
-.sidebar a.active{
-  background:#adadab;
-  font-weight:bold;
-}
+.sidebar a:hover{background:#adadab;}
+.sidebar a.active{background:#adadab;font-weight:bold;}
 
 /* ========== المحتوى ========== */
-.main{
-  flex:1;
-  padding:25px;
-}
+.main{flex:1;padding:25px;}
 
 .container{
   max-width: 1000px;
@@ -133,11 +68,7 @@ body {
 }
 
 /* ===== أدوات الفلترة ===== */
-.filters{
-  display:flex;
-  gap:10px;
-  margin-bottom:15px;
-}
+.filters{display:flex;gap:10px;margin-bottom:15px;}
 
 .filters button{
   padding:8px 12px;
@@ -160,10 +91,7 @@ body {
 }
 
 /* ===== جدول الطلبات ===== */
-table{
-  width:100%;
-  border-collapse:collapse;
-}
+table{width:100%;border-collapse:collapse;}
 
 th, td{
   border:1px solid #ddd;
@@ -171,22 +99,13 @@ th, td{
   text-align:center;
 }
 
-th{
-  background:#f0f0f0;
-}
+th{background:#f0f0f0;}
 
 /* حالات الطلب */
-.pending{
-  color:#ff9800;
-  font-weight:bold;
-}
+.pending{color:#ff9800;font-weight:bold;}
+.done{color:green;font-weight:bold;}
+.canceled{color:red;font-weight:bold;}
 
-.done{
-  color:green;
-  font-weight:bold;
-}
-
-/* زر تحديث الحالة */
 .update-btn{
   background:#28a745;
   color:white;
@@ -196,14 +115,7 @@ th{
   cursor:pointer;
 }
 
-/* رسالة الحالة */
-#status{
-  margin-top:10px;
-  color:green;
-  text-align:center;
-}
-
-/* ===== الفوتر ===== */
+/* ===== الفوتر (لم أغيّره) ===== */
 footer {
   background: #222;
   color: white;
@@ -211,7 +123,6 @@ footer {
   padding: 20px;
   margin-top: 40px;
 }
-
 footer a {
   color: #ffd000;
   text-decoration: none;
@@ -222,7 +133,7 @@ footer a {
 
 <body>
 
-<!-- ========== HEADER ========== -->
+<!-- ========== HEADER (كما هو عندك) ========== -->
 <div class="navbar">
   <div class="right-side">
     <img id="storeImg"
@@ -232,20 +143,20 @@ footer a {
   </div>
 
   <div class="left-side">
-<div class="notification-wrapper">
-  <a class="notifications" href="notifications.html">🔔</a>
-  <span id="notifBadge" class="badge" style="display:none;">0</span>
-</div>   
- <a class="logout" href="login.html">تسجيل الخروج</a>
+    <div class="notification-wrapper">
+      <a class="notifications" href="notifications.html">🔔</a>
+      <span id="notifBadge" class="badge" style="display:none;">0</span>
+    </div>   
+    <a class="logout" href="login.html">تسجيل الخروج</a>
     <div class="logo">Baro</div>
   </div>
 </div>
 
 <div class="layout">
 
-<!-- ===== SIDEBAR ===== -->
+<!-- ===== SIDEBAR (كما هو) ===== -->
 <div class="sidebar">
-<a href="dashboard.html">🏠 لوحة التحكم</a>
+  <a href="dashboard.html">🏠 لوحة التحكم</a>
   <a href="allorders.html" class="active">🛒 الطلبات</a>
   <a href="settings.html">⚙️ الإعدادات</a>
   <a href="addProduct.html">➕ إضافة منتج</a>
@@ -279,7 +190,6 @@ footer a {
       <th>الإجراء</th>
     </tr>
   </thead>
-
   <tbody id="ordersBody"></tbody>
 </table>
 
@@ -298,12 +208,23 @@ footer a {
 </footer>
 
 <script>
-const merchantId = localStorage.getItem("merchantId") || 1;
+const merchantId = localStorage.getItem("merchantId");
+const token = localStorage.getItem("token");
 
-/* تحميل بيانات التاجر */
-fetch(`http://localhost:3000/merchants/${merchantId}`)
-.then(r=>r.json())
-.then(m=>{
+if (!merchantId || !token) {
+  alert("الرجاء تسجيل الدخول أولاً");
+  window.location = "login.html";
+}
+
+// ===== جلب بيانات التاجر (للاسم + الصورة) =====
+fetch(`http://localhost:3000/merchants/${merchantId}`, {
+  headers: { 
+    "Authorization": `Bearer ${token}`,
+    "Content-Type": "application/json"
+  }
+})
+.then(r => r.json())
+.then(m => {
   document.getElementById("welcomeText").textContent =
     "مرحبًا، " + (m.name || "التاجر");
 
@@ -313,12 +234,14 @@ fetch(`http://localhost:3000/merchants/${merchantId}`)
   }
 });
 
-/* تحميل جميع الطلبات */
+// ===== جلب جميع الطلبات (مع التوكن) =====
 let allOrders = [];
 
-fetch(`http://localhost:3000/merchants/${merchantId}/orders`)
-.then(r=>r.json())
-.then(orders=>{
+fetch(`http://localhost:3000/merchants/${merchantId}/orders`, {
+  headers: { "Authorization": `Bearer ${token}` }
+})
+.then(r => r.json())
+.then(orders => {
   allOrders = orders;
   renderTable(orders);
 });
@@ -333,19 +256,21 @@ function renderTable(orders){
     return;
   }
 
-  orders.forEach(o=>{
+  orders.forEach(o => {
     const tr = document.createElement("tr");
 
-    const statusClass = o.status === "done" ? "done" : "pending";
-    const statusText = o.status === "done" ? "مكتمل" : "معلّق";
+    const statusText =
+      o.status === "done" ? "مكتمل" :
+      o.status === "canceled" ? "ملغى" :
+      "معلّق";
 
     tr.innerHTML = `
       <td>${o.id}</td>
-      <td>${o.productName || "—"}</td>
+      <td>${o.product.name}</td>
       <td>${o.customerName}</td>
       <td>${o.customerPhone}</td>
       <td>${o.totalPrice} دج</td>
-      <td class="${statusClass}">${statusText}</td>
+      <td class="${o.status}">${statusText}</td>
       <td>
         ${o.status !== "done"
           ? `<button class="update-btn"
@@ -363,7 +288,7 @@ function renderTable(orders){
 /* فلترة حسب الحالة */
 function filterStatus(type){
   document.querySelectorAll(".filters button")
-    .forEach(b=>b.classList.remove("active"));
+    .forEach(b => b.classList.remove("active"));
 
   if(type==="all"){
     document.getElementById("btnAll").classList.add("active");
@@ -371,11 +296,11 @@ function filterStatus(type){
   }
   else if(type==="pending"){
     document.getElementById("btnPending").classList.add("active");
-    renderTable(allOrders.filter(o=>o.status!=="done"));
+    renderTable(allOrders.filter(o => o.status !== "done"));
   }
   else{
     document.getElementById("btnDone").classList.add("active");
-    renderTable(allOrders.filter(o=>o.status==="done"));
+    renderTable(allOrders.filter(o => o.status === "done"));
   }
 }
 
@@ -394,7 +319,7 @@ function searchOrders(){
 /* تحديث الحالة إلى done */
 function markDone(orderId){
   fetch(`http://localhost:3000/orders/${orderId}`,{
-    method:"PUT",
+    method:"PATCH",
     headers:{"Content-Type":"application/json"},
     body: JSON.stringify({status:"done"})
   })
@@ -403,7 +328,6 @@ function markDone(orderId){
     document.getElementById("status").textContent =
       "تم تحديث حالة الطلب بنجاح ✅";
 
-    // تحديث محليًا
     allOrders = allOrders.map(o =>
       o.id===orderId ? {...o, status:"done"} : o
     );
@@ -411,8 +335,11 @@ function markDone(orderId){
     renderTable(allOrders);
   });
 }
+
 // ====== جلب عدد الإشعارات غير المقروءة ======
-fetch(`http://localhost:3000/merchants/${merchantId}/notifications`)
+fetch(`http://localhost:3000/merchants/${merchantId}/notifications`, {
+  headers: { "Authorization": `Bearer ${token}` }
+})
 .then(res => res.json())
 .then(notifs => {
   const unread = notifs.filter(n => !n.isRead).length;
@@ -425,7 +352,6 @@ fetch(`http://localhost:3000/merchants/${merchantId}/notifications`)
     badge.style.display = "none";
   }
 });
-
 </script>
 </body>
 </html>

@@ -5,6 +5,8 @@ const cors = require("cors");
 const multer = require("multer");
 const path = require("path");
 const bcrypt = require("bcrypt");
+const jwt = require("jsonwebtoken");
+const JWT_SECRET = "SUPER_SECRET_KEY";
 
 const app = express();
 const prisma = new PrismaClient();
@@ -12,6 +14,26 @@ const PORT = process.env.PORT || 3000;
 
 app.use(cors());
 app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
+function authMiddleware(req, res, next) {
+  const authHeader = req.headers["authorization"];
+
+  if (!authHeader) {
+    return res.status(401).json({ error: "غير مصرح بالدخول" });
+  }
+
+  const token = authHeader.split(" ")[1]; // Bearer TOKEN
+
+  jwt.verify(token, JWT_SECRET, (err, decoded) => {
+    if (err) {
+      return res.status(403).json({ error: "توكن غير صالح" });
+    }
+
+    req.merchant = decoded;
+    next();
+  });
+}
 
 // ----------------------
 // إعداد مكان حفظ الصور
@@ -89,40 +111,43 @@ app.get('/merchants', async (req, res) => {
 // -------------------------------
 app.post("/products", upload.single("image"), async (req, res) => {
   try {
-    const { merchantId, name, category, price, description } = req.body;
+    const {
+      name,
+      category,
+      price,
+      description,
+      merchantId,
+      features
+    } = req.body;
 
-    const merchantIdNum = Number(merchantId);
-    const priceNum = Number(price);
-
-    if (!merchantIdNum || !priceNum || !name || !category) {
-      return res.status(400).json({ error: "الرجاء إدخال جميع البيانات الصحيحة" });
+    // تحويل الميزات من نص إلى JSON
+    let parsedFeatures = [];
+    if (features) {
+      parsedFeatures = JSON.parse(features);
     }
 
-    const imageUrl = req.file ? `/uploads/${req.file.filename}` : null;
-    const orderLink = generateCode();
+    // مسار الصورة إن وُجدت
+    const imagePath = req.file ? "/uploads/" + req.file.filename : null;
 
     const product = await prisma.product.create({
       data: {
-        merchantId: merchantIdNum,
         name,
         category,
-        price: priceNum,
+        price: parseFloat(price),
         description,
-        image: imageUrl,
-        orderLink,
+        merchantId: parseInt(merchantId),
+        image: imagePath,
+        features: parsedFeatures,
+        orderLink: "order-" + Date.now(),
         status: "active"
       }
     });
 
-    res.json({
-      success: true,
-      product,
-      orderUrl: `http://localhost:${PORT}/order/${orderLink}`
-    });
+    res.json({ success: true, product });
 
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ error: "حدث خطأ في إضافة المنتج" });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ success: false, error: err.message });
   }
 });
 
@@ -229,7 +254,7 @@ app.get("/merchants/:id/products", async (req, res) => {
 // ===============================
 // جلب جميع طلبات تاجر معيّن
 // ===============================
-app.get("/merchants/:id/orders", async (req, res) => {
+app.get("/merchants/:id/orders", authMiddleware,async (req, res) => {
   try {
     const merchantId = Number(req.params.id);
  if (isNaN(merchantId)) {
@@ -256,7 +281,7 @@ app.get("/merchants/:id/orders", async (req, res) => {
 // ===============================
 // جلب إشعارات تاجر معيّن
 // ===============================
-app.get("/merchants/:id/notifications", async (req, res) => {
+app.get("/merchants/:id/notifications", authMiddleware, async (req, res) => {
   try {
     const merchantId = Number(req.params.id);
 if (isNaN(merchantId)) {
@@ -343,10 +368,9 @@ const hashedPassword = await bcrypt.hash(password, 10);
   }
 });
 app.post("/merchant/login", async (req, res) => {
-  try {
-    const email = req.body.email.trim();
-    const password = req.body.password.trim();
+  const { email, password } = req.body;
 
+  try {
     const merchant = await prisma.merchant.findUnique({
       where: { email }
     });
@@ -355,19 +379,26 @@ app.post("/merchant/login", async (req, res) => {
       return res.json({ error: "البريد الإلكتروني غير موجود" });
     }
 
-    if (!merchant.password) {
-      return res.json({ error: "هذا الحساب بدون كلمة مرور، سجّل من جديد" });
-    }
-
     const isMatch = await bcrypt.compare(password, merchant.password);
 
     if (!isMatch) {
       return res.json({ error: "كلمة المرور خاطئة" });
     }
 
+    // 🔹 إنشاء التوكن
+    const token = jwt.sign(
+      { id: merchant.id, email: merchant.email },
+      JWT_SECRET,
+      { expiresIn: "7d" }
+    );
+
     res.json({
-      id: merchant.id,
-      name: merchant.name
+      token,
+      merchant: {
+        id: merchant.id,
+        name: merchant.name,
+        email: merchant.email
+      }
     });
 
   } catch (err) {
@@ -379,7 +410,7 @@ app.post("/merchant/login", async (req, res) => {
 // ===============================
 // 🔹 جلب تاجر واحد (مهم للإعدادات)
 // ===============================
-app.get("/merchants/:id", async (req, res) => {
+app.get("/merchants/:id", authMiddleware, async (req, res) => {
   try {
     const merchantId = Number(req.params.id);
 
@@ -405,7 +436,7 @@ app.get("/merchants/:id", async (req, res) => {
 // ===============================
 // 🔐 تغيير كلمة مرور التاجر
 // ===============================
-app.patch("/merchants/:id/password", async (req, res) => {
+app.patch("/merchants/:id/password",authMiddleware, async (req, res) => {
   const merchantId = Number(req.params.id);
   const { newPassword } = req.body;
 
@@ -443,6 +474,40 @@ app.put("/merchants/:id", async (req, res) => {
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: "فشل تحديث بيانات التاجر" });
+  }
+});
+app.get("/merchants/:id/stats", authMiddleware, async (req, res) => {
+  const merchantId = Number(req.params.id);
+
+  try {
+    const orders = await prisma.order.findMany({
+      where: {
+        product: {
+          merchantId
+        }
+      }
+    });
+
+    const totalOrders = orders.length;
+
+    const pendingOrders = orders.filter(o => o.status !== "done").length;
+
+    const doneOrders = orders.filter(o => o.status === "done").length;
+
+    const totalRevenue = orders
+      .filter(o => o.status === "done")
+      .reduce((sum, o) => sum + o.totalPrice, 0);
+
+    res.json({
+      totalOrders,
+      pendingOrders,
+      doneOrders,
+      totalRevenue
+    });
+
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "فشل حساب الإحصائيات" });
   }
 });
 

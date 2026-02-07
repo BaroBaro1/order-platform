@@ -148,8 +148,9 @@ function login(){
     if(data.error){
       document.getElementById("msg").textContent = data.error;
     } else {
-      // حفظ معرف التاجر محليًا
-      localStorage.setItem("merchantId", data.id);
+      // ✅ حفظ التوكن ومعرّف التاجر بعد نجاح الدخول
+      localStorage.setItem("token", data.token);
+      localStorage.setItem("merchantId", data.merchant.id);
 
       // الانتقال للوحة التاجر
       window.location = "dashboard.html";
@@ -158,6 +159,7 @@ function login(){
   .catch(err => console.error(err));
 }
 </script>
+
 
 </body>
 </html>

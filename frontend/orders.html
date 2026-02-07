@@ -256,94 +256,84 @@ footer a {
 const ordersBody = document.getElementById("ordersBody");
 const emptyMsg = document.getElementById("empty");
 
-// قراءة productId من الرابط
+// ===== قراءة البيانات المحفوظة =====
+const merchantId = localStorage.getItem("merchantId");
+const token = localStorage.getItem("token");
+
+if (!merchantId || !token) {
+  alert("الرجاء تسجيل الدخول أولاً");
+  window.location = "login.html";
+}
+
+// ===== قراءة productId من الرابط =====
 const params = new URLSearchParams(window.location.search);
-const productId = params.get('productId');
+const productId = params.get("productId");
 
 if (!productId) {
   emptyMsg.textContent = "لم يتم تحديد المنتج!";
-  throw new Error("Product ID missing in URL");
+  throw new Error("Product ID missing");
 }
 
-// رقم التاجر
-const merchantId = 1;
+// ===== جلب طلبات التاجر (مع التوكن) =====
+fetch(`http://localhost:3000/merchants/${merchantId}/orders`, {
+  headers: { "Authorization": `Bearer ${token}` }
+})
+.then(res => res.json())
+.then(data => {
 
-// جلب الطلبات الخاصة بالتاجر
-fetch(`http://localhost:3000/merchants/${merchantId}/orders`)
-  .then(res => res.json())
-  .then(data => {
-    console.log("Orders from API:", data);
+  const filteredOrders = data.filter(o => o.product.id == productId);
 
-    // فلترة الطلبات الخاصة بالمنتج فقط
-    const filteredOrders = data.filter(order => order.product.id == productId);
+  if (filteredOrders.length === 0) {
+    emptyMsg.textContent = "لا توجد طلبات لهذا المنتج حالياً";
+    return;
+  }
 
-    if (filteredOrders.length === 0) {
-      emptyMsg.textContent = "لا توجد طلبات لهذا المنتج حالياً";
-      return;
-    }
+  filteredOrders.forEach(order => {
+    const tr = document.createElement("tr");
 
-    filteredOrders.forEach(order => {
-      const tr = document.createElement("tr");
-      tr.innerHTML = `
-  <td>${order.id}</td>
-  <td>${order.customerName}</td>
-  <td>${order.customerPhone}</td>
-  <td>${order.wilaya}</td>
-  <td>${order.totalPrice} دج</td>
-  <td id="status-${order.id}" 
-      class="status ${order.status === 'done' ? 'done' : 'pending'}">
-    ${order.status === 'done' ? 'مكتمل' : 'معلق'}
-  </td>
-  <td>
-    <button onclick="updateStatus(${order.id}, 'done')">✅ تأكيد</button>
-    <button onclick="updateStatus(${order.id}, 'canceled')">❌ إلغاء</button>
-  </td>
-`;
-      ordersBody.appendChild(tr);
-    });
-  })
-  .catch(err => {
-    console.error("Error:", err);
-    emptyMsg.textContent = "حدث خطأ أثناء جلب الطلبات";
+    tr.innerHTML = `
+      <td>${order.id}</td>
+      <td>${order.customerName}</td>
+      <td>${order.customerPhone}</td>
+      <td>${order.wilaya}</td>
+      <td>${order.totalPrice} دج</td>
+      <td id="status-${order.id}" 
+          class="status ${order.status}">
+        ${order.status === "done" ? "مكتمل" :
+          order.status === "canceled" ? "ملغى" : "معلّق"}
+      </td>
+      <td>
+        <button onclick="updateStatus(${order.id}, 'done')">✅ تأكيد</button>
+        <button onclick="updateStatus(${order.id}, 'canceled')">❌ إلغاء</button>
+      </td>
+    `;
+
+    ordersBody.appendChild(tr);
   });
-  function updateStatus(orderId, newStatus) {
+});
+
+// ===== تحديث الحالة (يعمل مع server.js عندك) =====
+function updateStatus(orderId, newStatus) {
   fetch(`http://localhost:3000/orders/${orderId}`, {
     method: "PATCH",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ status: newStatus })
   })
   .then(res => res.json())
-  .then(updatedOrder => {
-    console.log("Updated:", updatedOrder);
+  .then(updated => {
 
-    const statusCell = document.getElementById(`status-${orderId}`);
+    const cell = document.getElementById(`status-${orderId}`);
 
     if (newStatus === "done") {
-      statusCell.textContent = "مكتمل";
-      statusCell.className = "status done";
-    } else {
-      statusCell.textContent = "ملغى";
-      statusCell.className = "status canceled";
+      cell.textContent = "مكتمل";
+      cell.className = "status done";
+    } 
+    else {
+      cell.textContent = "ملغى";
+      cell.className = "status canceled";
     }
-  })
-  .catch(err => console.error("Update error:", err));
+  });
 }
-
-// ===== عدّاد الإشعارات =====
-fetch(`http://localhost:3000/merchants/${merchantId}/notifications`)
-.then(res => res.json())
-.then(notifs => {
-  const unread = notifs.filter(n => !n.isRead).length;
-  const badge = document.getElementById("notifBadge");
-
-  if(unread > 0){
-    badge.style.display = "flex";
-    badge.textContent = unread;
-  } else {
-    badge.style.display = "none";
-  }
-});
-
 </script>
 <footer>
   <p>

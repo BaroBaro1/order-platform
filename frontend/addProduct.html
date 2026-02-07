@@ -238,6 +238,15 @@ footer a {
         <label>صورة المنتج:</label>
         <input type="file" name="image" accept="image/*" id="imageInput" />
         <img id="preview" alt="معاينة الصورة" />
+<h3>✨ ميزات المنتج (اختياري)</h3>
+
+<div id="featuresBox"></div>
+
+<button type="button" onclick="addFeatureField()">
+  ➕ إضافة ميزة جديدة
+</button>
+
+<br><br>
 
         <button type="submit">إضافة المنتج</button>
       </form>
@@ -247,11 +256,23 @@ footer a {
 </div>
 
 <script>
-const merchantId = localStorage.getItem("merchantId") || 1;
+const merchantId = localStorage.getItem("merchantId");
+const token = localStorage.getItem("token");
+
+if (!merchantId || !token) {
+  alert("الرجاء تسجيل الدخول أولاً");
+  window.location = "login.html";
+}
 document.getElementById("merchantIdField").value = merchantId;
 
 // ===== جلب بيانات التاجر (مثل الداشبورد) =====
-fetch(`http://localhost:3000/merchants/${merchantId}`)
+fetch(`http://localhost:3000/merchants/${merchantId}`
+, {
+  headers: {
+     "Authorization": `Bearer ${token}` 
+    ,  "Content-Type": "application/json"}
+}
+)
 .then(res => res.json())
 .then(merchant => {
   document.getElementById("welcomeText").textContent =
@@ -299,6 +320,12 @@ form.addEventListener("submit", async (e) => {
 
   const formData = new FormData(form);
 
+  // جمع الميزات
+  const features = collectFeatures();
+
+  // إضافتها كـ JSON داخل الفورم
+  formData.append("features", JSON.stringify(features));
+
   try {
     const response = await fetch("http://localhost:3000/products", {
       method: "POST",
@@ -309,7 +336,7 @@ form.addEventListener("submit", async (e) => {
 
     if (data.success) {
       alert("تم إضافة المنتج بنجاح!");
-      window.location = "dashboard.html"; // رجوع تلقائي
+      window.location = "dashboard.html";
     } else {
       alert("حدث خطأ أثناء الإضافة");
     }
@@ -318,6 +345,74 @@ form.addEventListener("submit", async (e) => {
     alert("حدث خطأ في الاتصال بالسيرفر");
   }
 });
+// ===== إضافة حقول الميزات والقيم بشكل ديناميكي =====
+let featureIndex = 0;
+
+function addFeatureField(){
+  const box = document.getElementById("featuresBox");
+
+  const div = document.createElement("div");
+  div.style.border = "1px solid #ddd";
+  div.style.padding = "10px";
+  div.style.marginBottom = "10px";
+  div.style.borderRadius = "8px";
+
+  div.innerHTML = `
+    <input type="text" placeholder="اسم الميزة (مثال: اللون)" id="featureName_${featureIndex}">
+
+    <div id="valuesBox_${featureIndex}"></div>
+
+    <button type="button" onclick="addValueField(${featureIndex})">
+      ➕ إضافة قيمة
+    </button>
+
+    <button type="button" onclick="this.parentElement.remove()"
+      style="background:red;color:white;margin-right:10px;">
+      ❌ حذف الميزة
+    </button>
+  `;
+
+  box.appendChild(div);
+
+  // إضافة أول قيمة تلقائيًا
+  addValueField(featureIndex);
+
+  featureIndex++;
+}
+
+function addValueField(index){
+  const valuesBox = document.getElementById(`valuesBox_${index}`);
+
+  const input = document.createElement("input");
+  input.placeholder = "قيمة الميزة (مثال: أحمر)";
+  input.className = "featureValue";
+  input.style.display = "block";
+  input.style.marginTop = "5px";
+
+  valuesBox.appendChild(input);
+}
+function collectFeatures(){
+  const features = [];
+
+  document.querySelectorAll("#featuresBox > div").forEach(featureDiv => {
+    const featureName = featureDiv.querySelector("input[type='text']").value;
+
+    const values = [];
+    featureDiv.querySelectorAll(".featureValue").forEach(inp => {
+      if(inp.value.trim() !== "") values.push(inp.value);
+    });
+
+    if(featureName && values.length > 0){
+      features.push({
+        name: featureName,
+        values: values
+      });
+    }
+  });
+
+  return features;
+}
+
 </script>
 
 <footer>

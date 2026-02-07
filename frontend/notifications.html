@@ -292,12 +292,23 @@ footer a {
 </footer>
 
 <script>
-const merchantId = localStorage.getItem("merchantId") || 1;
+const merchantId = localStorage.getItem("merchantId");
+const token = localStorage.getItem("token");
 
-// جلب بيانات التاجر (كما في الداشبورد)
-fetch(`http://localhost:3000/merchants/${merchantId}`)
-.then(r=>r.json())
-.then(m=>{
+if (!merchantId || !token) {
+  alert("الرجاء تسجيل الدخول أولاً");
+  window.location = "login.html";
+}
+
+// ===== جلب بيانات التاجر (للاسم + الصورة) =====
+fetch(`http://localhost:3000/merchants/${merchantId}`, {
+  headers: { 
+    "Authorization": `Bearer ${token}`,
+    "Content-Type": "application/json"
+  }
+})
+.then(r => r.json())
+.then(m => {
   document.getElementById("welcomeText").textContent =
     "مرحبًا، " + (m.name || "التاجر");
 
@@ -307,89 +318,91 @@ fetch(`http://localhost:3000/merchants/${merchantId}`)
   }
 });
 
-// ====== جلب الإشعارات الحقيقية من الباك‌اند ======
-fetch(`http://localhost:3000/merchants/${merchantId}/notifications`)
-.then(res => res.json())
-.then(notifications => {
-  const list = document.getElementById("notificationsList");
-  list.innerHTML = "";
-
-  if(notifications.length === 0){
-    list.innerHTML = "<p>لا توجد إشعارات حالياً.</p>";
-    return;
-  }
-
-  notifications.forEach(n => {
-    const div = document.createElement("div");
-    div.className = `notification ${n.isRead ? "read" : "new"}`;
-    div.dataset.id = n.id;
-
-    div.innerHTML = `
-      <div class="icon">
-        ${n.type === "new_order" ? "🛒" :
-          n.type === "order_done" ? "📦" : "🔔"}
-      </div>
-
-      <div class="content">
-        <b>${n.type === "new_order" ? "طلب جديد" : "إشعار"}</b><br>
-        ${n.message}
-        <div class="time">${new Date(n.createdAt).toLocaleString("ar-DZ")}</div>
-      </div>
-
-      ${n.isRead ? "" :
-        `<button class="read-btn" onclick="markRead(${n.id})">مقروء</button>`}
-    `;
-
-    list.appendChild(div);
-  });
-});
-
-// ====== تحديد إشعار كمقروء ======
-function markRead(id){
-  fetch(`http://localhost:3000/notifications/${id}/read`, {
-    method: "PATCH"
+// ===== دالة واحدة لجلب الإشعارات (نستخدمها دائمًا) =====
+function loadNotifications(){
+  fetch(`http://localhost:3000/merchants/${merchantId}/notifications`, {
+    headers: { "Authorization": `Bearer ${token}` }
   })
   .then(res => res.json())
-  .then(data => {
-    const notif = document.querySelector(`.notification[data-id='${id}']`);
-    notif.classList.remove("new");
-    notif.classList.add("read");
+  .then(notifications => {
+    const list = document.getElementById("notificationsList");
+    list.innerHTML = "";
 
-    const btn = notif.querySelector(".read-btn");
-    if(btn) btn.remove();
-  });
+    if(notifications.length === 0){
+      list.innerHTML = "<p>لا توجد إشعارات حالياً.</p>";
+      document.getElementById("notifBadge").style.display = "none";
+      return;
+    }
+
+    // تحديث عدّاد الجرس
+    const unread = notifications.filter(n => !n.isRead).length;
+    const badge = document.getElementById("notifBadge");
+
+    if(unread > 0){
+      badge.style.display = "flex";
+      badge.textContent = unread;
+    } else {
+      badge.style.display = "none";
+    }
+
+    // عرض الإشعارات
+    notifications.forEach(n => {
+      const div = document.createElement("div");
+      div.className = `notification ${n.isRead ? "read" : "new"}`;
+      div.dataset.id = n.id;
+
+      div.innerHTML = `
+        <div class="icon">
+          ${n.type === "new_order" ? "🛒" :
+            n.type === "order_done" ? "📦" : "🔔"}
+        </div>
+
+        <div class="content">
+          <b>${n.type === "new_order" ? "طلب جديد" : "إشعار"}</b><br>
+          ${n.message}
+          <div class="time">
+            ${new Date(n.createdAt).toLocaleString("ar-DZ")}
+          </div>
+        </div>
+
+        ${n.isRead ? "" :
+          `<button class="read-btn" onclick="markRead(${n.id})">
+             مقروء
+           </button>`}
+      `;
+
+      list.appendChild(div);
+    });
+  })
+  .catch(err => console.error("خطأ في جلب الإشعارات:", err));
 }
 
-// ====== تحديد الكل كمقروء ======
-function markAllRead(){
-  fetch(`http://localhost:3000/merchants/${merchantId}/notifications/read-all`, {
-    method: "PATCH"
+// ===== تحديد إشعار كمقروء ======
+function markRead(id){
+  fetch(`http://localhost:3000/notifications/${id}/read`, {
+    method: "PATCH",
+    headers: { "Authorization": `Bearer ${token}` }
   })
   .then(res => res.json())
   .then(() => {
-    document.querySelectorAll(".notification").forEach(n=>{
-      n.classList.remove("new");
-      n.classList.add("read");
-      const btn = n.querySelector(".read-btn");
-      if(btn) btn.remove();
-    });
+    loadNotifications(); // إعادة تحميل الصفحة بعد التحديث
   });
 }
-// ====== جلب عدد الإشعارات غير المقروءة ======
-fetch(`http://localhost:3000/merchants/${merchantId}/notifications`)
-.then(res => res.json())
-.then(notifs => {
-  const unread = notifs.filter(n => !n.isRead).length;
-  const badge = document.getElementById("notifBadge");
 
-  if(unread > 0){
-    badge.style.display = "flex";
-    badge.textContent = unread;
-  } else {
-    badge.style.display = "none";
-  }
-});
+// ===== تحديد الكل كمقروء ======
+function markAllRead(){
+  fetch(`http://localhost:3000/merchants/${merchantId}/notifications/read-all`, {
+    method: "PATCH",
+    headers: { "Authorization": `Bearer ${token}` }
+  })
+  .then(res => res.json())
+  .then(() => {
+    loadNotifications(); // إعادة تحميل الصفحة بعد التحديث
+  });
+}
 
+// ===== تشغيل الجلب عند فتح الصفحة =====
+loadNotifications();
 </script>
 
 </body>
