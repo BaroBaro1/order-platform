@@ -510,6 +510,70 @@ app.get("/merchants/:id/stats", authMiddleware, async (req, res) => {
     res.status(500).json({ error: "فشل حساب الإحصائيات" });
   }
 });
+// ===============================
+// جلب منتج واحد لتاجر معيّن
+// ===============================
+app.get("/merchants/:id/products/:productId", authMiddleware, async (req, res) => {
+  try {
+    const merchantId = Number(req.params.id);
+    const productId = Number(req.params.productId);
+
+    if (isNaN(merchantId) || isNaN(productId)) {
+      return res.status(400).json({ error: "المعرّفات يجب أن تكون أرقامًا" });
+    }
+
+    const product = await prisma.product.findFirst({
+      where: {
+        id: productId,
+        merchantId: merchantId
+      }
+    });
+
+    if (!product) {
+      return res.status(404).json({ error: "المنتج غير موجود لهذا التاجر" });
+    }
+
+    res.json(product);
+
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "خطأ في جلب المنتج" });
+  }
+});
+// ===============================
+// تعديل منتج معيّن لتاجر
+// ===============================
+app.put("/merchants/:id/products/:productId", authMiddleware, async (req, res) => {
+  try {
+    const merchantId = Number(req.params.id);
+    const productId = Number(req.params.productId);
+
+    const { name, category, price, description } = req.body;
+
+    const updated = await prisma.product.updateMany({
+      where: {
+        id: productId,
+        merchantId: merchantId
+      },
+      data: {
+        name,
+        category,
+        price: parseFloat(price),
+        description
+      }
+    });
+
+    if (updated.count === 0) {
+      return res.status(404).json({ error: "المنتج غير موجود أو ليس تابعًا لهذا التاجر" });
+    }
+
+    res.json({ success: true });
+
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "فشل تحديث المنتج" });
+  }
+});
 
 // -------------------------------
 // تشغيل السيرفر
