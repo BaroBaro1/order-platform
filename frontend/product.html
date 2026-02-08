@@ -129,11 +129,14 @@ body {
   box-shadow:0 5px 15px rgba(0,0,0,.1);
 }
 
-.product-card img{
-  width: 250px;
-  border-radius: 10px;
+/* ===== صورة المنتج (حجم مناسب) ===== */
+.product-img{
+  width: 250px;      /* صغّرنا العرض */
+  max-width: 100%;   /* حتى لا تخرج من الكارد */
+  height: auto;      /* يحافظ على النسبة */
+  border-radius: 12px;
   display:block;
-  margin-bottom:15px;
+  margin: 10px auto; /* توسيط الصورة */
 }
 
 input, textarea, button{
@@ -203,31 +206,55 @@ footer a {
   <!-- ===== المحتوى الرئيسي ===== -->
   <div class="main">
 
-    <div class="product-card">
-      <h2>📦 عرض وتعديل المنتج</h2>
+    <div class="product-container">
 
-      <img id="productImage" src="" onerror="this.src='https://via.placeholder.com/250'">
+  <!-- صورة المنتج -->
+  <div class="product-header">
+        <button id="editBtn" onclick="enableEdit()">✏️ تعديل المنتج</button>
 
-      <label>اسم المنتج</label>
-      <input id="name">
-
-      <label>السعر</label>
-      <input id="price" type="number">
-
-      <label>الوصف</label>
-      <textarea id="description"></textarea>
-
-      <h3>✨ الميزات</h3>
-      <div id="featuresBox"></div>
-
-      <button class="save-btn" onclick="saveChanges()">
-        💾 حفظ التعديلات
-      </button>
-    </div>
-
+    <img id="productImage" src="" class="product-img">
   </div>
+
+  <!-- عرض المعلومات -->
+  <div id="viewMode">
+    <h2 id="v_name"></h2>
+    <p><b>الصنف:</b> <span id="v_category"></span></p>
+    <p><b>السعر:</b> <span id="v_price"></span> دج</p>
+    <p><b>الوصف:</b></p>
+    <p id="v_desc"></p>
+
+    <h3>الميزات</h3>
+    <div id="v_features"></div>
+  </div>
+
+  <!-- وضع التعديل (مخفي في البداية) -->
+  <div id="editMode" style="display:none">
+
+    <label>اسم المنتج</label>
+    <input id="e_name">
+
+    <label>الصنف</label>
+    <input id="e_category">
+
+    <label>السعر</label>
+    <input id="e_price">
+
+    <label>الوصف</label>
+    <textarea id="e_desc"></textarea>
+
+    <h3>الميزات</h3>
+    <div id="e_features"></div>
+<button type="button" onclick="addFeatureField()"
+ style="background:#007bff;color:white;border:none;padding:8px;margin-top:6px; border-radius:6px;cursor:pointer;">
+➕ إضافة ميزة جديدة
+</button>
+    <button onclick="saveChanges()" class="save-btn">💾 حفظ التغييرات</button>
+  </div>
+
 </div>
 
+</div>
+</div>
 <footer>
   <p>© 2026 Baro - جميع الحقوق محفوظة</p>
 </footer>
@@ -269,79 +296,122 @@ if(!productId){
   alert("لا يوجد معرف منتج!");
   window.location = "dashboard.html";
 }
-
-// ===== جلب المنتج =====
-// ===== جلب المنتج (نسخة مضمونة) =====
+// تفعيل وضع التعديل
+function enableEdit(){
+  document.getElementById("viewMode").style.display = "none";
+  document.getElementById("editMode").style.display = "block";
+}
+// إلغاء التعديل والعودة لوضع العرض
+function disableEdit(){
+  document.getElementById("viewMode").style.display = "block";
+  document.getElementById("editMode").style.display = "none";
+}
+// جلب بيانات المنتج وعرضها
 fetch(`http://localhost:3000/merchants/${merchantId}/products/${productId}`, {
-  headers: { 
-    "Authorization": `Bearer ${token}`,
-    "Content-Type": "application/json"
-  }
+  headers:{ Authorization: `Bearer ${token}` }
 })
-.then(res => res.json())
-.then(data => {
+.then(r=>r.json())
+.then(data=>{
 
-  // إذا كان السيرفر يرجّع المنتج داخل كائن
   const p = data.product || data;
 
+  // صورة
   document.getElementById("productImage").src =
-    "http://localhost:3000" + (p.image || "");
+     "http://localhost:3000"+(p.image||"");
 
-  document.getElementById("name").value = p.name || "";
-  document.getElementById("price").value = p.price || "";
-  document.getElementById("description").value = p.description || "";
+  // وضع العرض
+  document.getElementById("v_name").textContent = p.name;
+  document.getElementById("v_category").textContent = p.category || "—";
+  document.getElementById("v_price").textContent = p.price;
+  document.getElementById("v_desc").textContent = p.description || "";
+  document.getElementById("v_features").textContent = p.features ? JSON.stringify(p.features) : "";
 
-  // عرض الميزات
-  const featuresBox = document.getElementById("featuresBox");
-  featuresBox.innerHTML = "";
+  // وضع التعديل
+  document.getElementById("e_name").value = p.name;
+  document.getElementById("e_category").value = p.category || "";
+  document.getElementById("e_price").value = p.price;
+  document.getElementById("e_desc").value = p.description || "";
+  document.getElementById("e_features").value = JSON.stringify(p.features || []);
 
-  if(p.features && p.features.length > 0){
-    p.features.forEach(f => {
+  // الميزات (عرض)
+  const vF = document.getElementById("v_features");
+  vF.innerHTML="";
 
-      const div = document.createElement("div");
-      div.style.border = "1px solid #ddd";
-      div.style.padding = "10px";
-      div.style.marginBottom = "10px";
-      div.style.borderRadius = "8px";
+  (p.features||[]).forEach(f=>{
+    vF.innerHTML += `<p><b>${f.name}:</b> ${f.values.join(" , ")}</p>`;
+  });
+// ملء الميزات في وضع التعديل
+const eF = document.getElementById("e_features");
+eF.innerHTML = "";
 
-      div.innerHTML = `
-        <b>${f.name}</b><br>
-        ${f.values.join(" , ")}
-      `;
-
-      featuresBox.appendChild(div);
-    });
-  } else {
-    featuresBox.innerHTML = "<p>لا توجد ميزات.</p>";
-  }
+(p.features || []).forEach(f=>{
+  addFeatureField(f.name, f.values.join(", "));
 });
+
+});
+function addFeatureField(name = "", values = "") {
+  const container = document.getElementById("e_features");
+
+  const div = document.createElement("div");
+  div.className = "feature-row";
+  div.style.border = "1px solid #ddd";
+  div.style.padding = "10px";
+  div.style.marginTop = "8px";
+  div.style.borderRadius = "8px";
+
+  div.innerHTML = `
+    <input placeholder="اسم الميزة (مثال: اللون)" value="${name}" class="f_name">
+    <input placeholder="القيم مفصولة بفاصلة (أحمر, أزرق)" value="${values}" class="f_values">
+    <button type="button" onclick="this.parentElement.remove()" 
+      style="background:red;color:white;border:none;padding:6px;margin-top:5px;">
+      🗑️ حذف
+    </button>
+  `;
+
+  container.appendChild(div);
+}
 
 // حفظ التعديلات
 function saveChanges(){
 
-  const updated = {
-    name: document.getElementById("name").value,
-    price: document.getElementById("price").value,
-    description: document.getElementById("description").value
+  const featureRows = document.querySelectorAll(".feature-row");
+  let features = [];
+
+  featureRows.forEach(row => {
+    const name = row.querySelector(".f_name").value.trim();
+    const values = row.querySelector(".f_values").value
+                      .split(",")
+                      .map(v => v.trim())
+                      .filter(v => v !== "");
+
+    if(name && values.length > 0){
+      features.push({ name, values });
+    }
+  });
+
+  const body = {
+    name: document.getElementById("e_name").value,
+    category: document.getElementById("e_category").value,
+    price: document.getElementById("e_price").value,
+    description: document.getElementById("e_desc").value,
+    features: features
   };
 
-  fetch(`http://localhost:3000/products/${productId}`, {
-    method: "PUT",
-    headers: {
-      "Authorization": `Bearer ${token}`,
-      "Content-Type": "application/json"
+  fetch(`http://localhost:3000/merchants/${merchantId}/products/${productId}`,{
+    method:"PUT",
+    headers:{
+      "Content-Type":"application/json",
+      "Authorization":`Bearer ${token}`
     },
-    body: JSON.stringify(updated)
+    body: JSON.stringify(body)
   })
-  .then(res => res.json())
-  .then(r => {
-    alert("تم تحديث المنتج بنجاح ✅");
-  })
-  .catch(err => {
-    alert("خطأ أثناء التحديث");
-    console.error(err);
+  .then(r=>r.json())
+  .then(()=>{
+    alert("تم حفظ التعديلات ✅");
+    location.reload();
   });
 }
+
 // ===== عدّاد الإشعارات =====
 fetch(`http://localhost:3000/merchants/${merchantId}/notifications`)
 .then(res => res.json())
