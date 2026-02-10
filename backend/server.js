@@ -574,6 +574,77 @@ app.put("/merchants/:id/products/:productId", authMiddleware, async (req, res) =
     res.status(500).json({ error: "فشل تحديث المنتج" });
   }
 });
+// ===============================
+// جلب كل شركات التوصيل
+// ===============================
+app.get("/delivery-companies", async (req, res) => {
+  const companies = await prisma.deliveryCompany.findMany();
+  res.json(companies);
+});
+// إضافة شركة توصيل جديدة
+app.post("/delivery-companies", upload.single("logo"), async (req, res) => {
+  const { name, phone } = req.body;
+
+  if (!name) {
+    return res.status(400).json({ error: "اسم الشركة مطلوب" });
+  }
+
+  const logoPath = req.file ? `/uploads/${req.file.filename}` : null;
+
+  const company = await prisma.deliveryCompany.create({
+    data: {
+      name,
+      phone: phone || null,
+      logo: logoPath
+    }
+  });
+
+  res.json({ success: true, company });
+});
+
+// ربط شركة توصيل بتاجر معين
+app.post("/merchants/:merchantId/delivery", async (req, res) => {
+  const { merchantId } = req.params;
+  const { deliveryId } = req.body;
+
+  await prisma.merchantDelivery.upsert({
+    where: {
+      merchantId_deliveryId: {
+        merchantId: Number(merchantId),
+        deliveryId: Number(deliveryId)
+      }
+    },
+    update: {},
+    create: {
+      merchantId: Number(merchantId),
+      deliveryId: Number(deliveryId)
+    }
+  });
+
+  res.json({ message: "تم حفظ شركة التوصيل بنجاح" });
+});
+// جلب شركة التوصيل المرتبطة بتاجر معين
+// ✅ جلب شركة التوصيل المرتبطة بتاجر معين — النسخة الصحيحة
+app.get("/merchants/:merchantId/delivery", async (req, res) => {
+  const { merchantId } = req.params;
+
+  const record = await prisma.merchantDelivery.findFirst({
+    where: { merchantId: Number(merchantId) },
+    include: { deliveryCompany: true }   // ✅ الاسم الصحيح
+  });
+
+  if (!record) {
+    return res.json({ selected: null });
+  }
+
+  res.json({
+    selected: {
+      deliveryId: record.deliveryId,
+      company: record.deliveryCompany
+    }
+  });
+});
+
 
 // -------------------------------
 // تشغيل السيرفر

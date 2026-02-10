@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+<meta charset="UTF-8">
+<title>إضافة شركة توصيل</title>
+</head>
+<body>
+
+<h2>إضافة شركة توصيل</h2>
+
+<input id="name" placeholder="اسم الشركة"><br><br>
+<input id="phone" placeholder="رقم الهاتف"><br><br>
+<input type="file" id="logo"><br><br>
+
+<button onclick="addCompany()">حفظ الشركة</button>
+
+<p id="msg"></p>
+
+<script>
+async function addCompany() {
+  const name = document.getElementById("name").value;
+  const phone = document.getElementById("phone").value;
+  const logo = document.getElementById("logo").files[0];
+  const msg = document.getElementById("msg");
+
+  if (!name) {
+    msg.textContent = "اسم الشركة مطلوب";
+    return;
+  }
+
+  const formData = new FormData();
+  formData.append("name", name);
+  formData.append("phone", phone);
+  if (logo) formData.append("logo", logo);
+
+  const res = await fetch("http://localhost:3000/delivery-companies", {
+    method: "POST",
+    body: formData
+  });
+
+  const data = await res.json();
+
+  if (data.success) {
+    msg.textContent = "تمت الإضافة بنجاح!";
+  } else {
+    msg.textContent = "حدث خطأ!";
+  }
+}
+</script>
+
+</body>
+</html>

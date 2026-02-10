@@ -330,6 +330,21 @@ z-index:10;
       <input type="password" id="confirmPassword">
     </div>
   </div>
+  
+</div>
+ <!-- ===== قسم شركات التوصيل ===== -->
+<div class="delivery-section" style="margin-top:20px; background:white; padding:20px; border-radius:12px; box-shadow:0 5px 10px rgba(0,0,0,.05);">
+  <h3>🚚 شركات التوصيل المتاحة</h3>
+  <p>اختر الشركة التي تريد التعامل معها:</p>
+
+  <div id="deliveryCompanies" style="display:grid; grid-template-columns:repeat(auto-fit, minmax(200px,1fr)); gap:15px; margin-top:15px;">
+    <!-- ستُملأ ديناميكيًا من الباكند -->
+  </div>
+
+  <button onclick="saveDeliveryCompany()" 
+   style="margin-top:15px; background:#ff3366;color:white;border:none;padding:10px;border-radius:8px;">
+   💾 حفظ شركة التوصيل
+  </button>
 </div>
 
 </div>
@@ -497,6 +512,155 @@ fetch(`http://localhost:3000/merchants/${merchantId}/notifications`, {
 });
 
 loadMerchantData();
+
+// جلب شركات التوصيل من الباكند
+fetch("http://localhost:3000/delivery-companies", {
+  headers: {
+    "Authorization": `Bearer ${token}`
+  }
+})
+.then(res => res.json())
+.then(companies => {
+
+  const container = document.getElementById("deliveryCompanies");
+  container.innerHTML = "";
+
+  companies.forEach(c => {
+    const div = document.createElement("div");
+    div.style.border = "1px solid #ddd";
+    div.style.padding = "12px";
+    div.style.borderRadius = "10px";
+    div.style.cursor = "pointer";
+    div.style.textAlign = "center";
+
+    div.innerHTML = `
+      <img src="http://localhost:3000${c.logo}" style="width:80px;margin-bottom:8px;">
+      <h4>${c.name}</h4>
+    `;
+
+    div.onclick = () => {
+      document.querySelectorAll("#deliveryCompanies div").forEach(d=>{
+        d.style.background = "white";
+      });
+
+      div.style.background = "#ffe6ec";
+      selectedDelivery = c.id;
+    };
+
+    container.appendChild(div);
+  });
+});
+
+// حفظ اختيار التاجر
+function saveDeliveryCompany(){
+  if(!selectedDelivery){
+    alert("اختر شركة توصيل أولًا!");
+    return;
+  }
+
+  fetch(`http://localhost:3000/merchants/${merchantId}/delivery`, {
+    method: "POST",   // ← الأفضل POST مع upsert عندك
+    headers: {
+      "Content-Type": "application/json",
+      "Authorization": `Bearer ${token}`
+    },
+    body: JSON.stringify({ deliveryId: selectedDelivery })
+  })
+  .then(r=>r.json())
+  .then(()=>{
+    alert("تم حفظ شركة التوصيل بنجاح ✅");
+  });
+}
+// 🔹 أولًا: جلب الاختيار السابق للتاجر
+fetch(`http://localhost:3000/merchants/${merchantId}/delivery`, {
+  headers: { "Authorization": `Bearer ${token}` }
+})
+.then(r => r.json())
+.then(data => {
+
+  const savedDeliveryId = data.selected ? data.selected.deliveryId : null;
+  const savedCompanyName = data.selected ? data.selected.company.name : null;
+});
+// ===== شركات التوصيل =====
+let selectedDelivery = null;
+
+// جلب شركات التوصيل من الباكند
+fetch("http://localhost:3000/delivery-companies", {
+  headers: {
+    "Authorization": `Bearer ${token}`
+  }
+})
+.then(res => res.json())
+.then(companies => {
+
+  const container = document.getElementById("deliveryCompanies");
+  container.innerHTML = "";
+
+  // 🔹 أولًا: جلب الاختيار السابق للتاجر
+  fetch(`http://localhost:3000/merchants/${merchantId}/delivery`, {
+    headers: { "Authorization": `Bearer ${token}` }
+  })
+  .then(r=>r.json())
+  .then(data => {
+
+    const savedDeliveryId = data.selected ? data.selected.deliveryId : null;
+
+    companies.forEach(c => {
+      const div = document.createElement("div");
+      div.style.border = "1px solid #ddd";
+      div.style.padding = "12px";
+      div.style.borderRadius = "10px";
+      div.style.cursor = "pointer";
+      div.style.textAlign = "center";
+
+      // إذا كانت هذه هي الشركة المحفوظة سابقًا → لونها وردي
+      if (savedDeliveryId === c.id) {
+        div.style.background = "#ffe6ec";
+        selectedDelivery = c.id; // مهم جدًا
+      }
+
+      div.innerHTML = `
+        <img src="http://localhost:3000${c.logo || ''}" style="width:80px;margin-bottom:8px;">
+        <h4>${c.name}</h4>
+      `;
+
+      div.onclick = () => {
+        document.querySelectorAll("#deliveryCompanies div").forEach(d=>{
+          d.style.background = "white";
+        });
+
+        div.style.background = "#ffe6ec";
+        selectedDelivery = c.id;
+      };
+
+      container.appendChild(div);
+    });
+
+  });
+
+});
+
+// حفظ اختيار التاجر
+function saveDeliveryCompany(){
+  if(!selectedDelivery){
+    alert("اختر شركة توصيل أولًا!");
+    return;
+  }
+
+  fetch(`http://localhost:3000/merchants/${merchantId}/delivery`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      "Authorization": `Bearer ${token}`
+    },
+    body: JSON.stringify({ deliveryId: selectedDelivery })
+  })
+  .then(r=>r.json())
+  .then(()=>{
+    alert("تم حفظ شركة التوصيل بنجاح ✅");
+  });
+}
+
 </script>
 </body>
 </html>

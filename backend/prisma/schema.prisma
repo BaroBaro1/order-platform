@@ -30,6 +30,8 @@ model Merchant {
 
   products         Product[]
   notifications    Notification[]
+  merchantDeliveries MerchantDelivery[]
+
 }
 
 // جدول المنتجات
@@ -77,4 +79,22 @@ model Notification {
   createdAt   DateTime @default(now())
 
   merchant    Merchant @relation(fields: [merchantId], references: [id])
+}
+//جدول شركات التوصيل 
+model DeliveryCompany {
+  id        Int      @id @default(autoincrement())
+  name      String
+  logo      String?
+  phone     String?
+  merchants MerchantDelivery[]
+  createdAt DateTime @default(now())
+}
+model MerchantDelivery {
+  merchantId Int
+  deliveryId Int
+
+  merchant Merchant @relation(fields: [merchantId], references: [id])
+  deliveryCompany DeliveryCompany @relation(fields: [deliveryId], references: [id])
+
+  @@id([merchantId, deliveryId])
 }
