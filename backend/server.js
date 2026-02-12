@@ -73,25 +73,6 @@ function generateCode() {
 }
 
 // -------------------------------
-// API لإنشاء تاجر تجريبي
-// -------------------------------
-app.get("/merchants/create", async (req, res) => {
-  try {
-    const merchant = await prisma.merchant.create({
-      data: {
-        name: "متجر تجريبي",
-        email: "test@example.com",
-        status: "active"
-      }
-    });
-    res.json({ message: "تم إنشاء التاجر بنجاح", merchant });
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ error: error.message });
-  }
-});
-
-// -------------------------------
 // API لجلب كل التجار مع منتجاتهم
 // -------------------------------
 app.get('/merchants', async (req, res) => {
