@@ -139,9 +139,11 @@ footer a{color:#ffd000;text-decoration:none;margin:0 10px;}
           <p>معرّف التاجر: <b id="merchantLabel"></b></p>
         </div>
         <a class="add-btn" href="addProduct.html">➕ إضافة منتج جديد</a>
+
       </div>
 
       <div id="products"> </div>
+
       <p id="status"> </p>
     </div>
   </div>
@@ -275,8 +277,9 @@ fetch(`http://localhost:3000/merchants/${merchantId}/products`, {
     const link = `http://localhost:3000/order.html?link=${p.orderLink}`;
 
     div.innerHTML = `
-      <img src="http://localhost:3000${p.image || ''}" onerror="this.src='https://via.placeholder.com/80'">
-       <div class="info"> <b>${p.name} </b> <br> ${p.price} دج </div>
+       <img src="http://localhost:3000${p.image || ' '}"  onerror= "this.src='https://via.placeholder.com/80' " > 
+       
+       <div class="info"> <b> ${p.name} </b> <br> ${p.price} دج </div>
       <div>
         <button class="copy" onclick="copyLink('${link}')">نسخ رابط الطلب</button>
         <button class="orders" onclick="window.location='orders.html?productId=${p.id}'">عرض الطلبات</button>

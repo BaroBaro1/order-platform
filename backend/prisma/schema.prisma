@@ -89,6 +89,13 @@ model DeliveryCompany {
   merchants MerchantDelivery[]
   createdAt DateTime @default(now())
 }
+model DeliveryPrice {
+  id          Int    @id @default(autoincrement())
+  company     String
+  wilaya      Int
+  homePrice   Int
+  deskPrice   Int
+}
 model MerchantDelivery {
   merchantId Int
   deliveryId Int

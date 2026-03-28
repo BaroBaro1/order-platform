@@ -7,6 +7,7 @@ const path = require("path");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const JWT_SECRET = "SUPER_SECRET_KEY";
+const { getDeliveryPrice } = require('./utils/delivery')
 
 const app = express();
 const prisma = new PrismaClient();
@@ -162,25 +163,33 @@ app.post("/orders", async (req, res) => {
       wilaya,
       commune,
       address,
-      deliveryType,
-      deliveryPrice
-    } = req.body;
+      deliveryType} = req.body;
+    const productIdNum = Number(productId)
+    // 🔥 1. جلب السعر من DB
+    const delivery = await prisma.deliveryPrice.findFirst({
+  where: { wilaya: Number(wilaya) }
+    })
 
-    const productIdNum = Number(productId);
-    const deliveryPriceNum = Number(deliveryPrice || 0);
-
+    if (!delivery) {
+      return res.json({ success: false, message: "السعر غير موجود" })
+    }
+    const deliveryPriceNum =
+      deliveryType === "desk"
+        ? delivery.deskPrice || 0
+        : delivery.homePrice || 0
+// التحقق من صحة البيانات المدخلة
     if (!productIdNum || !customerName || !customerPhone) {
       return res.status(400).json({ error: "الرجاء إدخال جميع البيانات الصحيحة" });
     }
-
+// جلب المنتج للتحقق من وجوده وحساب السعر الإجمالي
     const product = await prisma.product.findUnique({
       where: { id: productIdNum }
     });
-
+// التحقق من وجود المنتج
     if (!product) return res.status(404).json({ error: "المنتج غير موجود" });
-
+// حساب السعر الإجمالي (سعر المنتج + سعر التوصيل)
     const totalPrice = product.price + deliveryPriceNum;
-
+// تسجيل الطلب في قاعدة البيانات
     const order = await prisma.order.create({
       data: {
         productId: productIdNum,
@@ -194,7 +203,7 @@ app.post("/orders", async (req, res) => {
         totalPrice
       }
     });
-
+// إنشاء إشعار للتاجر عند تسجيل طلب جديد
     await prisma.notification.create({
       data: {
         merchantId: product.merchantId,
@@ -204,7 +213,10 @@ app.post("/orders", async (req, res) => {
 
     res.json({ success: true, order });
 
-  } catch (error) {
+  } 
+  // -------------------------------
+
+  catch (error) {
     console.error(error);
     res.status(500).json({ error: "حدث خطأ أثناء تسجيل الطلب" });
   }
@@ -626,6 +638,20 @@ app.get("/merchants/:merchantId/delivery", async (req, res) => {
   });
 });
 
+
+// ===============================
+// API لحساب سعر التوصيل بناءً على الولاية ونوع التوصيل
+// ===============================
+app.get("/delivery-price", async (req, res) => {
+
+  const { wilaya, type } = req.query
+
+  console.log("👉 Query:", wilaya, type)
+
+  const price = await getDeliveryPrice(wilaya, type)
+
+  res.json({ price })
+})
 
 // -------------------------------
 // تشغيل السيرفر
