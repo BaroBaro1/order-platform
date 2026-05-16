@@ -15,6 +15,7 @@ const PORT = process.env.PORT || 5500;
 
 app.use(cors());
 app.use(express.json());
+app.use(express.static("public"));
 app.use(express.urlencoded({ extended: true }));
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 function authMiddleware(req, res, next) {
@@ -35,7 +36,12 @@ function authMiddleware(req, res, next) {
     next();
   });
 }
-
+// -------------------------------
+// API اختبارية للتأكد أن السيرفر يعمل
+// -------------------------------
+app.get("/", (req, res) => {
+  res.send("🚀 API is running");
+});
 // ----------------------
 // إعداد مكان حفظ الصور
 // ----------------------
