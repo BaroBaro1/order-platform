@@ -663,5 +663,5 @@ app.get("/delivery-price", async (req, res) => {
 // تشغيل السيرفر
 // -------------------------------
 app.listen(PORT, () => {
-  console.log(`Server running on http://localhost:${PORT}`);
+  console.log(`Server running on port ${PORT}`);
 });
