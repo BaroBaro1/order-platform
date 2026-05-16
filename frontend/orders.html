@@ -275,7 +275,7 @@ if (!productId) {
 }
 
 // ===== جلب طلبات التاجر (مع التوكن) =====
-fetch(`http://localhost:5500/merchants/${merchantId}/orders`, {
+fetch(`https://order-platform-2.onrender.com/merchants/${merchantId}/orders`, {
   headers: { "Authorization": `Bearer ${token}` }
 })
 .then(res => res.json())
@@ -314,7 +314,7 @@ fetch(`http://localhost:5500/merchants/${merchantId}/orders`, {
 
 // ===== تحديث الحالة (يعمل مع server.js عندك) =====
 function updateStatus(orderId, newStatus) {
-  fetch(`http://localhost:5500/orders/${orderId}`, {
+  fetch(`https://order-platform-2.onrender.com/orders/${orderId}`, {
     method: "PATCH",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ status: newStatus })

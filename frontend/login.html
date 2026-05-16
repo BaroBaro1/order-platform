@@ -138,7 +138,7 @@ function login(){
   const email = document.getElementById("email").value;
   const password = document.getElementById("password").value;
 
-  fetch("http://localhost:5500/merchant/login", {
+  fetch("https://order-platform-2.onrender.com/merchant/login", {
     method:"POST",
     headers:{"Content-Type":"application/json"},
     body: JSON.stringify({email, password})

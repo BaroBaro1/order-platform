@@ -270,7 +270,7 @@ if (!token || !merchantId) {
 }
 
 // ===== جلب بيانات التاجر مثل باقي الصفحات =====
-fetch(`http://localhost:5500/merchants/${merchantId}`, {
+fetch(`https://order-platform-2.onrender.com/merchants/${merchantId}`, {
   headers: {
     "Authorization": `Bearer ${token}`,
     "Content-Type": "application/json"
@@ -284,7 +284,7 @@ fetch(`http://localhost:5500/merchants/${merchantId}`, {
 
   if (merchant.storeImage) {
     document.getElementById("storeImg").src =
-      "http://localhost:5500" + merchant.storeImage;
+      "https://order-platform-2.onrender.com" + merchant.storeImage;
   }
 });
 
@@ -307,7 +307,7 @@ function disableEdit(){
   document.getElementById("editMode").style.display = "none";
 }
 // جلب بيانات المنتج وعرضها
-fetch(`http://localhost:5500/merchants/${merchantId}/products/${productId}`, {
+fetch(`https://order-platform-2.onrender.com/merchants/${merchantId}/products/${productId}`, {
   headers:{ Authorization: `Bearer ${token}` }
 })
 .then(r=>r.json())
@@ -317,7 +317,7 @@ fetch(`http://localhost:5500/merchants/${merchantId}/products/${productId}`, {
 
   // صورة
   document.getElementById("productImage").src =
-     "http://localhost:5500"+(p.image||"");
+     "https://order-platform-2.onrender.com"+(p.image||"");
 
   // وضع العرض
   document.getElementById("v_name").textContent = p.name;
@@ -397,7 +397,7 @@ function saveChanges(){
     features: features
   };
 
-  fetch(`http://localhost:5500/merchants/${merchantId}/products/${productId}`,{
+  fetch(`https://order-platform-2.onrender.com/merchants/${merchantId}/products/${productId}`,{
     method:"PUT",
     headers:{
       "Content-Type":"application/json",
@@ -413,7 +413,7 @@ function saveChanges(){
 }
 
 // ===== عدّاد الإشعارات =====
-fetch(`http://localhost:5500/merchants/${merchantId}/notifications`)
+fetch(`https://order-platform-2.onrender.com/merchants/${merchantId}/notifications`)
 .then(res => res.json())
 .then(notifs => {
   const unread = notifs.filter(n => !n.isRead).length;
