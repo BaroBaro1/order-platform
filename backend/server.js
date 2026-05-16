@@ -14,7 +14,9 @@ const prisma = new PrismaClient();
 const PORT = process.env.PORT || 5500;
 
 app.use(cors({
-  origin: "*"
+  origin: "*",
+  methods: ["GET", "POST", "PUT", "DELETE"],
+  allowedHeaders: ["Content-Type"]
 }));
 app.use(express.json());
 app.use(express.static("public"));
