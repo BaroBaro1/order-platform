@@ -383,7 +383,7 @@ document.getElementById("showPassBtn").addEventListener("click", ()=>{
 function loadMerchantData(){
   const token = localStorage.getItem("token");
 
-  fetch(`http://localhost:3000/merchants/${merchantId}`, {
+  fetch(`http://localhost:5500/merchants/${merchantId}`, {
     headers: { "Authorization": `Bearer ${token}` }
   })
   .then(res => res.json())
@@ -394,10 +394,10 @@ function loadMerchantData(){
 
     if(merchant.storeImage){
       document.getElementById("storeImg").src =
-        "http://localhost:3000" + merchant.storeImage;
+        "http://localhost:5500" + merchant.storeImage;
 
       document.getElementById("previewImg").src =
-        "http://localhost:3000" + merchant.storeImage;
+        "http://localhost:5500" + merchant.storeImage;
     }
 
     document.getElementById("name").value = merchant.name || "";
@@ -440,7 +440,7 @@ const fileInput = document.getElementById("storeImageInput");
     const formData = new FormData();
     formData.append("image", fileInput.files[0]);
 
-    await fetch(`http://localhost:3000/merchants/${merchantId}/upload-image`, {
+    await fetch(`http://localhost:5500/merchants/${merchantId}/upload-image`, {
       method: "POST",
       headers: { "Authorization": `Bearer ${token}` },
       body: formData
@@ -457,7 +457,7 @@ const fileInput = document.getElementById("storeImageInput");
   };
 
   const res = await fetch(
-    `http://localhost:3000/merchants/${merchantId}`,
+    `http://localhost:5500/merchants/${merchantId}`,
     {
       method:"PUT",
       headers:{"Content-Type":"application/json", "Authorization": `Bearer ${token}`},
@@ -469,7 +469,7 @@ const fileInput = document.getElementById("storeImageInput");
 
   if (pass) {
     await fetch(
-      `http://localhost:3000/merchants/${merchantId}/password`,
+      `http://localhost:5500/merchants/${merchantId}/password`,
       {
         method: "PATCH",
         headers: { "Content-Type": "application/json", "Authorization": `Bearer ${token}` },
@@ -495,7 +495,7 @@ const fileInput = document.getElementById("storeImageInput");
 
 /* ===== عداد الإشعارات ===== */
 
-fetch(`http://localhost:3000/merchants/${merchantId}/notifications`, {
+fetch(`http://localhost:5500/merchants/${merchantId}/notifications`, {
   headers: { "Authorization": `Bearer ${token}` }
 })
 .then(res => res.json())
@@ -514,7 +514,7 @@ fetch(`http://localhost:3000/merchants/${merchantId}/notifications`, {
 loadMerchantData();
 
 // جلب شركات التوصيل من الباكند
-fetch("http://localhost:3000/delivery-companies", {
+fetch("http://localhost:5500/delivery-companies", {
   headers: {
     "Authorization": `Bearer ${token}`
   }
@@ -558,7 +558,7 @@ function saveDeliveryCompany(){
     return;
   }
 
-  fetch(`http://localhost:3000/merchants/${merchantId}/delivery`, {
+  fetch(`http://localhost:5500/merchants/${merchantId}/delivery`, {
     method: "POST",   // ← الأفضل POST مع upsert عندك
     headers: {
       "Content-Type": "application/json",
@@ -572,7 +572,7 @@ function saveDeliveryCompany(){
   });
 }
 // 🔹 أولًا: جلب الاختيار السابق للتاجر
-fetch(`http://localhost:3000/merchants/${merchantId}/delivery`, {
+fetch(`http://localhost:5500/merchants/${merchantId}/delivery`, {
   headers: { "Authorization": `Bearer ${token}` }
 })
 .then(r => r.json())
@@ -585,7 +585,7 @@ fetch(`http://localhost:3000/merchants/${merchantId}/delivery`, {
 let selectedDelivery = null;
 
 // جلب شركات التوصيل من الباكند
-fetch("http://localhost:3000/delivery-companies", {
+fetch("http://localhost:5500/delivery-companies", {
   headers: {
     "Authorization": `Bearer ${token}`
   }
@@ -597,7 +597,7 @@ fetch("http://localhost:3000/delivery-companies", {
   container.innerHTML = "";
 
   // 🔹 أولًا: جلب الاختيار السابق للتاجر
-  fetch(`http://localhost:3000/merchants/${merchantId}/delivery`, {
+  fetch(`http://localhost:5500/merchants/${merchantId}/delivery`, {
     headers: { "Authorization": `Bearer ${token}` }
   })
   .then(r=>r.json())
@@ -620,7 +620,7 @@ fetch("http://localhost:3000/delivery-companies", {
       }
 
       div.innerHTML = `
-        <img src="http://localhost:3000${c.logo || ''}" style="width:80px;margin-bottom:8px;">
+        <img src="http://localhost:5500${c.logo || ''}" style="width:80px;margin-bottom:8px;">
         <h4>${c.name}</h4>
       `;
 
@@ -647,7 +647,7 @@ function saveDeliveryCompany(){
     return;
   }
 
-  fetch(`http://localhost:3000/merchants/${merchantId}/delivery`, {
+  fetch(`http://localhost:5500/merchants/${merchantId}/delivery`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",

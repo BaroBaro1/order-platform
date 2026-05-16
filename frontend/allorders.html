@@ -217,7 +217,7 @@ if (!merchantId || !token) {
 }
 
 // ===== جلب بيانات التاجر (للاسم + الصورة) =====
-fetch(`http://localhost:3000/merchants/${merchantId}`, {
+fetch(`http://localhost:5500/merchants/${merchantId}`, {
   headers: { 
     "Authorization": `Bearer ${token}`,
     "Content-Type": "application/json"
@@ -230,14 +230,14 @@ fetch(`http://localhost:3000/merchants/${merchantId}`, {
 
   if(m.storeImage){
     document.getElementById("storeImg").src =
-      "http://localhost:3000" + m.storeImage;
+      "http://localhost:5500" + m.storeImage;
   }
 });
 
 // ===== جلب جميع الطلبات (مع التوكن) =====
 let allOrders = [];
 
-fetch(`http://localhost:3000/merchants/${merchantId}/orders`, {
+fetch(`http://localhost:5500/merchants/${merchantId}/orders`, {
   headers: { "Authorization": `Bearer ${token}` }
 })
 .then(r => r.json())
@@ -318,7 +318,7 @@ function searchOrders(){
 
 /* تحديث الحالة إلى done */
 function markDone(orderId){
-  fetch(`http://localhost:3000/orders/${orderId}`,{
+  fetch(`http://localhost:5500/orders/${orderId}`,{
     method:"PATCH",
     headers:{"Content-Type":"application/json"},
     body: JSON.stringify({status:"done"})
@@ -337,7 +337,7 @@ function markDone(orderId){
 }
 
 // ====== جلب عدد الإشعارات غير المقروءة ======
-fetch(`http://localhost:3000/merchants/${merchantId}/notifications`, {
+fetch(`http://localhost:5500/merchants/${merchantId}/notifications`, {
   headers: { "Authorization": `Bearer ${token}` }
 })
 .then(res => res.json())

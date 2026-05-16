@@ -202,7 +202,7 @@
     const resultEl = document.getElementById("result");
 
     // جلب بيانات المنتج من Backend
-    fetch(`http://localhost:3000/order/${link}`)
+    fetch(`http://http://127.0.0.1/:5500/frontend/order/${link}`)
       .then(res => res.json())
       .then(product => {
         if(product.error){
@@ -213,7 +213,7 @@
         productName.textContent = product.name;
         priceEl.textContent = product.price.toLocaleString();
         productIdEl.value = product.id;
-        productImage.src = product.image ? `http://localhost:3000${product.image}` : 'https://via.placeholder.com/400x300?text=لا+يوجد+صورة';
+        productImage.src = product.image ? `http://localhost:5500${product.image}` : 'https://via.placeholder.com/400x300?text=لا+يوجد+صورة';
       })
       .catch(err => {
         console.error(err);
@@ -312,7 +312,7 @@ wilayaSelect.addEventListener("change", function () {
         deliveryType: document.getElementById("deliveryType").value,
       };
 
-      fetch("http://localhost:3000/orders", {
+      fetch("http://localhost:5500/orders", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(data)
@@ -341,7 +341,7 @@ wilayaSelect.addEventListener("change", function () {
 
   if (!wilaya) return
 
-  const res = await fetch(`http://localhost:3000/delivery-price?wilaya=${wilaya}&type=${type}`)
+  const res = await fetch(`http://localhost:5500/delivery-price?wilaya=${wilaya}&type=${type}`)
   const data = await res.json()
 
   // عرض السعر

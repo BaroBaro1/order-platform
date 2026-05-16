@@ -11,7 +11,7 @@ const { getDeliveryPrice } = require('./utils/delivery')
 
 const app = express();
 const prisma = new PrismaClient();
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 5500;
 
 app.use(cors());
 app.use(express.json());

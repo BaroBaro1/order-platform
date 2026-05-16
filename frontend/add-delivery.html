@@ -33,7 +33,7 @@ async function addCompany() {
   formData.append("phone", phone);
   if (logo) formData.append("logo", logo);
 
-  const res = await fetch("http://localhost:3000/delivery-companies", {
+  const res = await fetch("http://localhost:5500/delivery-companies", {
     method: "POST",
     body: formData
   });

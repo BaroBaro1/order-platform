@@ -301,7 +301,7 @@ if (!merchantId || !token) {
 }
 
 // ===== جلب بيانات التاجر (للاسم + الصورة) =====
-fetch(`http://localhost:3000/merchants/${merchantId}`, {
+fetch(`http://localhost:5500/merchants/${merchantId}`, {
   headers: { 
     "Authorization": `Bearer ${token}`,
     "Content-Type": "application/json"
@@ -314,13 +314,13 @@ fetch(`http://localhost:3000/merchants/${merchantId}`, {
 
   if(m.storeImage){
     document.getElementById("storeImg").src =
-      "http://localhost:3000" + m.storeImage;
+      "http://localhost:5500" + m.storeImage;
   }
 });
 
 // ===== دالة واحدة لجلب الإشعارات (نستخدمها دائمًا) =====
 function loadNotifications(){
-  fetch(`http://localhost:3000/merchants/${merchantId}/notifications`, {
+  fetch(`http://localhost:5500/merchants/${merchantId}/notifications`, {
     headers: { "Authorization": `Bearer ${token}` }
   })
   .then(res => res.json())
@@ -379,7 +379,7 @@ function loadNotifications(){
 
 // ===== تحديد إشعار كمقروء ======
 function markRead(id){
-  fetch(`http://localhost:3000/notifications/${id}/read`, {
+  fetch(`http://localhost:5500/notifications/${id}/read`, {
     method: "PATCH",
     headers: { "Authorization": `Bearer ${token}` }
   })
@@ -391,7 +391,7 @@ function markRead(id){
 
 // ===== تحديد الكل كمقروء ======
 function markAllRead(){
-  fetch(`http://localhost:3000/merchants/${merchantId}/notifications/read-all`, {
+  fetch(`http://localhost:5500/merchants/${merchantId}/notifications/read-all`, {
     method: "PATCH",
     headers: { "Authorization": `Bearer ${token}` }
   })

@@ -169,7 +169,7 @@ if (!merchantId || !token) {
 document.getElementById("merchantLabel").textContent = merchantId;
 
 // ===== جلب الإحصائيات الحقيقية من الباك‌اند =====
-fetch(`http://localhost:3000/merchants/${merchantId}/stats`, {
+fetch(`http://localhost:5500/merchants/${merchantId}/stats`, {
   headers: { "Authorization": `Bearer ${token}` }
 })
 .then(res => res.json())
@@ -245,19 +245,19 @@ fetch(`http://localhost:3000/merchants/${merchantId}/stats`, {
 
 .catch(err => console.error("خطأ في جلب الإحصائيات:", err));
 // ===== جلب بيانات التاجر =====
-fetch(`http://localhost:3000/merchants/${merchantId}`, {
+fetch(`http://localhost:5500/merchants/${merchantId}`, {
   headers: { "Content-Type": "application/json", "Authorization": `Bearer ${token}` }
 })
 .then(res => res.json())
 .then(merchant => {
   document.getElementById("welcomeText").textContent = "مرحبًا، " + (merchant.name || "التاجر");
   if(merchant.storeImage){
-    document.getElementById("storeImg").src = "http://localhost:3000" + merchant.storeImage;
+    document.getElementById("storeImg").src = "http://localhost:5500" + merchant.storeImage;
   }
 });
 
 // ===== جلب المنتجات =====
-fetch(`http://localhost:3000/merchants/${merchantId}/products`, {
+fetch(`http://localhost:5500/merchants/${merchantId}/products`, {
   headers: { "Authorization": `Bearer ${token}` }
 })
 .then(res => res.json())
@@ -274,10 +274,10 @@ fetch(`http://localhost:3000/merchants/${merchantId}/products`, {
     const div = document.createElement("div");
     div.className = "product";
 
-    const link = `http://localhost:3000/order.html?link=${p.orderLink}`;
+    const link = `http://127.0.0.1:5500/frontend/order.html?link=${p.orderLink}`;
 
     div.innerHTML = `
-       <img src="http://localhost:3000${p.image || ' '}"  onerror= "this.src='https://via.placeholder.com/80' " > 
+       <img src="http://localhost:5500${p.image || ' '}"  onerror= "this.src='https://via.placeholder.com/80' " > 
        
        <div class="info"> <b> ${p.name} </b> <br> ${p.price} دج </div>
       <div>
@@ -296,7 +296,7 @@ function copyLink(text){
 }
 
 // ===== عدّاد الإشعارات =====
-fetch(`http://localhost:3000/merchants/${merchantId}/notifications`, {
+fetch(`http://localhost:5500/merchants/${merchantId}/notifications`, {
   headers: { "Authorization": `Bearer ${token}` }
 })
 .then(res => res.json())
