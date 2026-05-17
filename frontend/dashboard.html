@@ -91,8 +91,8 @@ footer a{color:#ffd000;text-decoration:none;margin:0 10px;}
 <!-- HEADER -->
 <div class="navbar">
   <div class="right-side">
-<img src="${p.image || 'placeholder.jpg'}">       
-    <span id="welcomeText">مرحبًا، التاجر</span>
+<img id="storeImg" class="store-img" src="placeholder.jpg">
+ <span id="welcomeText">مرحبًا، التاجر</span>
   </div>
 
   <div class="left-side">
@@ -252,7 +252,7 @@ fetch(`https://order-platform-2.onrender.com/merchants/${merchantId}`, {
 .then(merchant => {
   document.getElementById("welcomeText").textContent = "مرحبًا، " + (merchant.name || "التاجر");
   if(merchant.storeImage){
-    document.getElementById("storeImg").src = "https://order-platform-2.onrender.com" + merchant.storeImage;
+   document.getElementById("storeImg").src = merchant.storeImage;
   }
 });
 
