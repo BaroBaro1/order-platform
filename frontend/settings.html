@@ -534,7 +534,7 @@ fetch("https://order-platform-2.onrender.com/delivery-companies", {
     div.style.textAlign = "center";
 
     div.innerHTML = `
-      <img src="https://order-platform-2.onrender.com${c.logo}" style="width:80px;margin-bottom:8px;">
+      <img src="${c.logo}" style="width:80px;margin-bottom:8px;">
       <h4>${c.name}</h4>
     `;
 
@@ -620,7 +620,7 @@ fetch("https://order-platform-2.onrender.com/delivery-companies", {
       }
 
       div.innerHTML = `
-        <img src="https://order-platform-2.onrender.com${c.logo || ''}" style="width:80px;margin-bottom:8px;">
+        <img src="${c.logo || ''}" style="width:80px;margin-bottom:8px;">
         <h4>${c.name}</h4>
       `;
 

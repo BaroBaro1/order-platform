@@ -619,8 +619,7 @@ app.post("/delivery-companies", upload.single("logo"), async (req, res) => {
     return res.status(400).json({ error: "اسم الشركة مطلوب" });
   }
 
-  const logoPath = req.file ? `/uploads/${req.file.filename}` : null;
-
+const logo = req.file ? req.file.path : null;
   const company = await prisma.deliveryCompany.create({
     data: {
       name,

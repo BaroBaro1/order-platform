@@ -41,10 +41,15 @@ async function addCompany() {
   const data = await res.json();
 
   if (data.success) {
-    msg.textContent = "تمت الإضافة بنجاح!";
-  } else {
-    msg.textContent = "حدث خطأ!";
-  }
+
+  msg.innerHTML = `
+    تمت الإضافة بنجاح ✅ <br><br>
+    <img src="${data.company.logo}" 
+         style="width:120px;border-radius:10px;">
+  `;
+
+} else {
+  msg.textContent = "حدث خطأ!";
 }
 </script>
 
