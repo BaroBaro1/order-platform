@@ -14,16 +14,17 @@
   "dependencies": {
     "@prisma/client": "4.15.0",
     "bcrypt": "^6.0.0",
+    "cloudinary": "^2.10.0",
     "cors": "^2.8.5",
     "dotenv": "^17.4.2",
     "express": "^5.1.0",
     "jsonwebtoken": "^9.0.2",
     "multer": "^2.0.2",
+    "multer-storage-cloudinary": "^2.2.1",
     "pg": "^8.16.3"
   },
   "devDependencies": {
     "nodemon": "^3.1.14",
     "prisma": "4.15.0"
   }
-
 }

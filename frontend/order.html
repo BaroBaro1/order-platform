@@ -213,8 +213,7 @@
         productName.textContent = product.name;
         priceEl.textContent = product.price.toLocaleString();
         productIdEl.value = product.id;
-        productImage.src = product.image ? `https://order-platform-2.onrender.com${product.image}` : 'https://via.placeholder.com/400x300?text=لا+يوجد+صورة';
-      })
+productImage.src = product.image || "placeholder.jpg";      })
       .catch(err => {
         console.error(err);
         productName.textContent = "حدث خطأ في جلب المنتج";

@@ -49,12 +49,14 @@ app.get("/", (req, res) => {
 // ----------------------
 // إعداد مكان حفظ الصور
 // ----------------------
-const storage = multer.diskStorage({
-  destination: (req, file, cb) => cb(null, "uploads/"),
-  filename: (req, file, cb) => {
-    const ext = path.extname(file.originalname);
-    const uniqueName = Date.now() + "-" + Math.round(Math.random() * 1e9) + ext;
-    cb(null, uniqueName);
+const cloudinary = require("./config/cloudinary");
+const { CloudinaryStorage } = require("multer-storage-cloudinary");
+
+const storage = new CloudinaryStorage({
+  cloudinary: cloudinary,
+  params: {
+    folder: "order-platform",
+    allowed_formats: ["jpg", "png", "jpeg", "webp"]
   }
 });
 
@@ -119,7 +121,8 @@ app.post("/products", upload.single("image"), async (req, res) => {
     }
 
     // مسار الصورة إن وُجدت
-    const imagePath = req.file ? "/uploads/" + req.file.filename : null;
+
+    const imagePath = req.file ? req.file.path : null;
 
     const product = await prisma.product.create({
       data: {

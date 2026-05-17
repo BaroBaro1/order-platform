@@ -277,8 +277,7 @@ fetch(`https://order-platform-2.onrender.com/merchants/${merchantId}/products`, 
     const link = `https://order-platform-rs51.vercel.app/order.html?link=${p.orderLink}`;
 
     div.innerHTML = `
-       <img src="https://order-platform-2.onrender.com${p.image || ' '}"  onerror= "this.src='https://via.placeholder.com/80' " > 
-       
+<img src="${p.image || 'placeholder.jpg'}">       
        <div class="info"> <b> ${p.name} </b> <br> ${p.price} دج </div>
       <div>
         <button class="copy" onclick="copyLink('${link}')">نسخ رابط الطلب</button>
