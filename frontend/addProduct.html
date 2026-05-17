@@ -317,9 +317,20 @@ imageInput.addEventListener("change", () => {
 // ===== إرسال المنتج =====
 form.addEventListener("submit", async (e) => {
   e.preventDefault();
-
+// نجمع بيانات الفورم باستخدام FormData
   const formData = new FormData(form);
+// نضيف الـ token في الهيدر
+  formData.append("Authorization", `Bearer ${token}`);
+  const formData = new FormData();
 
+formData.append("name", name);
+formData.append("price", price);
+formData.append("image", imageFile);
+
+fetch(API_URL + "/products", {
+  method: "POST",
+  body: formData
+});
   // جمع الميزات
   const features = collectFeatures();
 

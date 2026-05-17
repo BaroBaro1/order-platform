@@ -59,7 +59,18 @@ const storage = multer.diskStorage({
 });
 
 const upload = multer({ storage });
-
+// -------------------------------
+// API لتحميل صورة المتجر للتاجر
+// -------------------------------
+//
+router.post(
+  "/products",
+  upload.single("image"),
+  async (req, res) => {
+    console.log(req.file);
+    console.log(req.body);
+  }
+);
 // السماح بالوصول للصور عبر URL
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
