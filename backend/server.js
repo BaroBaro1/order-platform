@@ -50,8 +50,7 @@ app.get("/", (req, res) => {
 // إعداد مكان حفظ الصور
 // ----------------------
 const cloudinary = require("./config/cloudinary");
-const { CloudinaryStorage } = require("multer-storage-cloudinary");
-
+const CloudinaryStorage = require("multer-storage-cloudinary").CloudinaryStorage;
 const storage = new CloudinaryStorage({
   cloudinary: cloudinary,
   params: {
