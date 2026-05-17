@@ -394,11 +394,11 @@ function loadMerchantData(){
 
     if(merchant.storeImage){
       document.getElementById("storeImg").src =
-        "https://order-platform-2.onrender.com" + merchant.storeImage;
+  merchant.storeImage;
 
-      document.getElementById("previewImg").src =
-        "https://order-platform-2.onrender.com" + merchant.storeImage;
-    }
+document.getElementById("previewImg").src =
+  merchant.storeImage;
+  }
 
     document.getElementById("name").value = merchant.name || "";
     document.getElementById("storePhone").value = merchant.phone || "";
