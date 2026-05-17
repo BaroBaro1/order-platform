@@ -65,18 +65,43 @@ const upload = multer({ storage });
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
 app.post("/merchants/:id/upload-image", upload.single("image"), async (req, res) => {
-  const merchantId = parseInt(req.params.id);
 
-  const imagePath = "/uploads/" + req.file.filename;
+  try {
 
-  await prisma.merchant.update({
-    where: { id: merchantId },
-    data: { storeImage: imagePath }
-  });
+    const merchantId = Number(req.params.id);
 
-  res.json({ success: true, image: imagePath });
+    if (!req.file) {
+      return res.status(400).json({
+        error: "لم يتم رفع صورة"
+      });
+    }
+
+    // رابط cloudinary
+    const imageUrl = req.file.path;
+
+    const merchant = await prisma.merchant.update({
+      where: { id: merchantId },
+      data: {
+        storeImage: imageUrl
+      }
+    });
+
+    res.json({
+      success: true,
+      image: merchant.storeImage
+    });
+
+  } catch (err) {
+
+    console.error(err);
+
+    res.status(500).json({
+      error: "خطأ في رفع الصورة"
+    });
+
+  }
+
 });
-
 // -------------------------------
 // دالة توليد كود عشوائي للرابط
 // -------------------------------
