@@ -49,8 +49,8 @@ app.get("/", (req, res) => {
 // ----------------------
 // إعداد مكان حفظ الصور
 // ----------------------
-const cloudinary = require("./config/cloudinary");
 const multer = require("multer");
+const cloudinary = require("./config/cloudinary");
 const { CloudinaryStorage } = require("multer-storage-cloudinary");
 
 const storage = new CloudinaryStorage({
@@ -62,7 +62,6 @@ const storage = new CloudinaryStorage({
 });
 
 const upload = multer({ storage });
-
 // السماح بالوصول للصور عبر URL
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
