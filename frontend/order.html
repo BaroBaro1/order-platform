@@ -202,7 +202,7 @@
     const resultEl = document.getElementById("result");
 
     // جلب بيانات المنتج من Backend
-    fetch(`https://order-platform-2.onrender.com/frontend/order/${link}`)
+    fetch(`https://order-platform-2.onrender.com/order/${link}`)
       .then(res => res.json())
       .then(product => {
         if(product.error){
