@@ -274,7 +274,7 @@ fetch(`https://order-platform-2.onrender.com/merchants/${merchantId}/products`, 
     const div = document.createElement("div");
     div.className = "product";
 
-    const link = `https://order-platform-2.onrender.com/frontend/order.html?link=${p.orderLink}`;
+    const link = `https://order-platform-2.onrender.com/order.html?link=${p.orderLink}`;
 
     div.innerHTML = `
        <img src="https://order-platform-2.onrender.com${p.image || ' '}"  onerror= "this.src='https://via.placeholder.com/80' " > 
