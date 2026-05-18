@@ -533,19 +533,7 @@ fetch("https://order-platform-2.onrender.com/delivery-companies", {
     div.style.cursor = "pointer";
     div.style.textAlign = "center";
 
-    div.innerHTML = `
-      <img src="${c.logo}" style="width:80px;margin-bottom:8px;">
-      <h4>${c.name}</h4>
-    `;
-
-    div.onclick = () => {
-      document.querySelectorAll("#deliveryCompanies div").forEach(d=>{
-        d.style.background = "white";
-      });
-
-      div.style.background = "#ffe6ec";
-      selectedDelivery = c.id;
-    };
+   
 
     container.appendChild(div);
   });
