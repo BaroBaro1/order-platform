@@ -618,13 +618,13 @@ app.post("/delivery-companies", upload.single("logo"), async (req, res) => {
   if (!name) {
     return res.status(400).json({ error: "اسم الشركة مطلوب" });
   }
-
+    // رابط الصورة من Cloudinary
 const logo = req.file ? req.file.path : null;
   const company = await prisma.deliveryCompany.create({
     data: {
       name,
       phone: phone || null,
-      logo: logoPath
+      logo: logo
     }
   });
 
