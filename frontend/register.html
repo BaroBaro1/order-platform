@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>إنشاء حساب تاجر</title>
+<title>إنشاء حساب | Baro</title>
 
 <style>
 
@@ -14,38 +14,39 @@
 }
 
 body{
-  font-family: Arial, sans-serif;
-  direction: rtl;
-  background:
-  linear-gradient(135deg,#ffffff,#f5f0ff);
-  min-height:100vh;
+  font-family:Arial,sans-serif;
+  direction:rtl;
+  background:linear-gradient(135deg,#ffffff,#f6f0ff);
   color:#222;
 }
 
-/* ===== HEADER ===== */
+/* ================= HEADER ================= */
 
 header{
   display:flex;
   justify-content:space-between;
   align-items:center;
   background:white;
-  padding:15px 40px;
-  box-shadow:0 2px 10px rgba(0,0,0,.08);
+  padding:18px 40px;
+  box-shadow:0 2px 10px rgba(0,0,0,.06);
+  position:sticky;
+  top:0;
+  z-index:100;
 }
 
 .logo{
   font-size:24px;
   font-weight:bold;
-  color:#ff3366;
+  color:#6C63FF;
 }
 
 nav{
   display:flex;
   align-items:center;
+  gap:20px;
 }
 
 nav a{
-  margin:0 10px;
   text-decoration:none;
   color:#333;
   font-weight:600;
@@ -53,140 +54,57 @@ nav a{
 }
 
 nav a:hover{
-  color:#ff3366;
+  color:#7c3aed;
 }
 
-/* ===== MAIN SECTION ===== */
+/* ================= PAGE ================= */
 
-.main-section{
-  width:100%;
-  max-width:1200px;
-  margin:50px auto;
-  padding:20px;
+.page{
+  min-height:calc(100vh - 160px);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding:60px 20px;
+}
 
+.wrapper{
+  width:1150px;
+  background:white;
+  border-radius:24px;
+  overflow:hidden;
   display:grid;
   grid-template-columns:1fr 1fr;
-  gap:40px;
-  align-items:center;
+  box-shadow:0 20px 50px rgba(124,58,237,.08);
 }
 
-/* ===== LEFT SIDE ===== */
+/* ================= RIGHT SIDE ================= */
 
-.left-side{
-  padding:20px;
+.form-side{
+  padding:50px;
 }
 
 .badge{
   display:inline-block;
-  background:#ffe6ee;
-  color:#ff3366;
-  padding:8px 15px;
-  border-radius:30px;
+  background:#f3e8ff;
+  color:#7c3aed;
+  padding:8px 16px;
+  border-radius:999px;
   font-size:14px;
-  margin-bottom:20px;
   font-weight:bold;
-}
-
-.left-side h1{
-  font-size:42px;
-  line-height:1.4;
   margin-bottom:20px;
 }
 
-.left-side p{
+.form-side h1{
+  font-size:34px;
+  margin-bottom:15px;
+  color:#222;
+}
+
+.subtitle{
   color:#666;
-  line-height:1.9;
-  font-size:17px;
+  line-height:1.8;
   margin-bottom:30px;
 }
-
-/* ===== FEATURES ===== */
-
-.features{
-  display:flex;
-  flex-direction:column;
-  gap:18px;
-}
-
-.feature{
-  background:white;
-  padding:18px;
-  border-radius:14px;
-  box-shadow:0 5px 20px rgba(0,0,0,.05);
-
-  display:flex;
-  align-items:center;
-  gap:15px;
-
-  transition:.3s;
-}
-
-.feature:hover{
-  transform:translateY(-3px);
-}
-
-.feature-icon{
-  width:50px;
-  height:50px;
-  border-radius:12px;
-  background:#f5f0ff;
-
-  display:flex;
-  align-items:center;
-  justify-content:center;
-
-  font-size:22px;
-}
-
-.feature h3{
-  margin-bottom:5px;
-  font-size:17px;
-}
-
-.feature p{
-  margin:0;
-  font-size:14px;
-  color:#777;
-}
-
-/* ===== REGISTER CARD ===== */
-
-.register-card{
-  background:white;
-  padding:35px;
-  border-radius:24px;
-
-  box-shadow:
-  0 10px 40px rgba(0,0,0,.08);
-
-  position:relative;
-  overflow:hidden;
-}
-
-.register-card::before{
-  content:"";
-  position:absolute;
-  top:0;
-  left:0;
-  width:100%;
-  height:6px;
-
-  background:
-  linear-gradient(to left,#ff3366,#7b61ff);
-}
-
-.register-card h2{
-  font-size:30px;
-  margin-bottom:10px;
-}
-
-.register-card .subtitle{
-  color:#777;
-  margin-bottom:30px;
-  line-height:1.7;
-}
-
-/* ===== INPUTS ===== */
 
 .input-group{
   margin-bottom:18px;
@@ -205,45 +123,51 @@ nav a:hover{
 
 .input-box span{
   position:absolute;
-  right:15px;
+  right:14px;
   top:50%;
   transform:translateY(-50%);
-  color:#999;
   font-size:18px;
 }
 
 .input-box input{
   width:100%;
   height:52px;
-
   border:1px solid #ddd;
   border-radius:14px;
-
   padding:0 45px 0 15px;
-
   font-size:15px;
-  transition:.3s;
   background:#fafafa;
+  transition:.3s;
 }
 
 .input-box input:focus{
   outline:none;
-  border-color:#7b61ff;
+  border-color:#7c3aed;
   background:white;
-
-  box-shadow:
-  0 0 0 4px rgba(123,97,255,.12);
+  box-shadow:0 0 0 4px rgba(124,58,237,.1);
 }
 
-/* ===== PASSWORD STRENGTH ===== */
+/* ================= PASSWORD STRENGTH ================= */
 
 .password-strength{
   margin-top:8px;
-  font-size:14px;
+  font-size:13px;
   font-weight:bold;
 }
 
-/* ===== TERMS ===== */
+.weak{
+  color:red;
+}
+
+.medium{
+  color:orange;
+}
+
+.strong{
+  color:green;
+}
+
+/* ================= TERMS ================= */
 
 .terms{
   display:flex;
@@ -251,110 +175,234 @@ nav a:hover{
   gap:10px;
   margin:20px 0;
   font-size:14px;
-  color:#666;
-  line-height:1.7;
+  color:#555;
 }
 
 .terms input{
-  margin-top:3px;
+  margin-top:4px;
 }
 
-/* ===== BUTTON ===== */
+/* ================= BUTTON ================= */
 
 button{
   width:100%;
-  height:55px;
-
+  height:54px;
   border:none;
   border-radius:14px;
-
-  background:
-  linear-gradient(to left,#ff3366,#7b61ff);
-
+  background:linear-gradient(90deg,#ff3366,#7c3aed);
   color:white;
   font-size:16px;
   font-weight:bold;
-
   cursor:pointer;
   transition:.3s;
 }
 
 button:hover{
   transform:translateY(-2px);
-
-  box-shadow:
-  0 10px 25px rgba(123,97,255,.25);
+  box-shadow:0 10px 25px rgba(124,58,237,.25);
 }
 
-/* ===== MESSAGE ===== */
-
-#msg{
-  margin-top:18px;
-  text-align:center;
-  font-weight:bold;
-}
-
-/* ===== LOGIN LINK ===== */
+/* ================= LOGIN LINK ================= */
 
 .login-link{
-  margin-top:25px;
+  margin-top:20px;
   text-align:center;
-  color:#666;
+  color:#555;
 }
 
 .login-link a{
-  color:#ff3366;
-  font-weight:bold;
+  color:#7c3aed;
   text-decoration:none;
+  font-weight:bold;
 }
 
-/* ===== SECURITY BOX ===== */
+/* ================= STATUS ================= */
 
-.security-box{
-  margin-top:25px;
-  background:#f8f5ff;
-  border:1px solid #ece6ff;
-  padding:15px;
-  border-radius:14px;
-  font-size:14px;
-  color:#666;
+#msg{
+  margin-top:15px;
   text-align:center;
+  font-weight:bold;
 }
 
-/* ===== FOOTER ===== */
+/* ================= LEFT SIDE ================= */
+
+.info-side{
+  background:
+  linear-gradient(
+  135deg,
+  #7c3aed,
+  #9333ea,
+  #ff3366
+  );
+
+  color:white;
+  padding:50px;
+  position:relative;
+  overflow:hidden;
+}
+
+.info-side::before{
+  content:"";
+  position:absolute;
+  width:300px;
+  height:300px;
+  background:rgba(255,255,255,.08);
+  border-radius:50%;
+  top:-100px;
+  left:-100px;
+}
+
+.info-side::after{
+  content:"";
+  position:absolute;
+  width:250px;
+  height:250px;
+  background:rgba(255,255,255,.08);
+  border-radius:50%;
+  bottom:-80px;
+  right:-80px;
+}
+
+.info-content{
+  position:relative;
+  z-index:2;
+}
+
+.info-side h2{
+  font-size:36px;
+  margin-bottom:18px;
+}
+
+.info-side p{
+  line-height:1.9;
+  color:rgba(255,255,255,.92);
+  margin-bottom:35px;
+}
+
+/* ================= FEATURES ================= */
+
+.features{
+  display:flex;
+  flex-direction:column;
+  gap:18px;
+}
+
+.feature{
+  display:flex;
+  align-items:center;
+  gap:15px;
+  background:rgba(255,255,255,.12);
+  padding:16px;
+  border-radius:16px;
+  backdrop-filter:blur(6px);
+}
+
+.feature-icon{
+  width:50px;
+  height:50px;
+  border-radius:12px;
+  background:rgba(255,255,255,.15);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:22px;
+}
+
+/* ================= PRICING ================= */
+
+.pricing{
+  margin-top:35px;
+  background:rgba(255,255,255,.12);
+  padding:22px;
+  border-radius:18px;
+}
+
+.pricing h3{
+  margin-bottom:15px;
+}
+
+.price{
+  font-size:38px;
+  font-weight:bold;
+  margin-bottom:8px;
+}
+
+.price span{
+  font-size:16px;
+}
+
+.pricing ul{
+  margin-top:15px;
+  line-height:2;
+  padding-right:18px;
+}
+
+/* ================= PAYMENT ================= */
+
+.payment{
+  margin-top:25px;
+}
+
+.payment h4{
+  margin-bottom:12px;
+}
+
+.payment-boxes{
+  display:flex;
+  gap:12px;
+  flex-wrap:wrap;
+}
+
+.payment-box{
+  background:rgba(255,255,255,.12);
+  padding:12px 18px;
+  border-radius:12px;
+  font-size:14px;
+}
+
+/* ================= FOOTER ================= */
 
 footer{
-  background:#222;
+  background:#111827;
   color:white;
-  text-align:center;
-  padding:25px;
-  margin-top:60px;
+  padding:30px 20px;
+  margin-top:40px;
 }
 
-footer a{
-  color:#ffd000;
+.footer-container{
+  max-width:1200px;
+  margin:auto;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  flex-wrap:wrap;
+  gap:20px;
+}
+
+.footer-links{
+  display:flex;
+  gap:15px;
+}
+
+.footer-links a{
+  color:#ddd;
   text-decoration:none;
-  margin:0 10px;
 }
 
-footer a:hover{
-  text-decoration:underline;
+.footer-links a:hover{
+  color:#fff;
 }
 
-/* ===== RESPONSIVE ===== */
+/* ================= RESPONSIVE ================= */
 
 @media(max-width:950px){
 
-  .main-section{
+  .wrapper{
     grid-template-columns:1fr;
   }
 
-  .left-side{
-    order:2;
-  }
-
-  .register-card{
-    order:1;
+  .info-side{
+    order:-1;
   }
 
 }
@@ -362,21 +410,25 @@ footer a:hover{
 @media(max-width:600px){
 
   header{
-    flex-direction:column;
-    gap:15px;
+    padding:15px 20px;
   }
 
   nav{
-    flex-wrap:wrap;
-    justify-content:center;
+    gap:12px;
+    font-size:14px;
   }
 
-  .left-side h1{
-    font-size:32px;
+  .form-side,
+  .info-side{
+    padding:30px 22px;
   }
 
-  .register-card{
-    padding:25px;
+  .form-side h1{
+    font-size:28px;
+  }
+
+  .info-side h2{
+    font-size:28px;
   }
 
 }
@@ -386,7 +438,7 @@ footer a:hover{
 
 <body>
 
-<!-- ===== HEADER ===== -->
+<!-- ================= HEADER ================= -->
 
 <header>
 
@@ -401,296 +453,296 @@ footer a:hover{
 
 </header>
 
-<!-- ===== MAIN SECTION ===== -->
+<!-- ================= PAGE ================= -->
 
-<section class="main-section">
+<section class="page">
 
-  <!-- ===== LEFT SIDE ===== -->
+<div class="wrapper">
 
-  <div class="left-side">
+  <!-- ================= FORM SIDE ================= -->
+
+  <div class="form-side">
 
     <div class="badge">
-      🚀 منصة جزائرية لإدارة الطلبات
+      منصة تجارة إلكترونية جزائرية 🇩🇿
     </div>
 
-    <h1>
-      ابدأ بيع منتجاتك بسهولة
-      واحترافية ✨
-    </h1>
-
-    <p>
-      أنشئ حسابك وابدأ إدارة الطلبات،
-      تتبع العملاء، واستقبال الإشعارات
-      في منصة حديثة مصممة للتجار
-      في الجزائر 🇩🇿
-    </p>
-
-    <div class="features">
-
-      <div class="feature">
-        <div class="feature-icon">📦</div>
-
-        <div>
-          <h3>إدارة الطلبات</h3>
-          <p>تحكم كامل في الطلبات والحالات بسهولة.</p>
-        </div>
-      </div>
-
-      <div class="feature">
-        <div class="feature-icon">🚚</div>
-
-        <div>
-          <h3>ربط شركات التوصيل</h3>
-          <p>اختر شركة التوصيل المناسبة لمتجرك.</p>
-        </div>
-      </div>
-
-      <div class="feature">
-        <div class="feature-icon">🔔</div>
-
-        <div>
-          <h3>إشعارات فورية</h3>
-          <p>استقبل إشعارات مباشرة عند كل طلب جديد.</p>
-        </div>
-      </div>
-
-    </div>
-
-  </div>
-
-  <!-- ===== REGISTER CARD ===== -->
-
-  <div class="register-card">
-
-    <h2>🆕 إنشاء حساب</h2>
+    <h1>ابدأ بيع منتجاتك بسهولة 🚀</h1>
 
     <p class="subtitle">
-      أنشئ حساب التاجر الخاص بك
-      وابدأ استخدام المنصة خلال دقائق.
+      أنشئ حسابك وابدأ إدارة الطلبات وتتبع العملاء
+      والتوصيل من لوحة تحكم احترافية خلال دقائق.
     </p>
 
     <!-- NAME -->
 
     <div class="input-group">
-
       <label>اسم التاجر</label>
 
       <div class="input-box">
         <span>👤</span>
-
-        <input
-        id="name"
-        placeholder="أدخل اسمك الكامل">
+        <input id="name" type="text" placeholder="أدخل اسمك الكامل">
       </div>
-
     </div>
 
     <!-- EMAIL -->
 
     <div class="input-group">
-
       <label>البريد الإلكتروني</label>
 
       <div class="input-box">
         <span>📧</span>
-
-        <input
-        id="email"
-        type="email"
-        placeholder="example@email.com">
+        <input id="email" type="email" placeholder="example@email.com">
       </div>
-
     </div>
 
     <!-- PHONE -->
 
     <div class="input-group">
-
       <label>رقم الهاتف</label>
 
       <div class="input-box">
         <span>📱</span>
-
-        <input
-        id="phone"
-        placeholder="05XXXXXXXX">
+        <input id="phone" type="text" placeholder="05XXXXXXXX">
       </div>
-
     </div>
 
     <!-- PASSWORD -->
 
     <div class="input-group">
-
       <label>كلمة المرور</label>
 
       <div class="input-box">
         <span>🔒</span>
-
-        <input
-        id="password"
-        type="password"
-        placeholder="أدخل كلمة مرور قوية"
-        oninput="checkPasswordStrength()">
+        <input id="password" type="password" placeholder="أدخل كلمة المرور">
       </div>
 
-      <div
-      class="password-strength"
-      id="strength">
-      </div>
-
+      <div id="strengthText" class="password-strength"></div>
     </div>
 
     <!-- TERMS -->
 
     <div class="terms">
-
       <input type="checkbox" id="terms">
 
       <label for="terms">
-        أوافق على الشروط وسياسة الخصوصية
+        أوافق على الشروط وسياسة الخصوصية الخاصة بمنصة Baro
       </label>
-
     </div>
 
     <!-- BUTTON -->
 
     <button id="registerBtn" onclick="register()">
-      إنشاء الحساب
+      إنشاء الحساب مجانًا
     </button>
-
-    <!-- MESSAGE -->
 
     <p id="msg"></p>
 
-    <!-- LOGIN LINK -->
-
     <div class="login-link">
       لديك حساب بالفعل؟
-      <a href="login.html">
-        تسجيل الدخول
-      </a>
-    </div>
-
-    <!-- SECURITY -->
-
-    <div class="security-box">
-      🔐 بياناتك محمية ومشفرة بالكامل
+      <a href="login.html">تسجيل الدخول</a>
     </div>
 
   </div>
 
+  <!-- ================= INFO SIDE ================= -->
+
+  <div class="info-side">
+
+    <div class="info-content">
+
+      <h2>كل ما تحتاجه لإدارة الطلبات</h2>
+
+      <p>
+        Baro تساعد التجار في الجزائر على إدارة الطلبات،
+        متابعة العملاء، والتعامل مع شركات التوصيل
+        من مكان واحد بسهولة.
+      </p>
+
+      <!-- FEATURES -->
+
+      <div class="features">
+
+        <div class="feature">
+          <div class="feature-icon">📦</div>
+
+          <div>
+            <strong>إدارة الطلبات</strong>
+            <p>متابعة الطلبات والحالات بسهولة.</p>
+          </div>
+        </div>
+
+        <div class="feature">
+          <div class="feature-icon">🚚</div>
+
+          <div>
+            <strong>ربط شركات التوصيل</strong>
+            <p>اختر شركة التوصيل المناسبة لك.</p>
+          </div>
+        </div>
+
+        <div class="feature">
+          <div class="feature-icon">🔔</div>
+
+          <div>
+            <strong>إشعارات فورية</strong>
+            <p>تنبيهات مباشرة عند كل طلب جديد.</p>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- PRICING -->
+
+      <div class="pricing">
+
+        <h3>💎 خطة الإطلاق</h3>
+
+        <div class="price">
+          0 دج <span>/ أول شهر</span>
+        </div>
+
+        <p>
+          جرّب المنصة مجانًا بدون بطاقة بنكية.
+        </p>
+
+        <ul>
+          <li>طلبات غير محدودة</li>
+          <li>لوحة تحكم كاملة</li>
+          <li>إدارة المنتجات</li>
+          <li>دعم شركات التوصيل</li>
+        </ul>
+
+      </div>
+
+      <!-- PAYMENT -->
+
+      <div class="payment">
+
+        <h4>💳 طرق الدفع المستقبلية</h4>
+
+        <div class="payment-boxes">
+
+          <div class="payment-box">
+            BaridiMob
+          </div>
+
+          <div class="payment-box">
+            CCP
+          </div>
+
+          <div class="payment-box">
+            CIB
+          </div>
+
+          <div class="payment-box">
+            الدفع اليدوي
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</div>
+
 </section>
 
-<!-- ===== FOOTER ===== -->
+<!-- ================= FOOTER ================= -->
 
 <footer>
 
-  <p>
-    <a href="#">À propos</a> |
-    <a href="#">Contact</a>
-  </p>
+<div class="footer-container">
 
-  <p>
-    © 2026 Baro - جميع الحقوق محفوظة
-  </p>
+  <div>
+    <h3 style="margin-bottom:10px;">Baro</h3>
+
+    <p style="color:#aaa;">
+      منصة ذكية لإدارة الطلبات والتجارة الإلكترونية في الجزائر 🇩🇿
+    </p>
+  </div>
+
+  <div class="footer-links">
+    <a href="#">من نحن</a>
+    <a href="#">الأسئلة الشائعة</a>
+    <a href="#">اتصل بنا</a>
+    <a href="#">سياسة الخصوصية</a>
+  </div>
+
+</div>
+
+<p style="text-align:center;color:#888;margin-top:20px;">
+  © 2026 Baro - جميع الحقوق محفوظة
+</p>
 
 </footer>
 
+<!-- ================= SCRIPT ================= -->
+
 <script>
 
-/* ===== PASSWORD STRENGTH ===== */
+/* ================= PASSWORD STRENGTH ================= */
 
-function checkPasswordStrength(){
+const passwordInput = document.getElementById("password");
+const strengthText = document.getElementById("strengthText");
 
-  const password =
-  document.getElementById("password").value;
+passwordInput.addEventListener("input", ()=>{
 
-  const strength =
-  document.getElementById("strength");
+  const value = passwordInput.value;
 
-  if(password.length < 6){
+  if(value.length < 6){
 
-    strength.textContent =
-    "ضعيفة 🔴";
+    strengthText.textContent = "ضعيفة 🔴";
+    strengthText.className = "password-strength weak";
 
-    strength.style.color = "red";
+  } else if(value.length < 10){
 
-  }
+    strengthText.textContent = "متوسطة 🟡";
+    strengthText.className = "password-strength medium";
 
-  else if(password.length < 10){
+  } else {
 
-    strength.textContent =
-    "متوسطة 🟡";
-
-    strength.style.color = "orange";
+    strengthText.textContent = "قوية 🟢";
+    strengthText.className = "password-strength strong";
 
   }
 
-  else{
+});
 
-    strength.textContent =
-    "قوية 🟢";
-
-    strength.style.color = "green";
-
-  }
-
-}
-
-/* ===== REGISTER ===== */
+/* ================= REGISTER ================= */
 
 function register(){
 
-  const name =
-  document.getElementById("name").value;
+  const name = document.getElementById("name").value;
+  const email = document.getElementById("email").value;
+  const phone = document.getElementById("phone").value;
+  const password = document.getElementById("password").value;
+  const terms = document.getElementById("terms").checked;
 
-  const email =
-  document.getElementById("email").value;
-
-  const phone =
-  document.getElementById("phone").value;
-
-  const password =
-  document.getElementById("password").value;
-
-  const terms =
-  document.getElementById("terms").checked;
-
-  const msg =
-  document.getElementById("msg");
-
-  const btn =
-  document.getElementById("registerBtn");
-
-  // VALIDATION
+  const msg = document.getElementById("msg");
+  const btn = document.getElementById("registerBtn");
 
   if(!name || !email || !phone || !password){
 
-    msg.textContent =
-    "⚠️ يرجى ملء جميع الحقول";
-
     msg.style.color = "red";
-
+    msg.textContent = "يرجى ملء جميع الحقول";
     return;
+
   }
 
   if(!terms){
 
-    msg.textContent =
-    "⚠️ يجب الموافقة على الشروط";
-
     msg.style.color = "red";
-
+    msg.textContent = "يجب الموافقة على الشروط";
     return;
+
   }
 
-  // LOADING
-
+  btn.innerHTML = "⏳ جاري إنشاء الحساب...";
   btn.disabled = true;
-
-  btn.innerHTML =
-  "⏳ جاري إنشاء الحساب...";
 
   fetch("https://order-platform-2.onrender.com/merchant/register", {
 
@@ -715,32 +767,22 @@ function register(){
 
     if(data.error){
 
-      msg.textContent =
-      "❌ " + data.error;
-
       msg.style.color = "red";
+      msg.textContent = data.error;
 
+      btn.innerHTML = "إنشاء الحساب مجانًا";
       btn.disabled = false;
 
-      btn.innerHTML =
-      "إنشاء الحساب";
-
-    }
-
-    else{
-
-      msg.textContent =
-      "✅ تم إنشاء الحساب بنجاح...";
+    } else {
 
       msg.style.color = "green";
+      msg.textContent = "✅ تم إنشاء الحساب بنجاح";
 
-      btn.innerHTML =
-      "✅ تم بنجاح";
+      btn.innerHTML = "✅ تم بنجاح";
 
       setTimeout(()=>{
 
-        window.location =
-        "login.html";
+        window.location = "login.html";
 
       },1500);
 
@@ -752,15 +794,11 @@ function register(){
 
     console.error(err);
 
-    msg.textContent =
-    "حدث خطأ في الاتصال بالسيرفر";
-
     msg.style.color = "red";
+    msg.textContent = "حدث خطأ أثناء التسجيل";
 
+    btn.innerHTML = "إنشاء الحساب مجانًا";
     btn.disabled = false;
-
-    btn.innerHTML =
-    "إنشاء الحساب";
 
   });
 
