@@ -2,97 +2,394 @@
 <html lang="ar">
 <head>
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>إنشاء حساب تاجر</title>
+
 <style>
-body{
+
+*{
   margin:0;
+  padding:0;
+  box-sizing:border-box;
+}
+
+body{
   font-family: Arial, sans-serif;
-  background:#f4f4f9;
-  direction:rtl;
-}
-/* ===== الهيدر (مطابق لـ index.html) ===== */
-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  background: white;
-  padding: 15px 40px;
-  box-shadow: 0 2px 10px rgba(0,0,0,.1);
+  direction: rtl;
+  background:
+  linear-gradient(135deg,#ffffff,#f5f0ff);
+  min-height:100vh;
+  color:#222;
 }
 
-.logo {
-  font-size: 22px;
-  font-weight: bold;
-  color: #ff3366;
-}
-nav {
-  display: flex;          /* ← هذا هو المفتاح */
-  align-items: center;
-}
-nav a {
-  margin: 0 10px;
-  text-decoration: none;
-  color: #333;
-  font-weight: 600;
-}
+/* ===== HEADER ===== */
 
-nav a:hover {
-  color: #ff3366;
-}
-/* ===== نافذة التسجيل ===== */
-.container{
-  width:380px;
-  margin:60px auto;
+header{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
   background:white;
-  padding:25px;
-  border-radius:10px;
-  box-shadow:0 5px 15px rgba(0,0,0,.1);
-  text-align:center;
+  padding:15px 40px;
+  box-shadow:0 2px 10px rgba(0,0,0,.08);
 }
-input{
+
+.logo{
+  font-size:24px;
+  font-weight:bold;
+  color:#ff3366;
+}
+
+nav{
+  display:flex;
+  align-items:center;
+}
+
+nav a{
+  margin:0 10px;
+  text-decoration:none;
+  color:#333;
+  font-weight:600;
+  transition:.3s;
+}
+
+nav a:hover{
+  color:#ff3366;
+}
+
+/* ===== MAIN SECTION ===== */
+
+.main-section{
   width:100%;
-  padding:10px;
-  margin:10px 0;
-   border:1px solid #ddd;
-  border-radius:8px;
+  max-width:1200px;
+  margin:50px auto;
+  padding:20px;
+
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:40px;
+  align-items:center;
 }
+
+/* ===== LEFT SIDE ===== */
+
+.left-side{
+  padding:20px;
+}
+
+.badge{
+  display:inline-block;
+  background:#ffe6ee;
+  color:#ff3366;
+  padding:8px 15px;
+  border-radius:30px;
+  font-size:14px;
+  margin-bottom:20px;
+  font-weight:bold;
+}
+
+.left-side h1{
+  font-size:42px;
+  line-height:1.4;
+  margin-bottom:20px;
+}
+
+.left-side p{
+  color:#666;
+  line-height:1.9;
+  font-size:17px;
+  margin-bottom:30px;
+}
+
+/* ===== FEATURES ===== */
+
+.features{
+  display:flex;
+  flex-direction:column;
+  gap:18px;
+}
+
+.feature{
+  background:white;
+  padding:18px;
+  border-radius:14px;
+  box-shadow:0 5px 20px rgba(0,0,0,.05);
+
+  display:flex;
+  align-items:center;
+  gap:15px;
+
+  transition:.3s;
+}
+
+.feature:hover{
+  transform:translateY(-3px);
+}
+
+.feature-icon{
+  width:50px;
+  height:50px;
+  border-radius:12px;
+  background:#f5f0ff;
+
+  display:flex;
+  align-items:center;
+  justify-content:center;
+
+  font-size:22px;
+}
+
+.feature h3{
+  margin-bottom:5px;
+  font-size:17px;
+}
+
+.feature p{
+  margin:0;
+  font-size:14px;
+  color:#777;
+}
+
+/* ===== REGISTER CARD ===== */
+
+.register-card{
+  background:white;
+  padding:35px;
+  border-radius:24px;
+
+  box-shadow:
+  0 10px 40px rgba(0,0,0,.08);
+
+  position:relative;
+  overflow:hidden;
+}
+
+.register-card::before{
+  content:"";
+  position:absolute;
+  top:0;
+  left:0;
+  width:100%;
+  height:6px;
+
+  background:
+  linear-gradient(to left,#ff3366,#7b61ff);
+}
+
+.register-card h2{
+  font-size:30px;
+  margin-bottom:10px;
+}
+
+.register-card .subtitle{
+  color:#777;
+  margin-bottom:30px;
+  line-height:1.7;
+}
+
+/* ===== INPUTS ===== */
+
+.input-group{
+  margin-bottom:18px;
+}
+
+.input-group label{
+  display:block;
+  margin-bottom:8px;
+  font-weight:bold;
+  color:#444;
+}
+
+.input-box{
+  position:relative;
+}
+
+.input-box span{
+  position:absolute;
+  right:15px;
+  top:50%;
+  transform:translateY(-50%);
+  color:#999;
+  font-size:18px;
+}
+
+.input-box input{
+  width:100%;
+  height:52px;
+
+  border:1px solid #ddd;
+  border-radius:14px;
+
+  padding:0 45px 0 15px;
+
+  font-size:15px;
+  transition:.3s;
+  background:#fafafa;
+}
+
+.input-box input:focus{
+  outline:none;
+  border-color:#7b61ff;
+  background:white;
+
+  box-shadow:
+  0 0 0 4px rgba(123,97,255,.12);
+}
+
+/* ===== PASSWORD STRENGTH ===== */
+
+.password-strength{
+  margin-top:8px;
+  font-size:14px;
+  font-weight:bold;
+}
+
+/* ===== TERMS ===== */
+
+.terms{
+  display:flex;
+  align-items:flex-start;
+  gap:10px;
+  margin:20px 0;
+  font-size:14px;
+  color:#666;
+  line-height:1.7;
+}
+
+.terms input{
+  margin-top:3px;
+}
+
+/* ===== BUTTON ===== */
+
 button{
   width:100%;
-  padding:10px;
-  background:#ff3366;
-  color:white;
+  height:55px;
+
   border:none;
-  border-radius:5px;
+  border-radius:14px;
+
+  background:
+  linear-gradient(to left,#ff3366,#7b61ff);
+
+  color:white;
+  font-size:16px;
+  font-weight:bold;
+
   cursor:pointer;
+  transition:.3s;
 }
-a{
-  display:block;
-  margin-top:10px;
+
+button:hover{
+  transform:translateY(-2px);
+
+  box-shadow:
+  0 10px 25px rgba(123,97,255,.25);
 }
-#msg{color:red;}
-/* ===== الفوتر (مطابق لـ index.html) ===== */
+
+/* ===== MESSAGE ===== */
+
+#msg{
+  margin-top:18px;
+  text-align:center;
+  font-weight:bold;
+}
+
+/* ===== LOGIN LINK ===== */
+
+.login-link{
+  margin-top:25px;
+  text-align:center;
+  color:#666;
+}
+
+.login-link a{
+  color:#ff3366;
+  font-weight:bold;
+  text-decoration:none;
+}
+
+/* ===== SECURITY BOX ===== */
+
+.security-box{
+  margin-top:25px;
+  background:#f8f5ff;
+  border:1px solid #ece6ff;
+  padding:15px;
+  border-radius:14px;
+  font-size:14px;
+  color:#666;
+  text-align:center;
+}
+
+/* ===== FOOTER ===== */
+
 footer{
   background:#222;
   color:white;
   text-align:center;
-  padding:20px;
-  margin-top:40px;
+  padding:25px;
+  margin-top:60px;
 }
 
 footer a{
   color:#ffd000;
   text-decoration:none;
-  margin: 0 10px;
-}footer a:hover{
+  margin:0 10px;
+}
+
+footer a:hover{
   text-decoration:underline;
 }
+
+/* ===== RESPONSIVE ===== */
+
+@media(max-width:950px){
+
+  .main-section{
+    grid-template-columns:1fr;
+  }
+
+  .left-side{
+    order:2;
+  }
+
+  .register-card{
+    order:1;
+  }
+
+}
+
+@media(max-width:600px){
+
+  header{
+    flex-direction:column;
+    gap:15px;
+  }
+
+  nav{
+    flex-wrap:wrap;
+    justify-content:center;
+  }
+
+  .left-side h1{
+    font-size:32px;
+  }
+
+  .register-card{
+    padding:25px;
+  }
+
+}
+
 </style>
 </head>
 
 <body>
-  
-<!-- ========== HEADER (موحّد) ========== -->
+
+<!-- ===== HEADER ===== -->
+
 <header>
+
   <div class="logo">Baro</div>
 
   <nav>
@@ -101,55 +398,375 @@ footer a{
     <a href="login.html">تسجيل الدخول</a>
     <a href="faq.html">الأسئلة الشائعة</a>
   </nav>
+
 </header>
 
-<div class="container">
-  <h2>🆕 إنشاء حساب تاجر</h2>
+<!-- ===== MAIN SECTION ===== -->
 
-  <input id="name" placeholder="اسم التاجر">
-  <input id="email" type="email" placeholder="البريد الإلكتروني">
-  <input id="phone" placeholder="رقم الهاتف">
-  <input id="password" type="password" placeholder="كلمة المرور">
+<section class="main-section">
 
-  <button onclick="register()">إنشاء الحساب</button>
+  <!-- ===== LEFT SIDE ===== -->
 
-  <p id="msg"></p>
+  <div class="left-side">
 
-  <a href="login.html">لديك حساب؟ تسجيل الدخول</a>
-</div>
+    <div class="badge">
+      🚀 منصة جزائرية لإدارة الطلبات
+    </div>
 
-<!-- ========== FOOTER (موحّد) ========== -->
+    <h1>
+      ابدأ بيع منتجاتك بسهولة
+      واحترافية ✨
+    </h1>
+
+    <p>
+      أنشئ حسابك وابدأ إدارة الطلبات،
+      تتبع العملاء، واستقبال الإشعارات
+      في منصة حديثة مصممة للتجار
+      في الجزائر 🇩🇿
+    </p>
+
+    <div class="features">
+
+      <div class="feature">
+        <div class="feature-icon">📦</div>
+
+        <div>
+          <h3>إدارة الطلبات</h3>
+          <p>تحكم كامل في الطلبات والحالات بسهولة.</p>
+        </div>
+      </div>
+
+      <div class="feature">
+        <div class="feature-icon">🚚</div>
+
+        <div>
+          <h3>ربط شركات التوصيل</h3>
+          <p>اختر شركة التوصيل المناسبة لمتجرك.</p>
+        </div>
+      </div>
+
+      <div class="feature">
+        <div class="feature-icon">🔔</div>
+
+        <div>
+          <h3>إشعارات فورية</h3>
+          <p>استقبل إشعارات مباشرة عند كل طلب جديد.</p>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+
+  <!-- ===== REGISTER CARD ===== -->
+
+  <div class="register-card">
+
+    <h2>🆕 إنشاء حساب</h2>
+
+    <p class="subtitle">
+      أنشئ حساب التاجر الخاص بك
+      وابدأ استخدام المنصة خلال دقائق.
+    </p>
+
+    <!-- NAME -->
+
+    <div class="input-group">
+
+      <label>اسم التاجر</label>
+
+      <div class="input-box">
+        <span>👤</span>
+
+        <input
+        id="name"
+        placeholder="أدخل اسمك الكامل">
+      </div>
+
+    </div>
+
+    <!-- EMAIL -->
+
+    <div class="input-group">
+
+      <label>البريد الإلكتروني</label>
+
+      <div class="input-box">
+        <span>📧</span>
+
+        <input
+        id="email"
+        type="email"
+        placeholder="example@email.com">
+      </div>
+
+    </div>
+
+    <!-- PHONE -->
+
+    <div class="input-group">
+
+      <label>رقم الهاتف</label>
+
+      <div class="input-box">
+        <span>📱</span>
+
+        <input
+        id="phone"
+        placeholder="05XXXXXXXX">
+      </div>
+
+    </div>
+
+    <!-- PASSWORD -->
+
+    <div class="input-group">
+
+      <label>كلمة المرور</label>
+
+      <div class="input-box">
+        <span>🔒</span>
+
+        <input
+        id="password"
+        type="password"
+        placeholder="أدخل كلمة مرور قوية"
+        oninput="checkPasswordStrength()">
+      </div>
+
+      <div
+      class="password-strength"
+      id="strength">
+      </div>
+
+    </div>
+
+    <!-- TERMS -->
+
+    <div class="terms">
+
+      <input type="checkbox" id="terms">
+
+      <label for="terms">
+        أوافق على الشروط وسياسة الخصوصية
+      </label>
+
+    </div>
+
+    <!-- BUTTON -->
+
+    <button id="registerBtn" onclick="register()">
+      إنشاء الحساب
+    </button>
+
+    <!-- MESSAGE -->
+
+    <p id="msg"></p>
+
+    <!-- LOGIN LINK -->
+
+    <div class="login-link">
+      لديك حساب بالفعل؟
+      <a href="login.html">
+        تسجيل الدخول
+      </a>
+    </div>
+
+    <!-- SECURITY -->
+
+    <div class="security-box">
+      🔐 بياناتك محمية ومشفرة بالكامل
+    </div>
+
+  </div>
+
+</section>
+
+<!-- ===== FOOTER ===== -->
+
 <footer>
+
   <p>
     <a href="#">À propos</a> |
     <a href="#">Contact</a>
   </p>
-  <p>© 2026 Baro - جميع الحقوق محفوظة</p>
+
+  <p>
+    © 2026 Baro - جميع الحقوق محفوظة
+  </p>
+
 </footer>
 
 <script>
+
+/* ===== PASSWORD STRENGTH ===== */
+
+function checkPasswordStrength(){
+
+  const password =
+  document.getElementById("password").value;
+
+  const strength =
+  document.getElementById("strength");
+
+  if(password.length < 6){
+
+    strength.textContent =
+    "ضعيفة 🔴";
+
+    strength.style.color = "red";
+
+  }
+
+  else if(password.length < 10){
+
+    strength.textContent =
+    "متوسطة 🟡";
+
+    strength.style.color = "orange";
+
+  }
+
+  else{
+
+    strength.textContent =
+    "قوية 🟢";
+
+    strength.style.color = "green";
+
+  }
+
+}
+
+/* ===== REGISTER ===== */
+
 function register(){
-  const name = document.getElementById("name").value;
-  const email = document.getElementById("email").value;
-  const phone = document.getElementById("phone").value;
-  const password = document.getElementById("password").value;
+
+  const name =
+  document.getElementById("name").value;
+
+  const email =
+  document.getElementById("email").value;
+
+  const phone =
+  document.getElementById("phone").value;
+
+  const password =
+  document.getElementById("password").value;
+
+  const terms =
+  document.getElementById("terms").checked;
+
+  const msg =
+  document.getElementById("msg");
+
+  const btn =
+  document.getElementById("registerBtn");
+
+  // VALIDATION
+
+  if(!name || !email || !phone || !password){
+
+    msg.textContent =
+    "⚠️ يرجى ملء جميع الحقول";
+
+    msg.style.color = "red";
+
+    return;
+  }
+
+  if(!terms){
+
+    msg.textContent =
+    "⚠️ يجب الموافقة على الشروط";
+
+    msg.style.color = "red";
+
+    return;
+  }
+
+  // LOADING
+
+  btn.disabled = true;
+
+  btn.innerHTML =
+  "⏳ جاري إنشاء الحساب...";
 
   fetch("https://order-platform-2.onrender.com/merchant/register", {
+
     method:"POST",
-    headers:{"Content-Type":"application/json"},
-    body: JSON.stringify({name, email, phone, password})
+
+    headers:{
+      "Content-Type":"application/json"
+    },
+
+    body: JSON.stringify({
+      name,
+      email,
+      phone,
+      password
+    })
+
   })
+
   .then(res => res.json())
+
   .then(data => {
+
     if(data.error){
-      document.getElementById("msg").textContent = data.error;
-    } else {
-      alert("تم إنشاء الحساب بنجاح ✅");
-      window.location = "login.html";
+
+      msg.textContent =
+      "❌ " + data.error;
+
+      msg.style.color = "red";
+
+      btn.disabled = false;
+
+      btn.innerHTML =
+      "إنشاء الحساب";
+
     }
+
+    else{
+
+      msg.textContent =
+      "✅ تم إنشاء الحساب بنجاح...";
+
+      msg.style.color = "green";
+
+      btn.innerHTML =
+      "✅ تم بنجاح";
+
+      setTimeout(()=>{
+
+        window.location =
+        "login.html";
+
+      },1500);
+
+    }
+
   })
-  .catch(err => console.error(err));
+
+  .catch(err => {
+
+    console.error(err);
+
+    msg.textContent =
+    "حدث خطأ في الاتصال بالسيرفر";
+
+    msg.style.color = "red";
+
+    btn.disabled = false;
+
+    btn.innerHTML =
+    "إنشاء الحساب";
+
+  });
+
 }
+
 </script>
+
 </body>
 </html>
