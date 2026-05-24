@@ -2,104 +2,286 @@
 <html lang="ar">
 <head>
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <title>تسجيل دخول التاجر</title>
+
 <style>
+
+*{
+  box-sizing:border-box;
+}
+
 body{
   margin:0;
-  font-family: Arial, sans-serif;
-  background:#f4f4f9;
+  font-family:Arial,sans-serif;
   direction:rtl;
+
+  background:
+  radial-gradient(circle at top right,#ffe3ea,#f4f4f9 40%);
+
+  min-height:100vh;
+  display:flex;
+  flex-direction:column;
 }
 
-/* ===== الهيدر (مطابق لـ index.html) ===== */
-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  background: white;
-  padding: 15px 40px;
-  box-shadow: 0 2px 10px rgba(0,0,0,.1);
-}
+/* ===== HEADER ===== */
 
-.logo {
-  font-size: 22px;
-  font-weight: bold;
-  color: #ff3366;
-}
-nav {
-  display: flex;          /* ← هذا هو المفتاح */
-  align-items: center;
-}
-nav a {
-  margin: 0 10px;
-  text-decoration: none;
-  color: #333;
-  font-weight: 600;
-}
-
-nav a:hover {
-  color: #ff3366;
-}
-
-/* ===== نافذة تسجيل الدخول ===== */
-.container{
-  width:360px;
-  margin:70px auto;
+header{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
   background:white;
-  padding:30px;
-  border-radius:12px;
-  box-shadow:0 5px 15px rgba(0,0,0,.1);
-  text-align:center;
+  padding:15px 40px;
+  box-shadow:0 2px 10px rgba(0,0,0,.08);
 }
 
-input{
-  width:100%;
-  padding:10px;
-  margin:10px 0;
-  border:1px solid #ddd;
-  border-radius:8px;
-}
-
-button{
-  width:100%;
-  padding:12px;
-  background:#ff3366;
-  color:white;
-  border:none;
-  border-radius:8px;
+.logo{
+  font-size:24px;
   font-weight:bold;
+  color:#6C63FF;
+}
+
+nav{
+  display:flex;
+  align-items:center;
+}
+
+nav a{
+  margin:0 10px;
+  text-decoration:none;
+  color:#333;
+  font-weight:600;
+  transition:.3s;
+}
+
+nav a:hover{
+  color:#6C63FF;
+}
+
+/* ===== MAIN LAYOUT ===== */
+
+.page{
+  flex:1;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:60px;
+  padding:40px;
+  flex-wrap:wrap;
+}
+
+/* ===== LEFT SIDE ===== */
+
+.side-info{
+  max-width:450px;
+}
+
+.side-info h1{
+  font-size:42px;
+  margin-bottom:20px;
+  color:#222;
+  line-height:1.4;
+}
+
+.side-info p{
+  color:#555;
+  line-height:1.9;
+  font-size:16px;
+}
+
+.features{
+  margin-top:30px;
+}
+
+.feature{
+  background:white;
+  padding:14px;
+  border-radius:12px;
+  margin-bottom:12px;
+  box-shadow:0 2px 10px rgba(0,0,0,.05);
+  display:flex;
+  align-items:center;
+  gap:10px;
+}
+
+/* ===== LOGIN BOX ===== */
+
+.container{
+  width:400px;
+  max-width:95%;
+  background:white;
+  padding:35px;
+  border-radius:20px;
+  box-shadow:0 10px 30px rgba(0,0,0,.08);
+
+  transition:.3s;
+}
+
+.container:hover{
+  transform:translateY(-4px);
+}
+
+.container h2{
+  margin-bottom:10px;
+  color:#222;
+}
+
+.subtitle{
+  color:#666;
+  font-size:14px;
+  line-height:1.7;
+  margin-bottom:25px;
+}
+
+/* ===== INPUTS ===== */
+
+.input-box{
+  display:flex;
+  align-items:center;
+  background:#f8f8f8;
+  border:1px solid #ddd;
+  border-radius:12px;
+  padding:0 12px;
+  margin:15px 0;
+  transition:.3s;
+}
+
+.input-box:focus-within{
+  border-color:#6C63FF;
+  box-shadow:0 0 0 4px rgba(255,51,102,.12);
+}
+
+.input-box span{
+  font-size:18px;
+}
+
+.input-box input{
+  width:100%;
+  border:none;
+  background:transparent;
+  padding:14px;
+  outline:none;
+  font-size:14px;
+}
+
+.toggle-pass{
   cursor:pointer;
 }
 
-a{
-  display:block;
-  margin-top:12px;
-  color:#ff3366;
+/* ===== OPTIONS ===== */
+
+.options{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin:15px 0 25px;
+  font-size:14px;
 }
 
-#msg{color:red;}
+.options a{
+  color:#6C63FF;
+  text-decoration:none;
+}
 
-/* ===== الفوتر (مطابق لـ index.html) ===== */
+/* ===== BUTTON ===== */
+
+button{
+  width:100%;
+  padding:14px;
+  border:none;
+  border-radius:12px;
+
+  background:
+  linear-gradient(135deg,#6C63FF,#ff6b81);
+
+  color:white;
+  font-size:15px;
+  font-weight:bold;
+  cursor:pointer;
+
+  transition:.3s;
+}
+
+button:hover{
+  transform:translateY(-2px);
+
+  box-shadow:
+  0 8px 20px rgba(255,51,102,.25);
+}
+
+/* ===== TRUST TEXT ===== */
+
+.trust{
+  margin-top:18px;
+  text-align:center;
+  color:#777;
+  font-size:13px;
+}
+
+/* ===== REGISTER LINK ===== */
+
+.register-link{
+  margin-top:20px;
+  text-align:center;
+}
+
+.register-link a{
+  color:#6C63FF;
+  text-decoration:none;
+  font-weight:bold;
+}
+
+/* ===== ERROR MSG ===== */
+
+#msg{
+  color:perple;
+  margin-top:15px;
+  text-align:center;
+}
+
+/* ===== FOOTER ===== */
+
 footer{
   background:#222;
   color:white;
   text-align:center;
   padding:20px;
-  margin-top:40px;
 }
 
 footer a{
   color:#ffd000;
   text-decoration:none;
-  margin: 0 10px;
+  margin:0 10px;
 }
+
+/* ===== MOBILE ===== */
+
+@media(max-width:900px){
+
+  .page{
+    padding:20px;
+  }
+
+  .side-info{
+    text-align:center;
+  }
+
+  .side-info h1{
+    font-size:32px;
+  }
+
+}
+
 </style>
 </head>
 
 <body>
 
-<!-- ========== HEADER (موحّد) ========== -->
+<!-- ===== HEADER ===== -->
+
 <header>
+
   <div class="logo">Baro</div>
 
   <nav>
@@ -108,58 +290,255 @@ footer a{
     <a href="login.html">تسجيل الدخول</a>
     <a href="faq.html">الأسئلة الشائعة</a>
   </nav>
+
 </header>
 
-<!-- ========== محتوى الصفحة ========== -->
-<div class="container">
-  <h2>🔐 تسجيل دخول التاجر</h2>
+<!-- ===== PAGE ===== -->
 
-  <input id="email" type="email" placeholder="البريد الإلكتروني">
-  <input id="password" type="password" placeholder="كلمة المرور">
+<div class="page">
 
-  <button onclick="login()">تسجيل الدخول</button>
+  <!-- ===== LEFT SIDE ===== -->
 
-  <p id="msg"></p>
+  <div class="side-info">
 
-  <a href="register.html">ليس لديك حساب؟ إنشاء حساب</a>
+    <h1>
+      إدارة طلباتك أصبحت أسهل مع Baro
+    </h1>
+
+    <p>
+      منصة ذكية تساعد التجار على إدارة الطلبات،
+      متابعة العملاء،
+      واستلام الإشعارات بشكل فوري
+      عبر لوحة تحكم احترافية وسهلة الاستخدام.
+    </p>
+
+  
+
+  </div>
+
+  <!-- ===== LOGIN BOX ===== -->
+
+  <div class="container">
+
+    <h2>🔐 تسجيل دخول التاجر</h2>
+
+    <p class="subtitle">
+      أدخل إلى لوحة التحكم الخاصة بك لإدارة الطلبات
+      والمنتجات بسهولة.
+    </p>
+
+    <!-- EMAIL -->
+
+    <div class="input-box">
+
+      <span>📧</span>
+
+      <input
+        id="email"
+        type="email"
+        placeholder="البريد الإلكتروني"
+      >
+
+    </div>
+
+    <!-- PASSWORD -->
+
+    <div class="input-box">
+
+      <span>🔒</span>
+
+      <input
+        id="password"
+        type="password"
+        placeholder="كلمة المرور"
+      >
+
+      <span
+        class="toggle-pass"
+        onclick="togglePassword()"
+      >
+        👁️
+      </span>
+
+    </div>
+
+    <!-- OPTIONS -->
+
+    <div class="options">
+
+      <label>
+        <input type="checkbox">
+        تذكرني
+      </label>
+
+      <a href="#">
+        نسيت كلمة المرور؟
+      </a>
+
+    </div>
+
+    <!-- BUTTON -->
+
+    <button
+      id="loginBtn"
+      onclick="login()"
+    >
+      تسجيل الدخول
+    </button>
+
+    <!-- ERROR -->
+
+    <p id="msg"></p>
+
+    <!-- TRUST -->
+
+    <p class="trust">
+      🔒 بياناتك محمية ومشفرة بالكامل
+    </p>
+
+    <!-- REGISTER -->
+
+    <div class="register-link">
+
+      ليس لديك حساب؟
+
+      <a href="register.html">
+        إنشاء حساب
+      </a>
+
+    </div>
+
+  </div>
+
 </div>
 
-<!-- ========== FOOTER (موحّد) ========== -->
+<!-- ===== FOOTER ===== -->
+
 <footer>
+
   <p>
     <a href="#">À propos</a> |
     <a href="#">Contact</a>
   </p>
-  <p>© 2026 Baro - جميع الحقوق محفوظة</p>
+
+  <p>
+    © 2026 Baro - جميع الحقوق محفوظة
+  </p>
+
 </footer>
 
 <script>
-function login(){
-  const email = document.getElementById("email").value;
-  const password = document.getElementById("password").value;
 
-  fetch("https://order-platform-2.onrender.com/merchant/login", {
-    method:"POST",
-    headers:{"Content-Type":"application/json"},
-    body: JSON.stringify({email, password})
-  })
-  .then(res => res.json())
-  .then(data => {
-    if(data.error){
-      document.getElementById("msg").textContent = data.error;
-    } else {
-      // ✅ حفظ التوكن ومعرّف التاجر بعد نجاح الدخول
-      localStorage.setItem("token", data.token);
-      localStorage.setItem("merchantId", data.merchant.id);
+/* ===== SHOW / HIDE PASSWORD ===== */
 
-      // الانتقال للوحة التاجر
-      window.location = "dashboard.html";
-    }
-  })
-  .catch(err => console.error(err));
+function togglePassword(){
+
+  const pass =
+    document.getElementById("password");
+
+  if(pass.type === "password"){
+    pass.type = "text";
+  }else{
+    pass.type = "password";
+  }
+
 }
-</script>
 
+/* ===== LOGIN ===== */
+
+async function login(){
+
+  const btn =
+    document.getElementById("loginBtn");
+
+  const msg =
+    document.getElementById("msg");
+
+  const email =
+    document.getElementById("email").value;
+
+  const password =
+    document.getElementById("password").value;
+
+  if(!email || !password){
+
+    msg.textContent =
+      "يرجى إدخال البريد الإلكتروني وكلمة المرور";
+
+    return;
+  }
+
+  btn.disabled = true;
+
+  btn.textContent =
+    "جاري تسجيل الدخول...";
+
+  try{
+
+    const res = await fetch(
+      "https://order-platform-2.onrender.com/merchant/login",
+      {
+        method:"POST",
+
+        headers:{
+          "Content-Type":"application/json"
+        },
+
+        body:JSON.stringify({
+          email,
+          password
+        })
+      }
+    );
+
+    const data = await res.json();
+
+    if(data.error){
+
+      msg.textContent = data.error;
+
+      btn.disabled = false;
+
+      btn.textContent = "تسجيل الدخول";
+
+      return;
+    }
+
+    // SAVE TOKEN
+
+    localStorage.setItem(
+      "token",
+      data.token
+    );
+
+    localStorage.setItem(
+      "merchantId",
+      data.merchant.id
+    );
+
+    // REDIRECT
+
+    window.location =
+      "dashboard.html";
+
+  }
+
+  catch(err){
+
+    console.error(err);
+
+    msg.textContent =
+      "حدث خطأ أثناء تسجيل الدخول";
+
+    btn.disabled = false;
+
+    btn.textContent =
+      "تسجيل الدخول";
+  }
+
+}
+
+</script>
 
 </body>
 </html>
