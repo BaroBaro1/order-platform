@@ -3,76 +3,85 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>عرض المنتج</title>
+
+<title>عرض المنتج | Baro</title>
 
 <style>
-body {
+*{
   margin:0;
-  font-family: Arial, sans-serif;
-  background:#f4f4f9;
-  direction:rtl;
+  padding:0;
+  box-sizing:border-box;
 }
 
-/* ========== الهيدر (نفسه) ========== */
-.navbar {
-  background:white;
+body{
+  font-family:Arial,sans-serif;
+  background:#f5f3ff;
+  direction:rtl;
+  color:#222;
+}
+
+/* ================= HEADER ================= */
+
+.navbar{
+  background:rgba(255,255,255,.95);
+  backdrop-filter:blur(10px);
   display:flex;
   justify-content:space-between;
   align-items:center;
-  padding:12px 30px;
-  box-shadow:0 2px 8px rgba(0,0,0,.1);
+  padding:14px 30px;
+  box-shadow:0 2px 10px rgba(0,0,0,.05);
+  position:sticky;
+  top:0;
+  z-index:100;
 }
 
 .right-side{
   display:flex;
   align-items:center;
-  gap:10px;
+  gap:12px;
 }
 
 .store-img{
-  width:45px;
-  height:45px;
+  width:46px;
+  height:46px;
   border-radius:50%;
   object-fit:cover;
-  border:1px solid #ddd;
+  border:2px solid #eee;
 }
+
 #welcomeText{
   font-weight:bold;
   color:#333;
 }
+
 .left-side{
   display:flex;
   align-items:center;
   gap:15px;
 }
 
-.notifications{
-  text-decoration:none;
-  font-weight:bold;
-  font-size:20px;
-  cursor:pointer;
+.notification-wrapper{
+  position:relative;
 }
 
-/* ===== عدّاد الإشعارات ===== */
-.notification-wrapper{
-  position: relative;
-  display: inline-block;
+.notifications{
+  text-decoration:none;
+  font-size:22px;
 }
 
 .badge{
   position:absolute;
-  top:-5px;
-  right:-5px;
-  background:red;
+  top:-6px;
+  right:-6px;
+  background:#ff3366;
   color:white;
-  font-size:12px;
   width:18px;
   height:18px;
   border-radius:50%;
+  font-size:11px;
   display:flex;
   align-items:center;
   justify-content:center;
-  font-weight:bold;
 }
 
 .logout{
@@ -82,348 +91,962 @@ body {
 }
 
 .logo{
-  font-size:22px;
+  font-size:24px;
   font-weight:bold;
-  color:#ff3366;
+  color:#7c3aed;
 }
 
-/* ========== تخطيط الصفحة ========== */
+/* ================= LAYOUT ================= */
+
 .layout{
   display:flex;
 }
 
-/* ========== القائمة الجانبية ========== */
+/* ================= SIDEBAR ================= */
+
 .sidebar{
-  width:230px;
-  background:#cbced2;
+  width:240px;
   min-height:100vh;
+  background:white;
   padding-top:20px;
+  border-left:1px solid #eee;
 }
 
 .sidebar a{
   display:block;
-  color:black;
+  margin:8px 14px;
+  padding:14px;
+  border-radius:12px;
   text-decoration:none;
-  padding:12px 20px;
-  margin:5px 10px;
-  border-radius:8px;
+  color:#333;
+  font-weight:600;
+  transition:.3s;
 }
 
 .sidebar a:hover{
-  background:#adadab;
+  background:#f3e8ff;
+  color:#7c3aed;
 }
 
-/* ========== المحتوى الرئيسي ========== */
+.sidebar a.active{
+  background:linear-gradient(135deg,#7c3aed,#8b5cf6);
+  color:white;
+}
+
+/* ================= MAIN ================= */
+
 .main{
   flex:1;
-  padding:25px;
+  padding:30px;
 }
 
-/* ===== كارد المنتج ===== */
-.product-card{
-  max-width: 750px;
-  margin: 0 auto;
+/* ================= BREADCRUMB ================= */
+
+.breadcrumb{
+  color:#777;
+  margin-bottom:20px;
+  font-size:14px;
+}
+
+/* ================= PRODUCT HERO ================= */
+
+.product-hero{
   background:white;
+  border-radius:24px;
   padding:25px;
-  border-radius:12px;
-  box-shadow:0 5px 15px rgba(0,0,0,.1);
+  box-shadow:0 10px 30px rgba(124,58,237,.08);
+  display:grid;
+  grid-template-columns:300px 1fr;
+  gap:30px;
+  margin-bottom:25px;
 }
 
-/* ===== صورة المنتج (حجم مناسب) ===== */
+.product-image-box{
+  background:#faf5ff;
+  border-radius:20px;
+  padding:20px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+
 .product-img{
-  width: 250px;      /* صغّرنا العرض */
-  max-width: 100%;   /* حتى لا تخرج من الكارد */
-  height: auto;      /* يحافظ على النسبة */
-  border-radius: 12px;
-  display:block;
-  margin: 10px auto; /* توسيط الصورة */
-}
-
-input, textarea, button{
   width:100%;
-  padding:10px;
-  margin:8px 0;
-  border-radius:6px;
-  border:1px solid #ccc;
+  max-width:240px;
+  border-radius:18px;
+  object-fit:cover;
+  aspect-ratio:1/1;
+  transition:.3s;
 }
 
-.save-btn{
-  background:#28a745;
+.product-img:hover{
+  transform:scale(1.03);
+}
+
+.product-info{
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+}
+
+.top-row{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:15px;
+  flex-wrap:wrap;
+}
+
+.product-title{
+  font-size:32px;
+  margin-bottom:8px;
+}
+
+.badges{
+  display:flex;
+  gap:10px;
+  margin-top:10px;
+}
+
+.badge-box{
+  background:#f3e8ff;
+  color:#7c3aed;
+  padding:8px 14px;
+  border-radius:30px;
+  font-size:14px;
+  font-weight:bold;
+}
+
+.price{
+  font-size:30px;
+  color:#ff3366;
+  font-weight:bold;
+  margin-top:20px;
+}
+
+.quick-actions{
+  display:flex;
+  gap:12px;
+  margin-top:25px;
+  flex-wrap:wrap;
+}
+
+.action-btn{
+  border:none;
+  padding:12px 18px;
+  border-radius:12px;
+  cursor:pointer;
+  font-weight:bold;
+  transition:.3s;
+}
+
+.primary-btn{
+  background:linear-gradient(135deg,#7c3aed,#8b5cf6);
+  color:white;
+}
+
+.primary-btn:hover{
+  transform:translateY(-2px);
+}
+
+.secondary-btn{
+  background:#f3f4f6;
+}
+
+.secondary-btn:hover{
+  background:#e5e7eb;
+}
+
+/* ================= GRID ================= */
+
+.content-grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:20px;
+}
+
+/* ================= CARDS ================= */
+
+.card{
+  background:white;
+  border-radius:22px;
+  padding:24px;
+  box-shadow:0 10px 25px rgba(0,0,0,.05);
+  transition:.3s;
+}
+
+.card:hover{
+  transform:translateY(-3px);
+}
+
+.card h3{
+  margin-bottom:20px;
+  color:#7c3aed;
+}
+
+/* ================= STATS ================= */
+
+.stats{
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:15px;
+}
+
+.stat-box{
+  background:#faf5ff;
+  padding:18px;
+  border-radius:16px;
+  text-align:center;
+}
+
+.stat-box span{
+  display:block;
+  color:#777;
+  margin-bottom:8px;
+}
+
+.stat-box strong{
+  font-size:20px;
+  color:#7c3aed;
+}
+
+/* ================= FEATURES ================= */
+
+.features-container{
+  display:flex;
+  flex-wrap:wrap;
+  gap:12px;
+}
+
+.feature-card{
+  background:#faf5ff;
+  border:1px solid #ede9fe;
+  padding:12px 14px;
+  border-radius:14px;
+}
+
+.feature-title{
+  color:#7c3aed;
+  font-weight:bold;
+  margin-bottom:8px;
+}
+
+.feature-values{
+  display:flex;
+  flex-wrap:wrap;
+  gap:8px;
+}
+
+.tag{
+  background:white;
+  padding:6px 10px;
+  border-radius:20px;
+  font-size:13px;
+}
+
+/* ================= EDIT MODE ================= */
+
+input,
+textarea{
+  width:100%;
+  padding:12px;
+  border-radius:12px;
+  border:1px solid #ddd;
+  margin-top:8px;
+  margin-bottom:16px;
+  background:#fafafa;
+  transition:.3s;
+}
+
+input:focus,
+textarea:focus{
+  outline:none;
+  border-color:#8b5cf6;
+  background:white;
+}
+
+textarea{
+  min-height:120px;
+  resize:vertical;
+}
+
+.feature-row{
+  border:1px solid #eee;
+  padding:15px;
+  border-radius:14px;
+  margin-bottom:14px;
+  background:#fafafa;
+}
+
+.remove-btn{
+  background:#ef4444;
   color:white;
   border:none;
+  padding:8px 12px;
+  border-radius:10px;
   cursor:pointer;
 }
 
-.save-btn:hover{
-  background:#218838;
+/* ================= LINK BOX ================= */
+
+.link-box{
+  display:flex;
+  gap:10px;
+  margin-top:15px;
 }
 
-/* ===== الفوتر ===== */
-footer {
-  background: #222;
-  color: white;
-  text-align: center;
-  padding: 20px;
-  margin-top: 40px;
+.link-box input{
+  margin:0;
 }
-footer a {
-  color: #ffd000;
-  text-decoration: none;
-  margin: 0 10px;
+
+.copy-btn{
+  background:#ff3366;
+  color:white;
+  border:none;
+  padding:12px 16px;
+  border-radius:12px;
+  cursor:pointer;
+}
+
+/* ================= STATUS ================= */
+
+#status{
+  margin-top:20px;
+  font-weight:bold;
+  color:#16a34a;
+}
+
+/* ================= FOOTER ================= */
+
+footer{
+  background:#222;
+  color:white;
+  text-align:center;
+  padding:22px;
+  margin-top:40px;
+}
+
+footer a{
+  color:#ffd000;
+  text-decoration:none;
+  margin:0 10px;
+}
+
+/* ================= RESPONSIVE ================= */
+
+@media(max-width:1000px){
+
+  .layout{
+    flex-direction:column;
+  }
+
+  .sidebar{
+    width:100%;
+    min-height:auto;
+    display:flex;
+    overflow:auto;
+    padding:10px;
+  }
+
+  .product-hero{
+    grid-template-columns:1fr;
+  }
+
+  .content-grid{
+    grid-template-columns:1fr;
+  }
+}
+
+@media(max-width:700px){
+
+  .navbar{
+    padding:14px;
+  }
+
+  .main{
+    padding:15px;
+  }
+
+  .product-title{
+    font-size:24px;
+  }
+
+  .price{
+    font-size:24px;
+  }
+
+  .quick-actions{
+    flex-direction:column;
+  }
+
+  .action-btn{
+    width:100%;
+  }
 }
 </style>
 </head>
 
 <body>
 
-<!-- ========== HEADER ========== -->
+<!-- ================= HEADER ================= -->
+
 <div class="navbar">
+
   <div class="right-side">
-    <img id="storeImg" src="https://via.placeholder.com/45" class="store-img">
-    <span id="welcomeText">مرحبًا، التاجر</span>
+    <img id="storeImg"
+         src="https://via.placeholder.com/45"
+         class="store-img">
+
+    <span id="welcomeText">
+      مرحبًا، التاجر
+    </span>
   </div>
 
   <div class="left-side">
+
     <div class="notification-wrapper">
-      <a class="notifications" href="notifications.html">🔔</a>
-      <span id="notifBadge" class="badge" style="display:none;">0</span>
+      <a class="notifications"
+         href="notifications.html">🔔</a>
+
+      <span id="notifBadge"
+            class="badge"
+            style="display:none;">0</span>
     </div>
-    <a class="logout" href="login.html">تسجيل الخروج</a>
+
+    <a class="logout"
+       href="login.html">
+      تسجيل الخروج
+    </a>
+
     <div class="logo">Baro</div>
   </div>
 </div>
 
+<!-- ================= LAYOUT ================= -->
+
 <div class="layout">
 
-  <!-- ===== SIDEBAR ===== -->
+  <!-- SIDEBAR -->
+
   <div class="sidebar">
     <a href="dashboard.html">🏠 لوحة التحكم</a>
     <a href="allorders.html">🛒 الطلبات</a>
     <a href="settings.html">⚙️ الإعدادات</a>
     <a href="addProduct.html">➕ إضافة منتج</a>
+    <a href="#" class="active">📦 المنتج</a>
   </div>
 
-  <!-- ===== المحتوى الرئيسي ===== -->
+  <!-- MAIN -->
+
   <div class="main">
 
-    <div class="product-container">
+    <div class="breadcrumb">
+      لوحة التحكم / المنتجات / عرض المنتج
+    </div>
 
-  <!-- صورة المنتج -->
-  <div class="product-header">
-        <button id="editBtn" onclick="enableEdit()">✏️ تعديل المنتج</button>
+    <!-- PRODUCT HERO -->
 
-    <img id="productImage" src="" class="product-img">
+    <div class="product-hero">
+
+      <div class="product-image-box">
+        <img id="productImage"
+             src=""
+             class="product-img">
+      </div>
+
+      <div class="product-info">
+
+        <div class="top-row">
+
+          <div>
+            <h1 class="product-title"
+                id="v_name">
+            </h1>
+
+            <div class="badges">
+              <div class="badge-box"
+                   id="v_category">
+              </div>
+
+              <div class="badge-box">
+                ✅ نشط
+              </div>
+            </div>
+          </div>
+
+          <div class="price">
+            <span id="v_price"></span> دج
+          </div>
+        </div>
+
+        <div class="quick-actions">
+
+          <button class="action-btn primary-btn"
+                  id="editBtn"
+                  onclick="enableEdit()">
+            ✏️ تعديل المنتج
+          </button>
+
+          <button class="action-btn secondary-btn"
+                  onclick="openOrderPage()">
+            🌍 فتح صفحة الطلب
+          </button>
+
+        </div>
+
+        <!-- PRODUCT LINK -->
+
+        <div class="link-box">
+
+          <input type="text"
+                 id="productLink"
+                 readonly>
+
+          <button class="copy-btn"
+                  onclick="copyLink()">
+            نسخ
+          </button>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- CONTENT GRID -->
+
+    <div class="content-grid">
+
+      <!-- DESCRIPTION -->
+
+      <div class="card">
+
+        <h3>📝 وصف المنتج</h3>
+
+        <div id="viewMode">
+
+          <p id="v_desc"
+             style="line-height:1.9;color:#555;">
+          </p>
+
+        </div>
+
+        <div id="editMode"
+             style="display:none;">
+
+          <label>اسم المنتج</label>
+          <input id="e_name">
+
+          <label>الصنف</label>
+          <input id="e_category">
+
+          <label>السعر</label>
+          <input id="e_price">
+
+          <label>الوصف</label>
+          <textarea id="e_desc"></textarea>
+
+        </div>
+      </div>
+
+      <!-- STATS -->
+
+      <div class="card">
+
+        <h3>📊 معلومات سريعة</h3>
+
+        <div class="stats">
+
+          <div class="stat-box">
+            <span>رقم المنتج</span>
+            <strong id="productIdStat"></strong>
+          </div>
+
+          <div class="stat-box">
+            <span>عدد الميزات</span>
+            <strong id="featuresCount">0</strong>
+          </div>
+
+          <div class="stat-box">
+            <span>الحالة</span>
+            <strong>نشط</strong>
+          </div>
+
+          <div class="stat-box">
+            <span>السعر</span>
+            <strong id="priceStat"></strong>
+          </div>
+
+        </div>
+      </div>
+
+    </div>
+
+    <!-- FEATURES -->
+
+    <div class="card"
+         style="margin-top:20px;">
+
+      <h3>⭐ ميزات المنتج</h3>
+
+      <div id="v_features"
+           class="features-container">
+      </div>
+
+      <div id="e_features"
+           style="display:none;margin-top:20px;">
+      </div>
+
+      <div id="editFeaturesActions"
+           style="display:none;">
+
+        <button class="action-btn primary-btn"
+                onclick="addFeatureField()">
+          ➕ إضافة ميزة
+        </button>
+
+        <button class="action-btn primary-btn"
+                onclick="saveChanges()">
+          💾 حفظ التغييرات
+        </button>
+
+      </div>
+
+    </div>
+
+    <p id="status"></p>
+
   </div>
-
-  <!-- عرض المعلومات -->
-  <div id="viewMode">
-    <h2 id="v_name"></h2>
-    <p><b>الصنف:</b> <span id="v_category"></span></p>
-    <p><b>السعر:</b> <span id="v_price"></span> دج</p>
-    <p><b>الوصف:</b></p>
-    <p id="v_desc"></p>
-
-    <h3>الميزات</h3>
-    <div id="v_features"></div>
-  </div>
-
-  <!-- وضع التعديل (مخفي في البداية) -->
-  <div id="editMode" style="display:none">
-
-    <label>اسم المنتج</label>
-    <input id="e_name">
-
-    <label>الصنف</label>
-    <input id="e_category">
-
-    <label>السعر</label>
-    <input id="e_price">
-
-    <label>الوصف</label>
-    <textarea id="e_desc"></textarea>
-
-    <h3>الميزات</h3>
-    <div id="e_features"></div>
-<button type="button" onclick="addFeatureField()"
- style="background:#007bff;color:white;border:none;padding:8px;margin-top:6px; border-radius:6px;cursor:pointer;">
-➕ إضافة ميزة جديدة
-</button>
-    <button onclick="saveChanges()" class="save-btn">💾 حفظ التغييرات</button>
-  </div>
-
 </div>
 
-</div>
-</div>
+<!-- ================= FOOTER ================= -->
+
 <footer>
-  <p>© 2026 Baro - جميع الحقوق محفوظة</p>
+
+  <p>
+    <a href="#">من نحن</a> |
+    <a href="#">اتصل بنا</a>
+  </p>
+
+  <p>
+    © 2026 Baro - جميع الحقوق محفوظة
+  </p>
+
 </footer>
 
 <script>
-    const token = localStorage.getItem("token");
+
+const token = localStorage.getItem("token");
 const merchantId = localStorage.getItem("merchantId");
 
-// حماية الصفحة
-if (!token || !merchantId) {
+if(!token || !merchantId){
   alert("الرجاء تسجيل الدخول أولاً");
   window.location = "login.html";
 }
 
-// ===== جلب بيانات التاجر مثل باقي الصفحات =====
-fetch(`https://order-platform-2.onrender.com/merchants/${merchantId}`, {
-  headers: {
-    "Authorization": `Bearer ${token}`,
-    "Content-Type": "application/json"
+/* ================= MERCHANT ================= */
+
+fetch(`https://order-platform-2.onrender.com/merchants/${merchantId}`,{
+  headers:{
+    "Authorization":`Bearer ${token}`
   }
 })
-.then(res => res.json())
-.then(merchant => {
+.then(r=>r.json())
+.then(merchant=>{
 
   document.getElementById("welcomeText").textContent =
     "مرحبًا، " + (merchant.name || "التاجر");
 
-  if (merchant.storeImage) {
+  if(merchant.storeImage){
     document.getElementById("storeImg").src =
-      "https://order-platform-2.onrender.com" + merchant.storeImage;
+      merchant.storeImage;
   }
 });
 
-// استخراج productId من الرابط
+/* ================= PRODUCT ================= */
+
 const params = new URLSearchParams(window.location.search);
+
 const productId = params.get("productId");
 
 if(!productId){
-  alert("لا يوجد معرف منتج!");
+  alert("لا يوجد منتج");
   window.location = "dashboard.html";
 }
-// تفعيل وضع التعديل
-function enableEdit(){
-  document.getElementById("viewMode").style.display = "none";
-  document.getElementById("editMode").style.display = "block";
-}
-// إلغاء التعديل والعودة لوضع العرض
-function disableEdit(){
-  document.getElementById("viewMode").style.display = "block";
-  document.getElementById("editMode").style.display = "none";
-}
-// جلب بيانات المنتج وعرضها
-fetch(`https://order-platform-2.onrender.com/merchants/${merchantId}/products/${productId}`, {
-  headers:{ Authorization: `Bearer ${token}` }
+
+document.getElementById("productIdStat").textContent =
+  productId;
+
+let currentProduct = null;
+
+fetch(`https://order-platform-2.onrender.com/merchants/${merchantId}/products/${productId}`,{
+  headers:{
+    "Authorization":`Bearer ${token}`
+  }
 })
 .then(r=>r.json())
 .then(data=>{
 
   const p = data.product || data;
 
-  // صورة
+  currentProduct = p;
+
   document.getElementById("productImage").src =
-     "https://order-platform-2.onrender.com"+(p.image||"");
+    p.image || "https://via.placeholder.com/300";
 
-  // وضع العرض
-  document.getElementById("v_name").textContent = p.name;
-  document.getElementById("v_category").textContent = p.category || "—";
-  document.getElementById("v_price").textContent = p.price;
-  document.getElementById("v_desc").textContent = p.description || "";
-  document.getElementById("v_features").textContent = p.features ? JSON.stringify(p.features) : "";
+  document.getElementById("v_name").textContent =
+    p.name;
 
-  // وضع التعديل
-  document.getElementById("e_name").value = p.name;
-  document.getElementById("e_category").value = p.category || "";
-  document.getElementById("e_price").value = p.price;
-  document.getElementById("e_desc").value = p.description || "";
-  document.getElementById("e_features").value = JSON.stringify(p.features || []);
+  document.getElementById("v_category").textContent =
+    p.category || "بدون تصنيف";
 
-  // الميزات (عرض)
+  document.getElementById("v_price").textContent =
+    p.price;
+
+  document.getElementById("priceStat").textContent =
+    p.price + " دج";
+
+  document.getElementById("v_desc").textContent =
+    p.description || "لا يوجد وصف";
+
+  document.getElementById("featuresCount").textContent =
+    (p.features || []).length;
+
+  document.getElementById("e_name").value =
+    p.name || "";
+
+  document.getElementById("e_category").value =
+    p.category || "";
+
+  document.getElementById("e_price").value =
+    p.price || "";
+
+  document.getElementById("e_desc").value =
+    p.description || "";
+
+  const productLink =
+`https://order-platform-rs51.vercel.app/order.html?link=${p.orderLink}`;
+
+  document.getElementById("productLink").value =
+    productLink;
+
+  renderFeatures(p.features || []);
+});
+
+/* ================= FEATURES ================= */
+
+function renderFeatures(features){
+
   const vF = document.getElementById("v_features");
-  vF.innerHTML="";
 
-  (p.features||[]).forEach(f=>{
-    vF.innerHTML += `<p><b>${f.name}:</b> ${f.values.join(" , ")}</p>`;
+  const eF = document.getElementById("e_features");
+
+  vF.innerHTML = "";
+
+  eF.innerHTML = "";
+
+  if(features.length === 0){
+
+    vF.innerHTML =
+      `<p style="color:#777;">لا توجد ميزات مضافة</p>`;
+
+    return;
+  }
+
+  features.forEach(f=>{
+
+    const div = document.createElement("div");
+
+    div.className = "feature-card";
+
+    div.innerHTML = `
+      <div class="feature-title">${f.name}</div>
+
+      <div class="feature-values">
+        ${f.values.map(v=>
+          `<div class="tag">${v}</div>`
+        ).join("")}
+      </div>
+    `;
+
+    vF.appendChild(div);
+
+    addFeatureField(
+      f.name,
+      f.values.join(", ")
+    );
   });
-// ملء الميزات في وضع التعديل
-const eF = document.getElementById("e_features");
-eF.innerHTML = "";
+}
 
-(p.features || []).forEach(f=>{
-  addFeatureField(f.name, f.values.join(", "));
-});
+/* ================= EDIT ================= */
 
-});
-function addFeatureField(name = "", values = "") {
-  const container = document.getElementById("e_features");
+function enableEdit(){
+
+  document.getElementById("viewMode").style.display =
+    "none";
+
+  document.getElementById("editMode").style.display =
+    "block";
+
+  document.getElementById("v_features").style.display =
+    "none";
+
+  document.getElementById("e_features").style.display =
+    "block";
+
+  document.getElementById("editFeaturesActions").style.display =
+    "block";
+
+  document.getElementById("editBtn").style.display =
+    "none";
+}
+
+/* ================= FEATURE FIELD ================= */
+
+function addFeatureField(name="",values=""){
+
+  const container =
+    document.getElementById("e_features");
 
   const div = document.createElement("div");
+
   div.className = "feature-row";
-  div.style.border = "1px solid #ddd";
-  div.style.padding = "10px";
-  div.style.marginTop = "8px";
-  div.style.borderRadius = "8px";
 
   div.innerHTML = `
-    <input placeholder="اسم الميزة (مثال: اللون)" value="${name}" class="f_name">
-    <input placeholder="القيم مفصولة بفاصلة (أحمر, أزرق)" value="${values}" class="f_values">
-    <button type="button" onclick="this.parentElement.remove()" 
-      style="background:red;color:white;border:none;padding:6px;margin-top:5px;">
-      🗑️ حذف
+
+    <label>اسم الميزة</label>
+
+    <input class="f_name"
+           value="${name}">
+
+    <label>القيم</label>
+
+    <input class="f_values"
+           value="${values}">
+
+    <button class="remove-btn"
+            onclick="this.parentElement.remove()">
+      حذف
     </button>
   `;
 
   container.appendChild(div);
 }
 
-// حفظ التعديلات
+/* ================= SAVE ================= */
+
 function saveChanges(){
 
-  const featureRows = document.querySelectorAll(".feature-row");
+  const rows =
+    document.querySelectorAll(".feature-row");
+
   let features = [];
 
-  featureRows.forEach(row => {
-    const name = row.querySelector(".f_name").value.trim();
-    const values = row.querySelector(".f_values").value
-                      .split(",")
-                      .map(v => v.trim())
-                      .filter(v => v !== "");
+  rows.forEach(row=>{
+
+    const name =
+      row.querySelector(".f_name").value.trim();
+
+    const values =
+      row.querySelector(".f_values").value
+      .split(",")
+      .map(v=>v.trim())
+      .filter(v=>v !== "");
 
     if(name && values.length > 0){
-      features.push({ name, values });
+
+      features.push({
+        name,
+        values
+      });
     }
   });
 
   const body = {
-    name: document.getElementById("e_name").value,
-    category: document.getElementById("e_category").value,
-    price: document.getElementById("e_price").value,
-    description: document.getElementById("e_desc").value,
-    features: features
+
+    name:
+      document.getElementById("e_name").value,
+
+    category:
+      document.getElementById("e_category").value,
+
+    price:
+      document.getElementById("e_price").value,
+
+    description:
+      document.getElementById("e_desc").value,
+
+    features
   };
 
   fetch(`https://order-platform-2.onrender.com/merchants/${merchantId}/products/${productId}`,{
+
     method:"PUT",
+
     headers:{
       "Content-Type":"application/json",
       "Authorization":`Bearer ${token}`
     },
-    body: JSON.stringify(body)
+
+    body:JSON.stringify(body)
   })
+
   .then(r=>r.json())
+
   .then(()=>{
-    alert("تم حفظ التعديلات ✅");
-    location.reload();
+
+    document.getElementById("status").textContent =
+      "تم حفظ التعديلات بنجاح ✅";
+
+    setTimeout(()=>{
+      location.reload();
+    },1000);
   });
 }
 
-// ===== عدّاد الإشعارات =====
-fetch(`https://order-platform-2.onrender.com/merchants/${merchantId}/notifications`)
-.then(res => res.json())
-.then(notifs => {
-  const unread = notifs.filter(n => !n.isRead).length;
-  const badge = document.getElementById("notifBadge");
+/* ================= COPY LINK ================= */
+
+function copyLink(){
+
+  navigator.clipboard.writeText(
+    document.getElementById("productLink").value
+  );
+
+  document.getElementById("status").textContent =
+    "تم نسخ الرابط بنجاح ✅";
+}
+
+/* ================= OPEN PAGE ================= */
+
+function openOrderPage(){
+
+  window.open(
+    document.getElementById("productLink").value,
+    "_blank"
+  );
+}
+
+/* ================= NOTIFICATIONS ================= */
+
+fetch(`https://order-platform-2.onrender.com/merchants/${merchantId}/notifications`,{
+  headers:{
+    "Authorization":`Bearer ${token}`
+  }
+})
+
+.then(r=>r.json())
+
+.then(notifs=>{
+
+  const unread =
+    notifs.filter(n=>!n.isRead).length;
+
+  const badge =
+    document.getElementById("notifBadge");
 
   if(unread > 0){
+
     badge.style.display = "flex";
+
     badge.textContent = unread;
-  } else {
-    badge.style.display = "none";
   }
 });
 
