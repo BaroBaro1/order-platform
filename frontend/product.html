@@ -4,38 +4,56 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>عرض المنتج</title>
+<title>عرض المنتج | Baro</title>
 
 <style>
 
+:root{
+  --primary:#7c3aed;
+  --primary-light:#a855f7;
+  --bg:#f5f3ff;
+  --card:#ffffff;
+  --text:#1f2937;
+  --muted:#6b7280;
+  --border:#e5e7eb;
+  --success:#16a34a;
+  --danger:#dc2626;
+  --shadow:0 10px 30px rgba(124,58,237,.10);
+}
+
 *{
+  margin:0;
+  padding:0;
   box-sizing:border-box;
 }
 
 body{
-  margin:0;
   font-family:Arial,sans-serif;
-  background:#f4f4f9;
   direction:rtl;
-  color:#222;
+  background:linear-gradient(to bottom,#f8f5ff,#f3f4f6);
+  color:var(--text);
 }
 
-/* ===== NAVBAR ===== */
+/* ================= HEADER ================= */
 
 .navbar{
-  background:white;
+  background:rgba(255,255,255,.9);
+  backdrop-filter:blur(12px);
   display:flex;
   justify-content:space-between;
   align-items:center;
   padding:14px 30px;
-  box-shadow:0 2px 10px rgba(0,0,0,.08);
+  border-bottom:1px solid rgba(0,0,0,.05);
+  position:sticky;
+  top:0;
+  z-index:100;
 }
 
 .right-side,
 .left-side{
   display:flex;
   align-items:center;
-  gap:12px;
+  gap:14px;
 }
 
 .store-img{
@@ -43,8 +61,8 @@ body{
   height:48px;
   border-radius:50%;
   object-fit:cover;
-  border:2px solid #eee;
-  background:white;
+  border:3px solid #ede9fe;
+  background:#fff;
 }
 
 #welcomeText{
@@ -54,18 +72,18 @@ body{
 .logo{
   font-size:24px;
   font-weight:bold;
-  color:#7c3aed;
+  color:var(--primary);
 }
 
 .logout{
   text-decoration:none;
-  color:#ff3366;
+  color:#ef4444;
   font-weight:bold;
 }
 
 .notifications{
   text-decoration:none;
-  font-size:20px;
+  font-size:22px;
 }
 
 .notification-wrapper{
@@ -74,259 +92,166 @@ body{
 
 .badge{
   position:absolute;
-  top:-5px;
-  right:-5px;
+  top:-6px;
+  right:-8px;
   background:red;
   color:white;
-  font-size:11px;
   width:18px;
   height:18px;
   border-radius:50%;
+  font-size:11px;
   display:flex;
   align-items:center;
   justify-content:center;
+  font-weight:bold;
 }
 
-/* ===== LAYOUT ===== */
+/* ================= LAYOUT ================= */
 
 .layout{
   display:flex;
 }
 
-/* ===== SIDEBAR ===== */
+/* ================= SIDEBAR ================= */
 
 .sidebar{
   width:240px;
-  background:white;
   min-height:100vh;
-  padding-top:20px;
-  border-left:1px solid #eee;
+  background:linear-gradient(180deg,#6d28d9,#7c3aed);
+  padding:25px 15px;
+  position:sticky;
+  top:78px;
 }
 
 .sidebar a{
-  display:block;
-  padding:14px 20px;
-  margin:6px 12px;
-  border-radius:12px;
+  display:flex;
+  align-items:center;
+  gap:10px;
+  color:white;
   text-decoration:none;
-  color:#333;
-  font-weight:600;
-  transition:.2s;
+  padding:14px;
+  margin-bottom:10px;
+  border-radius:12px;
+  transition:.25s;
 }
 
 .sidebar a:hover{
-  background:#f3e8ff;
-  color:#7c3aed;
+  background:rgba(255,255,255,.15);
 }
 
-/* ===== MAIN ===== */
+.sidebar a.active{
+  background:white;
+  color:var(--primary);
+  font-weight:bold;
+}
+
+/* ================= MAIN ================= */
 
 .main{
   flex:1;
   padding:30px;
 }
 
-/* ===== PRODUCT CARD ===== */
+/* ================= CARD ================= */
 
 .product-card{
-  max-width:950px;
+  max-width:1100px;
   margin:auto;
-  background:white;
+  background:rgba(255,255,255,.92);
   border-radius:24px;
-  padding:35px;
-  box-shadow:0 10px 30px rgba(0,0,0,.08);
-  position:relative;
-  overflow:hidden;
+  padding:30px;
+  box-shadow:var(--shadow);
+  border:1px solid rgba(255,255,255,.4);
 }
 
-.product-card::before{
-  content:"";
-  position:absolute;
-  top:0;
-  right:0;
-  width:100%;
-  height:6px;
-  background:linear-gradient(90deg,#7c3aed,#ff3366);
-}
-
-/* ===== PRODUCT HEADER ===== */
+/* ================= HEADER PRODUCT ================= */
 
 .product-header{
   display:flex;
   justify-content:space-between;
-  align-items:flex-start;
-  gap:30px;
+  align-items:center;
+  gap:20px;
+  margin-bottom:25px;
   flex-wrap:wrap;
-  margin-bottom:30px;
 }
 
-.product-info{
+.product-image-box{
+  flex:1;
+  min-width:280px;
+  text-align:center;
+}
+
+.product-img{
+  width:100%;
+  max-width:380px;
+  height:380px;
+  object-fit:cover;
+  border-radius:24px;
+  border:1px solid #eee;
+  background:white;
+  box-shadow:0 10px 30px rgba(0,0,0,.08);
+}
+
+.product-info-top{
   flex:1;
   min-width:280px;
 }
 
 .product-title{
   font-size:34px;
-  margin-bottom:12px;
-  color:#222;
-}
-
-.product-category{
-  color:#666;
-  font-size:16px;
-}
-
-.price-badge{
-  display:inline-flex;
-  align-items:center;
-  gap:8px;
-  background:#f3e8ff;
-  color:#7c3aed;
-  padding:12px 20px;
-  border-radius:14px;
   font-weight:bold;
-  margin-top:18px;
-  font-size:20px;
+  margin-bottom:15px;
 }
 
-.product-img-wrapper{
-  position:relative;
-}
-
-.product-img{
-  width:320px;
-  height:320px;
-  object-fit:cover;
-  border-radius:22px;
-  background:white;
-  border:1px solid #eee;
-  box-shadow:0 12px 30px rgba(0,0,0,.08);
-  transition:.3s;
-}
-
-.product-img:hover{
-  transform:scale(1.02);
-}
-
-/* ===== SECTIONS ===== */
-
-.product-section{
-  background:#fafafa;
-  border:1px solid #eee;
-  padding:24px;
-  border-radius:18px;
-  margin-top:20px;
-}
-
-.product-section h3{
-  margin-top:0;
-  margin-bottom:16px;
-  color:#7c3aed;
-}
-
-/* ===== FEATURES ===== */
-
-.features-grid{
-  display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
-  gap:16px;
-}
-
-.feature-item{
-  background:white;
-  border:1px solid #eee;
-  border-radius:16px;
-  padding:16px;
-  transition:.2s;
-}
-
-.feature-item:hover{
-  transform:translateY(-2px);
-  box-shadow:0 5px 15px rgba(0,0,0,.05);
-}
-
-.feature-item b{
-  color:#7c3aed;
-  display:block;
-  margin-bottom:10px;
-}
-
-.feature-tag{
+.price-box{
   display:inline-block;
-  background:#f3e8ff;
-  color:#7c3aed;
-  padding:6px 12px;
-  border-radius:30px;
-  margin:4px;
-  font-size:14px;
-  font-weight:600;
-}
-
-/* ===== FORM ===== */
-
-.form-group{
-  margin-bottom:18px;
-}
-
-.form-group label{
-  display:block;
-  margin-bottom:8px;
-  font-weight:bold;
-}
-
-input,
-textarea{
-  width:100%;
-  padding:13px;
+  background:#ede9fe;
+  color:var(--primary);
+  padding:10px 18px;
   border-radius:14px;
-  border:1px solid #ddd;
-  background:white;
-  font-size:15px;
-  transition:.2s;
+  font-size:24px;
+  font-weight:bold;
+  margin-bottom:15px;
 }
 
-input:focus,
-textarea:focus{
-  border-color:#7c3aed;
-  outline:none;
-  box-shadow:0 0 0 4px rgba(124,58,237,.1);
+.category-box{
+  display:inline-block;
+  background:#f3f4f6;
+  padding:8px 14px;
+  border-radius:10px;
+  color:#555;
+  margin-bottom:20px;
 }
 
-textarea{
-  min-height:120px;
-  resize:vertical;
-}
+/* ================= ACTIONS ================= */
 
-/* ===== BUTTONS ===== */
-
-.buttons{
+.actions{
   display:flex;
   gap:12px;
   flex-wrap:wrap;
-  margin-top:25px;
+  margin-top:20px;
 }
 
 button{
   border:none;
-  padding:13px 18px;
-  border-radius:14px;
   cursor:pointer;
+  border-radius:12px;
+  padding:12px 18px;
   font-weight:bold;
-  transition:.2s;
-}
-
-button:hover{
-  transform:translateY(-1px);
-  opacity:.95;
+  transition:.25s;
 }
 
 .edit-btn{
-  background:linear-gradient(135deg,#7c3aed,#9333ea);
+  background:var(--primary);
   color:white;
 }
 
+.edit-btn:hover{
+  background:#6d28d9;
+}
+
 .save-btn{
-  background:linear-gradient(135deg,#22c55e,#16a34a);
+  background:var(--success);
   color:white;
 }
 
@@ -335,67 +260,146 @@ button:hover{
   color:white;
 }
 
-.add-feature-btn{
-  background:#2563eb;
-  color:white;
-  margin-top:10px;
-}
-
-.delete-feature-btn{
+.delete-feature{
   background:#ef4444;
   color:white;
-  margin-top:10px;
+  width:100%;
+  margin-top:8px;
 }
 
-/* ===== FEATURE EDIT ===== */
+.add-feature{
+  background:#2563eb;
+  color:white;
+  width:100%;
+}
+
+/* ================= DESCRIPTION ================= */
+
+.section{
+  margin-top:30px;
+}
+
+.section h3{
+  margin-bottom:15px;
+  color:var(--primary);
+}
+
+.description-box{
+  line-height:1.9;
+  color:#444;
+  background:#fafafa;
+  border:1px solid #eee;
+  padding:18px;
+  border-radius:14px;
+}
+
+/* ================= FEATURES ================= */
+
+.features-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+  gap:15px;
+}
+
+.feature-card{
+  background:#faf5ff;
+  border:1px solid #ede9fe;
+  padding:16px;
+  border-radius:16px;
+}
+
+.feature-card h4{
+  color:var(--primary);
+  margin-bottom:10px;
+}
+
+.feature-values{
+  display:flex;
+  flex-wrap:wrap;
+  gap:8px;
+}
+
+.feature-values span{
+  background:white;
+  border:1px solid #ddd;
+  padding:6px 10px;
+  border-radius:999px;
+  font-size:14px;
+}
+
+/* ================= EDIT MODE ================= */
+
+.edit-grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:20px;
+}
+
+.input-group{
+  margin-bottom:18px;
+}
+
+.input-group label{
+  display:block;
+  margin-bottom:8px;
+  font-weight:bold;
+}
+
+input,
+textarea{
+  width:100%;
+  padding:14px;
+  border-radius:12px;
+  border:1px solid #ddd;
+  outline:none;
+  background:#fafafa;
+}
+
+input:focus,
+textarea:focus{
+  border-color:var(--primary);
+  background:white;
+}
+
+textarea{
+  min-height:120px;
+  resize:vertical;
+}
 
 .feature-row{
   background:#fafafa;
-  border:1px solid #eee;
-  padding:16px;
+  border:1px solid #e5e7eb;
+  padding:15px;
   border-radius:16px;
-  margin-top:14px;
+  margin-bottom:15px;
 }
 
-/* ===== STATUS ===== */
+/* ================= STATUS ================= */
 
 #status{
   margin-top:20px;
-  padding:15px;
-  border-radius:14px;
   font-weight:bold;
-  display:none;
 }
 
-.status-success{
-  background:#dcfce7;
-  color:#166534;
-}
-
-.status-error{
-  background:#fee2e2;
-  color:#991b1b;
-}
-
-/* ===== FOOTER ===== */
+/* ================= FOOTER ================= */
 
 footer{
-  background:#222;
+  margin-top:50px;
+  background:#111827;
   color:white;
   text-align:center;
-  padding:20px;
-  margin-top:40px;
+  padding:25px;
 }
 
 footer a{
-  color:#ffd000;
+  color:#c4b5fd;
   text-decoration:none;
   margin:0 10px;
 }
 
-/* ===== MOBILE ===== */
+/* ================= MOBILE ================= */
 
-@media(max-width:768px){
+@media(max-width:900px){
 
   .layout{
     flex-direction:column;
@@ -404,33 +408,22 @@ footer a{
   .sidebar{
     width:100%;
     min-height:auto;
+    position:relative;
+    top:0;
     display:flex;
     overflow:auto;
-    padding:10px;
   }
 
   .sidebar a{
     white-space:nowrap;
   }
 
-  .product-header{
-    flex-direction:column-reverse;
-    align-items:center;
-    text-align:center;
+  .edit-grid{
+    grid-template-columns:1fr;
   }
 
-  .product-img{
-    width:100%;
-    max-width:320px;
-    height:auto;
-  }
-
-  .main{
-    padding:15px;
-  }
-
-  .buttons{
-    justify-content:center;
+  .product-title{
+    font-size:28px;
   }
 
 }
@@ -440,29 +433,25 @@ footer a{
 
 <body>
 
-<!-- ===== NAVBAR ===== -->
+<!-- ================= HEADER ================= -->
 
 <div class="navbar">
 
   <div class="right-side">
+    <img id="storeImg"
+         src="https://via.placeholder.com/100"
+         class="store-img">
 
-    <img
-      id="storeImg"
-      src="https://via.placeholder.com/80"
-      class="store-img"
-    >
-
-    <span id="welcomeText">
-      مرحبًا، التاجر
-    </span>
-
+    <span id="welcomeText">مرحبًا، التاجر</span>
   </div>
 
   <div class="left-side">
 
     <div class="notification-wrapper">
       <a class="notifications" href="notifications.html">🔔</a>
-      <span id="notifBadge" class="badge" style="display:none;">0</span>
+      <span id="notifBadge"
+            class="badge"
+            style="display:none;">0</span>
     </div>
 
     <a class="logout" href="login.html">
@@ -475,311 +464,264 @@ footer a{
 
 </div>
 
+<!-- ================= LAYOUT ================= -->
+
 <div class="layout">
 
-<!-- ===== SIDEBAR ===== -->
+  <!-- ================= SIDEBAR ================= -->
 
-<div class="sidebar">
+  <div class="sidebar">
 
-  <a href="dashboard.html">🏠 لوحة التحكم</a>
+    <a href="dashboard.html">
+      🏠 لوحة التحكم
+    </a>
 
-  <a href="allorders.html">🛒 الطلبات</a>
+    <a href="allorders.html">
+      🛒 الطلبات
+    </a>
 
-  <a href="settings.html">⚙️ الإعدادات</a>
+    <a href="settings.html">
+      ⚙️ الإعدادات
+    </a>
 
-  <a href="addProduct.html">➕ إضافة منتج</a>
+    <a href="addProduct.html">
+      ➕ إضافة منتج
+    </a>
 
-</div>
+  </div>
 
-<!-- ===== MAIN ===== -->
+  <!-- ================= MAIN ================= -->
 
-<div class="main">
+  <div class="main">
 
-<div class="product-card">
+    <div class="product-card">
 
-<!-- ===== HEADER ===== -->
+      <!-- VIEW MODE -->
 
-<div class="product-header">
+      <div id="viewMode">
 
-  <div class="product-info">
+        <div class="product-header">
 
-    <h1 id="v_name" class="product-title"></h1>
+          <div class="product-image-box">
+            <img id="productImage"
+                 class="product-img"
+                 src="https://via.placeholder.com/400">
+          </div>
 
-    <p class="product-category">
-      📦 <b>الصنف:</b>
-      <span id="v_category"></span>
-    </p>
+          <div class="product-info-top">
 
-    <div class="price-badge">
-      💰 <span id="v_price"></span> دج
+            <div class="category-box">
+              <span id="v_category">—</span>
+            </div>
+
+            <h1 id="v_name"
+                class="product-title"></h1>
+
+            <div class="price-box">
+              <span id="v_price"></span> دج
+            </div>
+
+            <div class="actions">
+
+              <button class="edit-btn"
+                      onclick="enableEdit()">
+                ✏️ تعديل المنتج
+              </button>
+
+            </div>
+
+          </div>
+
+        </div>
+
+        <!-- DESCRIPTION -->
+
+        <div class="section">
+
+          <h3>📝 وصف المنتج</h3>
+
+          <div class="description-box"
+               id="v_desc">
+          </div>
+
+        </div>
+
+        <!-- FEATURES -->
+
+        <div class="section">
+
+          <h3>✨ الميزات</h3>
+
+          <div id="v_features"
+               class="features-grid">
+          </div>
+
+        </div>
+
+      </div>
+
+      <!-- EDIT MODE -->
+
+      <div id="editMode"
+           style="display:none;">
+
+        <div class="edit-grid">
+
+          <div>
+
+            <div class="input-group">
+              <label>اسم المنتج</label>
+              <input id="e_name">
+            </div>
+
+            <div class="input-group">
+              <label>الصنف</label>
+              <input id="e_category">
+            </div>
+
+            <div class="input-group">
+              <label>السعر</label>
+              <input id="e_price" type="number">
+            </div>
+
+          </div>
+
+          <div>
+
+            <div class="input-group">
+              <label>وصف المنتج</label>
+              <textarea id="e_desc"></textarea>
+            </div>
+
+          </div>
+
+        </div>
+
+        <!-- FEATURES -->
+
+        <div class="section">
+
+          <h3>⚡ ميزات المنتج</h3>
+
+          <div id="e_features"></div>
+
+          <button type="button"
+                  class="add-feature"
+                  onclick="addFeatureField()">
+            ➕ إضافة ميزة
+          </button>
+
+        </div>
+
+        <!-- ACTIONS -->
+
+        <div class="actions">
+
+          <button class="save-btn"
+                  onclick="saveChanges()">
+            💾 حفظ التعديلات
+          </button>
+
+          <button class="cancel-btn"
+                  onclick="disableEdit()">
+            إلغاء
+          </button>
+
+        </div>
+
+        <p id="status"></p>
+
+      </div>
+
     </div>
 
-    <div class="buttons">
-
-      <button
-        id="editBtn"
-        class="edit-btn"
-        onclick="enableEdit()"
-      >
-        ✏️ تعديل المنتج
-      </button>
-
-    </div>
-
-  </div>
-
-  <div class="product-img-wrapper">
-
-    <img
-      id="productImage"
-      src=""
-      class="product-img"
-    >
-
   </div>
 
 </div>
 
-<!-- ===== VIEW MODE ===== -->
-
-<div id="viewMode">
-
-  <div class="product-section">
-
-    <h3>📝 وصف المنتج</h3>
-
-    <p id="v_desc"></p>
-
-  </div>
-
-  <div class="product-section">
-
-    <h3>✨ الميزات</h3>
-
-    <div
-      id="v_features"
-      class="features-grid"
-    ></div>
-
-  </div>
-
-</div>
-
-<!-- ===== EDIT MODE ===== -->
-
-<div id="editMode" style="display:none;">
-
-  <div class="product-section">
-
-    <div class="form-group">
-
-      <label>اسم المنتج</label>
-
-      <input id="e_name">
-
-    </div>
-
-    <div class="form-group">
-
-      <label>الصنف</label>
-
-      <input id="e_category">
-
-    </div>
-
-    <div class="form-group">
-
-      <label>السعر</label>
-
-      <input id="e_price">
-
-    </div>
-
-    <div class="form-group">
-
-      <label>الوصف</label>
-
-      <textarea id="e_desc"></textarea>
-
-    </div>
-
-  </div>
-
-  <div class="product-section">
-
-    <h3>✨ الميزات</h3>
-
-    <div id="e_features"></div>
-
-    <button
-      type="button"
-      class="add-feature-btn"
-      onclick="addFeatureField()"
-    >
-      ➕ إضافة ميزة
-    </button>
-
-  </div>
-
-  <div class="buttons">
-
-    <button
-      class="save-btn"
-      onclick="saveChanges()"
-    >
-      💾 حفظ التغييرات
-    </button>
-
-    <button
-      type="button"
-      class="cancel-btn"
-      onclick="disableEdit()"
-    >
-      ❌ إلغاء
-    </button>
-
-  </div>
-
-</div>
-
-<p id="status"></p>
-
-</div>
-
-</div>
-
-</div>
+<!-- ================= FOOTER ================= -->
 
 <footer>
-  <p>© 2026 Baro - جميع الحقوق محفوظة</p>
+
+  <p>
+    <a href="#">من نحن</a>
+    |
+    <a href="#">اتصل بنا</a>
+  </p>
+
+  <p>
+    © 2026 Baro - جميع الحقوق محفوظة
+  </p>
+
 </footer>
 
 <script>
-
-/* ===== AUTH ===== */
 
 const token = localStorage.getItem("token");
 const merchantId = localStorage.getItem("merchantId");
 
 if(!token || !merchantId){
-
   alert("الرجاء تسجيل الدخول أولاً");
-
   window.location = "login.html";
-
 }
 
-/* ===== PRODUCT ID ===== */
-
-const params = new URLSearchParams(window.location.search);
-
-const productId = params.get("productId");
-
-if(!productId){
-
-  alert("لا يوجد منتج");
-
-  window.location = "dashboard.html";
-
-}
-
-/* ===== IMAGE FIX ===== */
-
-function getImageUrl(path){
-
-  if(!path || path === "null"){
-
-    return "https://via.placeholder.com/300?text=No+Image";
-
-  }
-
-  // Cloudinary
-  if(path.startsWith("http")){
-
-    return path;
-
-  }
-
-  // Local uploads
-  return "https://order-platform-2.onrender.com" +
-    (path.startsWith("/") ? path : "/" + path);
-
-}
-
-/* ===== MERCHANT DATA ===== */
+/* ================= MERCHANT ================= */
 
 fetch(`https://order-platform-2.onrender.com/merchants/${merchantId}`,{
-
   headers:{
     "Authorization":`Bearer ${token}`
   }
-
 })
-
 .then(r=>r.json())
-
 .then(merchant=>{
 
   document.getElementById("welcomeText").textContent =
     "مرحبًا، " + (merchant.name || "التاجر");
 
-  document.getElementById("storeImg").src =
-    getImageUrl(merchant.storeImage);
-
-})
-
-.catch(err=>{
-
-  console.log(err);
+  /* مهم جدًا: صور cloudinary لا نضيف لها دومين */
+  if(merchant.storeImage){
+    document.getElementById("storeImg").src =
+      merchant.storeImage;
+  }
 
 });
 
-/* ===== EDIT MODE ===== */
+/* ================= PRODUCT ================= */
 
-function enableEdit(){
+const params = new URLSearchParams(window.location.search);
+const productId = params.get("productId");
 
-  document.getElementById("viewMode").style.display = "none";
-
-  document.getElementById("editMode").style.display = "block";
-
+if(!productId){
+  alert("لا يوجد منتج");
+  window.location = "dashboard.html";
 }
 
-function disableEdit(){
-
-  document.getElementById("viewMode").style.display = "block";
-
-  document.getElementById("editMode").style.display = "none";
-
-}
-
-/* ===== LOAD PRODUCT ===== */
+let currentProduct = null;
 
 fetch(`https://order-platform-2.onrender.com/merchants/${merchantId}/products/${productId}`,{
-
   headers:{
     "Authorization":`Bearer ${token}`
   }
-
 })
-
 .then(r=>r.json())
-
 .then(data=>{
 
   const p = data.product || data;
+  currentProduct = p;
 
-  /* ===== IMAGE ===== */
+  /* ===== صورة المنتج ===== */
 
-  document.getElementById("productImage").src =
-    getImageUrl(p.image);
+  if(p.image){
+    document.getElementById("productImage").src = p.image;
+  }
 
-  /* ===== VIEW ===== */
+  /* ===== VIEW MODE ===== */
 
   document.getElementById("v_name").textContent =
-    p.name || "";
+    p.name || "منتج";
 
   document.getElementById("v_category").textContent =
-    p.category || "—";
+    p.category || "بدون تصنيف";
 
   document.getElementById("v_price").textContent =
     p.price || 0;
@@ -787,7 +729,41 @@ fetch(`https://order-platform-2.onrender.com/merchants/${merchantId}/products/${
   document.getElementById("v_desc").textContent =
     p.description || "لا يوجد وصف";
 
-  /* ===== EDIT ===== */
+  /* ===== FEATURES VIEW ===== */
+
+  const vFeatures = document.getElementById("v_features");
+  vFeatures.innerHTML = "";
+
+  if(p.features && p.features.length){
+
+    p.features.forEach(f=>{
+
+      const div = document.createElement("div");
+      div.className = "feature-card";
+
+      div.innerHTML = `
+        <h4>${f.name}</h4>
+
+        <div class="feature-values">
+          ${f.values.map(v=>`<span>${v}</span>`).join("")}
+        </div>
+      `;
+
+      vFeatures.appendChild(div);
+
+    });
+
+  }else{
+
+    vFeatures.innerHTML = `
+      <p style="color:#777;">
+        لا توجد ميزات لهذا المنتج
+      </p>
+    `;
+
+  }
+
+  /* ===== EDIT MODE ===== */
 
   document.getElementById("e_name").value =
     p.name || "";
@@ -801,72 +777,39 @@ fetch(`https://order-platform-2.onrender.com/merchants/${merchantId}/products/${
   document.getElementById("e_desc").value =
     p.description || "";
 
-  /* ===== FEATURES VIEW ===== */
+  const eFeatures = document.getElementById("e_features");
+  eFeatures.innerHTML = "";
 
-  const vF = document.getElementById("v_features");
-
-  vF.innerHTML = "";
-
-  if(!p.features || p.features.length === 0){
-
-    vF.innerHTML = `
-      <p>لا توجد ميزات لهذا المنتج</p>
-    `;
-
-  }else{
+  if(p.features && p.features.length){
 
     p.features.forEach(f=>{
-
-      vF.innerHTML += `
-
-        <div class="feature-item">
-
-          <b>${f.name}</b>
-
-          <div>
-
-            ${f.values.map(v=>`
-
-              <span class="feature-tag">
-                ${v}
-              </span>
-
-            `).join("")}
-
-          </div>
-
-        </div>
-
-      `;
-
+      addFeatureField(
+        f.name,
+        f.values.join(", ")
+      );
     });
 
   }
 
-  /* ===== FEATURES EDIT ===== */
-
-  const eF = document.getElementById("e_features");
-
-  eF.innerHTML = "";
-
-  (p.features || []).forEach(f=>{
-
-    addFeatureField(
-      f.name,
-      f.values.join(", ")
-    );
-
-  });
-
-})
-
-.catch(err=>{
-
-  console.log(err);
-
 });
 
-/* ===== ADD FEATURE ===== */
+/* ================= EDIT ================= */
+
+function enableEdit(){
+
+  document.getElementById("viewMode").style.display = "none";
+  document.getElementById("editMode").style.display = "block";
+
+}
+
+function disableEdit(){
+
+  document.getElementById("editMode").style.display = "none";
+  document.getElementById("viewMode").style.display = "block";
+
+}
+
+/* ================= FEATURES ================= */
 
 function addFeatureField(name="", values=""){
 
@@ -879,24 +822,28 @@ function addFeatureField(name="", values=""){
 
   div.innerHTML = `
 
-    <input
-      class="f_name"
-      placeholder="اسم الميزة"
-      value="${name}"
-    >
+    <div class="input-group">
+      <label>اسم الميزة</label>
 
-    <input
-      class="f_values"
-      placeholder="القيم مفصولة بفاصلة"
-      value="${values}"
-    >
+      <input class="f_name"
+             value="${name}"
+             placeholder="مثال: اللون">
+    </div>
 
-    <button
-      type="button"
-      class="delete-feature-btn"
-      onclick="this.parentElement.remove()"
-    >
-      🗑️ حذف
+    <div class="input-group">
+      <label>القيم</label>
+
+      <input class="f_values"
+             value="${values}"
+             placeholder="أحمر, أزرق">
+    </div>
+
+    <button type="button"
+            class="delete-feature"
+            onclick="this.parentElement.remove()">
+
+      🗑️ حذف الميزة
+
     </button>
 
   `;
@@ -905,7 +852,7 @@ function addFeatureField(name="", values=""){
 
 }
 
-/* ===== SAVE ===== */
+/* ================= SAVE ================= */
 
 function saveChanges(){
 
@@ -945,12 +892,13 @@ function saveChanges(){
       document.getElementById("e_category").value,
 
     price:
-      document.getElementById("e_price").value,
+      Number(document.getElementById("e_price").value),
 
     description:
       document.getElementById("e_desc").value,
 
-    features:features
+    /* مهم جدًا */
+    features: features
 
   };
 
@@ -967,58 +915,54 @@ function saveChanges(){
 
   })
 
-  .then(r=>r.json())
+  .then(async r=>{
 
-  .then(data=>{
+    const data = await r.json();
 
-    const status =
-      document.getElementById("status");
+    if(!r.ok){
+      throw new Error(data.message || "فشل الحفظ");
+    }
 
-    status.style.display = "block";
+    return data;
 
-    status.className = "status-success";
+  })
 
-    status.textContent =
-      "✅ تم حفظ التعديلات بنجاح";
+  .then(()=>{
+
+    document.getElementById("status").style.color =
+      "green";
+
+    document.getElementById("status").textContent =
+      "تم حفظ التعديلات بنجاح ✅";
 
     setTimeout(()=>{
-
       location.reload();
-
-    },1000);
+    },1200);
 
   })
 
   .catch(err=>{
 
-    console.log(err);
+    console.error(err);
 
-    const status =
-      document.getElementById("status");
+    document.getElementById("status").style.color =
+      "red";
 
-    status.style.display = "block";
-
-    status.className = "status-error";
-
-    status.textContent =
-      "❌ حدث خطأ أثناء الحفظ";
+    document.getElementById("status").textContent =
+      "فشل حفظ التعديلات ❌";
 
   });
 
 }
 
-/* ===== NOTIFICATIONS ===== */
+/* ================= NOTIFICATIONS ================= */
 
 fetch(`https://order-platform-2.onrender.com/merchants/${merchantId}/notifications`,{
-
   headers:{
     "Authorization":`Bearer ${token}`
   }
-
 })
-
 .then(r=>r.json())
-
 .then(notifs=>{
 
   const unread =
@@ -1030,16 +974,9 @@ fetch(`https://order-platform-2.onrender.com/merchants/${merchantId}/notificatio
   if(unread > 0){
 
     badge.style.display = "flex";
-
     badge.textContent = unread;
 
   }
-
-})
-
-.catch(err=>{
-
-  console.log(err);
 
 });
 
