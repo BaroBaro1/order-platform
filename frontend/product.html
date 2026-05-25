@@ -864,17 +864,21 @@ function saveChanges(){
     body:JSON.stringify(body)
 
   })
-  .then(r=>r.json())
-  .then(()=>{
+  .then(async r => {
+  const data = await r.json();
+  console.log("UPDATE RESPONSE:", data);
 
-    document.getElementById("status").textContent =
-      "تم حفظ التعديلات بنجاح ✅";
+  if(!r.ok){
+    throw new Error(data.error || "فشل التحديث");
+  }
 
-    setTimeout(()=>{
-      location.reload();
-    },1000);
-
-  });
+  alert("تم حفظ التعديلات ✅");
+  location.reload();
+})
+.catch(err=>{
+  console.error(err);
+  alert("حدث خطأ أثناء حفظ الميزات");
+});
 
 }
 
