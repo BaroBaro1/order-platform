@@ -39,11 +39,12 @@ body{
 }
 
 .store-img{
-  width:45px;
-  height:45px;
+  width:48px;
+  height:48px;
   border-radius:50%;
   object-fit:cover;
   border:2px solid #eee;
+  background:white;
 }
 
 #welcomeText{
@@ -128,89 +129,158 @@ body{
 /* ===== PRODUCT CARD ===== */
 
 .product-card{
-  max-width:900px;
+  max-width:950px;
   margin:auto;
   background:white;
-  border-radius:20px;
-  padding:30px;
-  box-shadow:0 8px 25px rgba(0,0,0,.08);
+  border-radius:24px;
+  padding:35px;
+  box-shadow:0 10px 30px rgba(0,0,0,.08);
+  position:relative;
+  overflow:hidden;
 }
 
-/* ===== HEADER ===== */
+.product-card::before{
+  content:"";
+  position:absolute;
+  top:0;
+  right:0;
+  width:100%;
+  height:6px;
+  background:linear-gradient(90deg,#7c3aed,#ff3366);
+}
+
+/* ===== PRODUCT HEADER ===== */
 
 .product-header{
   display:flex;
   justify-content:space-between;
-  align-items:center;
-  gap:20px;
-  margin-bottom:25px;
+  align-items:flex-start;
+  gap:30px;
   flex-wrap:wrap;
+  margin-bottom:30px;
+}
+
+.product-info{
+  flex:1;
+  min-width:280px;
+}
+
+.product-title{
+  font-size:34px;
+  margin-bottom:12px;
+  color:#222;
+}
+
+.product-category{
+  color:#666;
+  font-size:16px;
+}
+
+.price-badge{
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+  background:#f3e8ff;
+  color:#7c3aed;
+  padding:12px 20px;
+  border-radius:14px;
+  font-weight:bold;
+  margin-top:18px;
+  font-size:20px;
+}
+
+.product-img-wrapper{
+  position:relative;
 }
 
 .product-img{
-  width:260px;
-  height:260px;
+  width:320px;
+  height:320px;
   object-fit:cover;
-  border-radius:18px;
+  border-radius:22px;
+  background:white;
   border:1px solid #eee;
+  box-shadow:0 12px 30px rgba(0,0,0,.08);
+  transition:.3s;
+}
+
+.product-img:hover{
+  transform:scale(1.02);
+}
+
+/* ===== SECTIONS ===== */
+
+.product-section{
   background:#fafafa;
+  border:1px solid #eee;
+  padding:24px;
+  border-radius:18px;
+  margin-top:20px;
 }
 
-/* ===== INFO ===== */
-
-.product-title{
-  font-size:30px;
-  margin-bottom:10px;
-}
-
-.price-box{
-  display:inline-block;
-  background:#f3e8ff;
+.product-section h3{
+  margin-top:0;
+  margin-bottom:16px;
   color:#7c3aed;
-  padding:10px 18px;
-  border-radius:12px;
-  font-weight:bold;
-  margin-top:10px;
 }
 
 /* ===== FEATURES ===== */
 
 .features-grid{
   display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
-  gap:15px;
-  margin-top:15px;
+  grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+  gap:16px;
 }
 
 .feature-item{
-  background:#faf7ff;
+  background:white;
   border:1px solid #eee;
-  border-radius:12px;
-  padding:12px;
+  border-radius:16px;
+  padding:16px;
+  transition:.2s;
+}
+
+.feature-item:hover{
+  transform:translateY(-2px);
+  box-shadow:0 5px 15px rgba(0,0,0,.05);
 }
 
 .feature-item b{
   color:#7c3aed;
+  display:block;
+  margin-bottom:10px;
+}
+
+.feature-tag{
+  display:inline-block;
+  background:#f3e8ff;
+  color:#7c3aed;
+  padding:6px 12px;
+  border-radius:30px;
+  margin:4px;
+  font-size:14px;
+  font-weight:600;
 }
 
 /* ===== FORM ===== */
 
 .form-group{
-  margin-bottom:16px;
+  margin-bottom:18px;
 }
 
 .form-group label{
   display:block;
-  margin-bottom:6px;
+  margin-bottom:8px;
   font-weight:bold;
 }
 
 input,
 textarea{
   width:100%;
-  padding:12px;
+  padding:13px;
+  border-radius:14px;
   border:1px solid #ddd;
-  border-radius:10px;
+  background:white;
   font-size:15px;
   transition:.2s;
 }
@@ -219,7 +289,7 @@ input:focus,
 textarea:focus{
   border-color:#7c3aed;
   outline:none;
-  box-shadow:0 0 0 3px rgba(124,58,237,.1);
+  box-shadow:0 0 0 4px rgba(124,58,237,.1);
 }
 
 textarea{
@@ -231,27 +301,32 @@ textarea{
 
 .buttons{
   display:flex;
-  gap:10px;
+  gap:12px;
   flex-wrap:wrap;
-  margin-top:20px;
+  margin-top:25px;
 }
 
 button{
   border:none;
-  padding:12px 18px;
-  border-radius:10px;
+  padding:13px 18px;
+  border-radius:14px;
   cursor:pointer;
   font-weight:bold;
   transition:.2s;
 }
 
+button:hover{
+  transform:translateY(-1px);
+  opacity:.95;
+}
+
 .edit-btn{
-  background:#7c3aed;
+  background:linear-gradient(135deg,#7c3aed,#9333ea);
   color:white;
 }
 
 .save-btn{
-  background:#22c55e;
+  background:linear-gradient(135deg,#22c55e,#16a34a);
   color:white;
 }
 
@@ -263,30 +338,43 @@ button{
 .add-feature-btn{
   background:#2563eb;
   color:white;
+  margin-top:10px;
 }
 
 .delete-feature-btn{
   background:#ef4444;
   color:white;
-  margin-top:8px;
+  margin-top:10px;
 }
 
 /* ===== FEATURE EDIT ===== */
 
 .feature-row{
-  border:1px solid #eee;
-  padding:15px;
-  border-radius:12px;
-  margin-top:12px;
   background:#fafafa;
+  border:1px solid #eee;
+  padding:16px;
+  border-radius:16px;
+  margin-top:14px;
 }
 
 /* ===== STATUS ===== */
 
 #status{
   margin-top:20px;
+  padding:15px;
+  border-radius:14px;
   font-weight:bold;
-  color:#22c55e;
+  display:none;
+}
+
+.status-success{
+  background:#dcfce7;
+  color:#166534;
+}
+
+.status-error{
+  background:#fee2e2;
+  color:#991b1b;
 }
 
 /* ===== FOOTER ===== */
@@ -326,18 +414,23 @@ footer a{
   }
 
   .product-header{
-    flex-direction:column;
+    flex-direction:column-reverse;
+    align-items:center;
     text-align:center;
   }
 
   .product-img{
     width:100%;
-    max-width:300px;
+    max-width:320px;
     height:auto;
   }
 
   .main{
     padding:15px;
+  }
+
+  .buttons{
+    justify-content:center;
   }
 
 }
@@ -352,8 +445,17 @@ footer a{
 <div class="navbar">
 
   <div class="right-side">
-    <img id="storeImg" src="https://via.placeholder.com/45" class="store-img">
-    <span id="welcomeText">مرحبًا، التاجر</span>
+
+    <img
+      id="storeImg"
+      src="https://via.placeholder.com/80"
+      class="store-img"
+    >
+
+    <span id="welcomeText">
+      مرحبًا، التاجر
+    </span>
+
   </div>
 
   <div class="left-side">
@@ -363,7 +465,9 @@ footer a{
       <span id="notifBadge" class="badge" style="display:none;">0</span>
     </div>
 
-    <a class="logout" href="login.html">تسجيل الخروج</a>
+    <a class="logout" href="login.html">
+      تسجيل الخروج
+    </a>
 
     <div class="logo">Baro</div>
 
@@ -378,8 +482,11 @@ footer a{
 <div class="sidebar">
 
   <a href="dashboard.html">🏠 لوحة التحكم</a>
+
   <a href="allorders.html">🛒 الطلبات</a>
+
   <a href="settings.html">⚙️ الإعدادات</a>
+
   <a href="addProduct.html">➕ إضافة منتج</a>
 
 </div>
@@ -390,30 +497,46 @@ footer a{
 
 <div class="product-card">
 
+<!-- ===== HEADER ===== -->
+
 <div class="product-header">
 
-  <div>
+  <div class="product-info">
 
     <h1 id="v_name" class="product-title"></h1>
 
-    <p>
-      <b>الصنف:</b>
+    <p class="product-category">
+      📦 <b>الصنف:</b>
       <span id="v_category"></span>
     </p>
 
-    <div class="price-box">
+    <div class="price-badge">
       💰 <span id="v_price"></span> دج
     </div>
 
     <div class="buttons">
-      <button class="edit-btn" onclick="enableEdit()">
+
+      <button
+        id="editBtn"
+        class="edit-btn"
+        onclick="enableEdit()"
+      >
         ✏️ تعديل المنتج
       </button>
+
     </div>
 
   </div>
 
-  <img id="productImage" class="product-img" src="">
+  <div class="product-img-wrapper">
+
+    <img
+      id="productImage"
+      src=""
+      class="product-img"
+    >
+
+  </div>
 
 </div>
 
@@ -421,13 +544,24 @@ footer a{
 
 <div id="viewMode">
 
-  <h3>📝 وصف المنتج</h3>
+  <div class="product-section">
 
-  <p id="v_desc"></p>
+    <h3>📝 وصف المنتج</h3>
 
-  <h3 style="margin-top:25px;">✨ الميزات</h3>
+    <p id="v_desc"></p>
 
-  <div id="v_features" class="features-grid"></div>
+  </div>
+
+  <div class="product-section">
+
+    <h3>✨ الميزات</h3>
+
+    <div
+      id="v_features"
+      class="features-grid"
+    ></div>
+
+  </div>
 
 </div>
 
@@ -435,45 +569,72 @@ footer a{
 
 <div id="editMode" style="display:none;">
 
-  <div class="form-group">
-    <label>اسم المنتج</label>
-    <input id="e_name">
+  <div class="product-section">
+
+    <div class="form-group">
+
+      <label>اسم المنتج</label>
+
+      <input id="e_name">
+
+    </div>
+
+    <div class="form-group">
+
+      <label>الصنف</label>
+
+      <input id="e_category">
+
+    </div>
+
+    <div class="form-group">
+
+      <label>السعر</label>
+
+      <input id="e_price">
+
+    </div>
+
+    <div class="form-group">
+
+      <label>الوصف</label>
+
+      <textarea id="e_desc"></textarea>
+
+    </div>
+
   </div>
 
-  <div class="form-group">
-    <label>الصنف</label>
-    <input id="e_category">
+  <div class="product-section">
+
+    <h3>✨ الميزات</h3>
+
+    <div id="e_features"></div>
+
+    <button
+      type="button"
+      class="add-feature-btn"
+      onclick="addFeatureField()"
+    >
+      ➕ إضافة ميزة
+    </button>
+
   </div>
-
-  <div class="form-group">
-    <label>السعر</label>
-    <input id="e_price">
-  </div>
-
-  <div class="form-group">
-    <label>الوصف</label>
-    <textarea id="e_desc"></textarea>
-  </div>
-
-  <h3>✨ الميزات</h3>
-
-  <div id="e_features"></div>
-
-  <button
-    type="button"
-    class="add-feature-btn"
-    onclick="addFeatureField()"
-  >
-    ➕ إضافة ميزة
-  </button>
 
   <div class="buttons">
 
-    <button class="save-btn" onclick="saveChanges()">
+    <button
+      class="save-btn"
+      onclick="saveChanges()"
+    >
       💾 حفظ التغييرات
     </button>
 
-    <button class="cancel-btn" onclick="disableEdit()">
+    <button
+      type="button"
+      class="cancel-btn"
+      onclick="disableEdit()"
+    >
       ❌ إلغاء
     </button>
 
@@ -495,98 +656,197 @@ footer a{
 
 <script>
 
+/* ===== AUTH ===== */
+
 const token = localStorage.getItem("token");
 const merchantId = localStorage.getItem("merchantId");
 
 if(!token || !merchantId){
+
   alert("الرجاء تسجيل الدخول أولاً");
+
   window.location = "login.html";
+
 }
 
+/* ===== PRODUCT ID ===== */
+
 const params = new URLSearchParams(window.location.search);
+
 const productId = params.get("productId");
 
 if(!productId){
+
   alert("لا يوجد منتج");
+
   window.location = "dashboard.html";
+
 }
 
-/* ===== بيانات التاجر ===== */
+/* ===== IMAGE FIX ===== */
+
+function getImageUrl(path){
+
+  if(!path || path === "null"){
+
+    return "https://via.placeholder.com/300?text=No+Image";
+
+  }
+
+  // Cloudinary
+  if(path.startsWith("http")){
+
+    return path;
+
+  }
+
+  // Local uploads
+  return "https://order-platform-2.onrender.com" +
+    (path.startsWith("/") ? path : "/" + path);
+
+}
+
+/* ===== MERCHANT DATA ===== */
 
 fetch(`https://order-platform-2.onrender.com/merchants/${merchantId}`,{
+
   headers:{
     "Authorization":`Bearer ${token}`
   }
+
 })
+
 .then(r=>r.json())
+
 .then(merchant=>{
 
   document.getElementById("welcomeText").textContent =
     "مرحبًا، " + (merchant.name || "التاجر");
 
-  if(merchant.storeImage){
-    document.getElementById("storeImg").src =
-      "https://order-platform-2.onrender.com" + merchant.storeImage;
-  }
+  document.getElementById("storeImg").src =
+    getImageUrl(merchant.storeImage);
+
+})
+
+.catch(err=>{
+
+  console.log(err);
 
 });
 
-/* ===== وضع التعديل ===== */
+/* ===== EDIT MODE ===== */
 
 function enableEdit(){
+
   document.getElementById("viewMode").style.display = "none";
+
   document.getElementById("editMode").style.display = "block";
+
 }
 
 function disableEdit(){
+
   document.getElementById("viewMode").style.display = "block";
+
   document.getElementById("editMode").style.display = "none";
+
 }
 
-/* ===== جلب المنتج ===== */
+/* ===== LOAD PRODUCT ===== */
 
 fetch(`https://order-platform-2.onrender.com/merchants/${merchantId}/products/${productId}`,{
+
   headers:{
     "Authorization":`Bearer ${token}`
   }
+
 })
+
 .then(r=>r.json())
+
 .then(data=>{
 
   const p = data.product || data;
 
+  /* ===== IMAGE ===== */
+
   document.getElementById("productImage").src =
-    "https://order-platform-2.onrender.com" + (p.image || "");
+    getImageUrl(p.image);
 
-  document.getElementById("v_name").textContent = p.name;
-  document.getElementById("v_category").textContent = p.category || "—";
-  document.getElementById("v_price").textContent = p.price;
-  document.getElementById("v_desc").textContent = p.description || "";
+  /* ===== VIEW ===== */
 
-  document.getElementById("e_name").value = p.name;
-  document.getElementById("e_category").value = p.category || "";
-  document.getElementById("e_price").value = p.price;
-  document.getElementById("e_desc").value = p.description || "";
+  document.getElementById("v_name").textContent =
+    p.name || "";
 
-  /* ===== عرض الميزات ===== */
+  document.getElementById("v_category").textContent =
+    p.category || "—";
+
+  document.getElementById("v_price").textContent =
+    p.price || 0;
+
+  document.getElementById("v_desc").textContent =
+    p.description || "لا يوجد وصف";
+
+  /* ===== EDIT ===== */
+
+  document.getElementById("e_name").value =
+    p.name || "";
+
+  document.getElementById("e_category").value =
+    p.category || "";
+
+  document.getElementById("e_price").value =
+    p.price || "";
+
+  document.getElementById("e_desc").value =
+    p.description || "";
+
+  /* ===== FEATURES VIEW ===== */
 
   const vF = document.getElementById("v_features");
+
   vF.innerHTML = "";
 
-  (p.features || []).forEach(f=>{
+  if(!p.features || p.features.length === 0){
 
-    vF.innerHTML += `
-      <div class="feature-item">
-        <b>${f.name}</b>
-        <p>${f.values.join(" ، ")}</p>
-      </div>
+    vF.innerHTML = `
+      <p>لا توجد ميزات لهذا المنتج</p>
     `;
 
-  });
+  }else{
 
-  /* ===== وضع التعديل ===== */
+    p.features.forEach(f=>{
+
+      vF.innerHTML += `
+
+        <div class="feature-item">
+
+          <b>${f.name}</b>
+
+          <div>
+
+            ${f.values.map(v=>`
+
+              <span class="feature-tag">
+                ${v}
+              </span>
+
+            `).join("")}
+
+          </div>
+
+        </div>
+
+      `;
+
+    });
+
+  }
+
+  /* ===== FEATURES EDIT ===== */
 
   const eF = document.getElementById("e_features");
+
   eF.innerHTML = "";
 
   (p.features || []).forEach(f=>{
@@ -598,9 +858,15 @@ fetch(`https://order-platform-2.onrender.com/merchants/${merchantId}/products/${
 
   });
 
+})
+
+.catch(err=>{
+
+  console.log(err);
+
 });
 
-/* ===== إضافة ميزة ===== */
+/* ===== ADD FEATURE ===== */
 
 function addFeatureField(name="", values=""){
 
@@ -639,7 +905,7 @@ function addFeatureField(name="", values=""){
 
 }
 
-/* ===== حفظ التعديلات ===== */
+/* ===== SAVE ===== */
 
 function saveChanges(){
 
@@ -705,33 +971,54 @@ function saveChanges(){
 
   .then(data=>{
 
-    document.getElementById("status").textContent =
-      "تم حفظ التعديلات بنجاح ✅";
+    const status =
+      document.getElementById("status");
+
+    status.style.display = "block";
+
+    status.className = "status-success";
+
+    status.textContent =
+      "✅ تم حفظ التعديلات بنجاح";
 
     setTimeout(()=>{
+
       location.reload();
+
     },1000);
 
   })
 
   .catch(err=>{
 
-    console.error(err);
+    console.log(err);
 
-    alert("حدث خطأ أثناء الحفظ");
+    const status =
+      document.getElementById("status");
+
+    status.style.display = "block";
+
+    status.className = "status-error";
+
+    status.textContent =
+      "❌ حدث خطأ أثناء الحفظ";
 
   });
 
 }
 
-/* ===== الإشعارات ===== */
+/* ===== NOTIFICATIONS ===== */
 
 fetch(`https://order-platform-2.onrender.com/merchants/${merchantId}/notifications`,{
+
   headers:{
     "Authorization":`Bearer ${token}`
   }
+
 })
+
 .then(r=>r.json())
+
 .then(notifs=>{
 
   const unread =
@@ -743,9 +1030,16 @@ fetch(`https://order-platform-2.onrender.com/merchants/${merchantId}/notificatio
   if(unread > 0){
 
     badge.style.display = "flex";
+
     badge.textContent = unread;
 
   }
+
+})
+
+.catch(err=>{
+
+  console.log(err);
 
 });
 
