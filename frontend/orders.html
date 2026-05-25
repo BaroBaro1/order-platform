@@ -1,39 +1,51 @@
 <!DOCTYPE html>
 <html lang="ar">
+
 <head>
-  <meta charset="UTF-8">
-  <title>طلبات المنتج</title>
-  <style>
-    
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>الطلبات | Baro</title>
+
+<style>
+
 :root{
   --primary:#7c3aed;
-  --primary-light:#ede9fe;
-  --secondary:#ff3366;
-  --yellow:#ffd000;
+  --primary-light:#a855f7;
   --bg:#f5f3ff;
-  --white:#ffffff;
-  --text:#1f2937;
+  --card:#ffffff;
+  --text:#111827;
   --muted:#6b7280;
   --border:#e5e7eb;
-  --success:#22c55e;
-  --shadow:0 10px 30px rgba(124,58,237,.08);
-  --radius:18px;
+  --success:#16a34a;
+  --warning:#f59e0b;
+  --danger:#dc2626;
 }
-    body {
-      background:#f4f4f9;
-      font-family: Arial, sans-serif;
-        margin:0;
-      direction:rtl;
-    }
 
-/* ========== الهيدر (نفس الداشبورد) ========== */
-.navbar {
+*{
+  box-sizing:border-box;
+}
+
+body{
+  margin:0;
+  font-family:Arial,sans-serif;
+  background:var(--bg);
+  direction:rtl;
+  color:var(--text);
+}
+
+/* ===== NAVBAR ===== */
+
+.navbar{
   background:white;
   display:flex;
   justify-content:space-between;
   align-items:center;
-  padding:12px 30px;
-  box-shadow:0 2px 8px rgba(0,0,0,.1);
+  padding:14px 30px;
+  box-shadow:0 2px 12px rgba(0,0,0,.06);
+  position:sticky;
+  top:0;
+  z-index:100;
 }
 
 .right-side{
@@ -47,47 +59,23 @@
   height:45px;
   border-radius:50%;
   object-fit:cover;
-  border:1px solid #ddd;
+  border:2px solid #eee;
 }
 
 #welcomeText{
   font-weight:bold;
-  color:#333;
 }
 
 .left-side{
   display:flex;
   align-items:center;
-  gap:15px;
+  gap:16px;
 }
 
-.notifications{
-  text-decoration:none;
+.logo{
+  font-size:24px;
   font-weight:bold;
-  font-size:20px;
-  cursor:pointer;
-}
-
-/* ===== عدّاد الإشعارات ===== */
-.notification-wrapper{
-  position: relative;
-  display: inline-block;
-}
-
-.badge{
-  position:absolute;
-  top:-5px;
-  right:-5px;
-  background:red;
-  color:white;
-  font-size:12px;
-  width:18px;
-  height:18px;
-  border-radius:50%;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  font-weight:bold;
+  color:var(--primary);
 }
 
 .logout{
@@ -96,50 +84,62 @@
   font-weight:bold;
 }
 
-.logo{
-  font-size:22px;
-  font-weight:bold;
-  color:#ff3366;
+.notifications{
+  text-decoration:none;
+  font-size:20px;
 }
 
-/* ========== تخطيط الصفحة ========== */
+.notification-wrapper{
+  position:relative;
+}
+
+.badge{
+  position:absolute;
+  top:-5px;
+  right:-8px;
+  background:red;
+  color:white;
+  width:18px;
+  height:18px;
+  border-radius:50%;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:11px;
+  font-weight:bold;
+}
+
+/* ===== LAYOUT ===== */
+
 .layout{
   display:flex;
 }
-/* ================= SIDEBAR ================= */
+
+/* ===== SIDEBAR ===== */
 
 .sidebar{
   width:240px;
   background:white;
   border-left:1px solid var(--border);
   padding:25px 15px;
-}
-
-.sidebar-title{
-  color:var(--muted);
-  margin-bottom:15px;
-  font-size:13px;
-  padding-right:10px;
+  min-height:100vh;
 }
 
 .sidebar a{
   display:flex;
   align-items:center;
   gap:10px;
-
   text-decoration:none;
   color:#333;
-
   padding:14px;
   margin-bottom:8px;
-
   border-radius:14px;
   transition:.25s;
   font-weight:700;
 }
 
 .sidebar a:hover{
-  background:var(--primary-light);
+  background:#f3e8ff;
   color:var(--primary);
   transform:translateX(-4px);
 }
@@ -150,235 +150,904 @@
   box-shadow:0 10px 25px rgba(124,58,237,.25);
 }
 
+/* ===== MAIN ===== */
 
-/* ========== المحتوى الرئيسي ========== */
 .main{
   flex:1;
+  padding:30px;
+}
+
+.page-title{
+  font-size:30px;
+  font-weight:bold;
+  margin-bottom:8px;
+}
+
+.page-subtitle{
+  color:var(--muted);
+  margin-bottom:25px;
+}
+
+/* ===== STATS ===== */
+
+.stats-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+  gap:18px;
+  margin-bottom:25px;
+}
+
+.stat-card{
+  background:white;
+  border-radius:20px;
+  padding:22px;
+  box-shadow:0 10px 30px rgba(0,0,0,.05);
+}
+
+.stat-card h3{
+  margin:0;
+  font-size:32px;
+}
+
+.stat-card p{
+  margin-top:10px;
+  color:var(--muted);
+}
+
+.pending-card{
+  border-right:5px solid var(--warning);
+}
+
+.done-card{
+  border-right:5px solid var(--success);
+}
+
+.revenue-card{
+  border-right:5px solid var(--primary);
+}
+
+/* ===== FILTERS ===== */
+
+.toolbar{
+  background:white;
+  padding:18px;
+  border-radius:20px;
+  margin-bottom:25px;
+  display:flex;
+  flex-wrap:wrap;
+  gap:15px;
+  align-items:center;
+  justify-content:space-between;
+  box-shadow:0 10px 30px rgba(0,0,0,.05);
+}
+
+.filters{
+  display:flex;
+  gap:10px;
+  flex-wrap:wrap;
+}
+
+.filter-btn{
+  border:none;
+  padding:12px 18px;
+  border-radius:12px;
+  cursor:pointer;
+  background:#f3f4f6;
+  font-weight:bold;
+  transition:.2s;
+}
+
+.filter-btn:hover{
+  background:#ede9fe;
+  color:var(--primary);
+}
+
+.filter-btn.active{
+  background:linear-gradient(135deg,var(--primary),#8b5cf6);
+  color:white;
+}
+
+.search-box{
+  background:#f9fafb;
+  border:1px solid var(--border);
+  border-radius:14px;
+  padding:12px 15px;
+  display:flex;
+  align-items:center;
+  gap:10px;
+  min-width:300px;
+}
+
+.search-box input{
+  border:none;
+  background:transparent;
+  outline:none;
+  width:100%;
+  font-size:15px;
+}
+
+/* ===== TABLE ===== */
+
+.table-wrapper{
+  background:white;
+  border-radius:22px;
+  overflow:hidden;
+  box-shadow:0 10px 30px rgba(0,0,0,.05);
+}
+
+.orders-table{
+  width:100%;
+  border-collapse:collapse;
+}
+
+.orders-table th{
+  background:#fafafa;
+  padding:18px;
+  text-align:center;
+  font-size:14px;
+  color:#666;
+}
+
+.orders-table td{
+  padding:18px;
+  text-align:center;
+  border-top:1px solid #f1f1f1;
+}
+
+.orders-table tr{
+  transition:.2s;
+}
+
+.orders-table tr:hover{
+  background:#faf7ff;
+}
+
+/* ===== STATUS ===== */
+
+.status{
+  padding:8px 14px;
+  border-radius:999px;
+  font-size:13px;
+  font-weight:bold;
+}
+
+.pending{
+  background:#fff7ed;
+  color:#ea580c;
+}
+
+.done{
+  background:#ecfdf5;
+  color:#16a34a;
+}
+
+/* ===== ACTIONS ===== */
+
+.actions{
+  display:flex;
+  gap:10px;
+  justify-content:center;
+  flex-wrap:wrap;
+}
+
+.action-btn{
+  border:none;
+  padding:10px 14px;
+  border-radius:12px;
+  cursor:pointer;
+  font-weight:bold;
+  transition:.2s;
+  text-decoration:none;
+}
+
+.done-btn{
+  background:#dcfce7;
+  color:#15803d;
+}
+
+.done-btn:hover{
+  background:#bbf7d0;
+}
+
+.call-btn{
+  background:#ede9fe;
+  color:var(--primary);
+}
+
+.call-btn:hover{
+  background:#ddd6fe;
+}
+
+/* ===== EMPTY ===== */
+
+.empty-state{
+  text-align:center;
+  padding:50px 20px;
+}
+
+.empty-state h3{
+  margin-bottom:10px;
+}
+
+.empty-state p{
+  color:var(--muted);
+}
+
+/* ===== TOAST ===== */
+
+.toast{
+  position:fixed;
+  bottom:20px;
+  left:20px;
+  background:var(--success);
+  color:white;
+  padding:14px 18px;
+  border-radius:12px;
+  display:none;
+  z-index:999;
+  box-shadow:0 10px 25px rgba(0,0,0,.15);
+}
+
+/* ===== MOBILE ===== */
+
+@media(max-width:1000px){
+
+  .layout{
+    flex-direction:column;
+  }
+
+  .sidebar{
+    width:100%;
+    min-height:auto;
+    display:flex;
+    overflow:auto;
+    padding:10px;
+  }
+
+  .sidebar a{
+    white-space:nowrap;
+  }
+
+  .main{
+    padding:15px;
+  }
+
+  .toolbar{
+    flex-direction:column;
+    align-items:stretch;
+  }
+
+  .search-box{
+    min-width:100%;
+  }
+
+  .table-wrapper{
+    overflow-x:auto;
+  }
+
+}
+
+footer{
+  background:#111827;
+  color:white;
+  text-align:center;
   padding:25px;
-}
- .container {
-      max-width: 900px;
-      margin: auto;
-      background: white;
-      padding: 20px;
-      border-radius: 10px;
-      box-shadow: 0 5px 15px rgba(0,0,0,.1);
- }
-
-    h2 { text-align:center; margin-bottom:20px; }
-
-    table {
-      width:100%;
-      border-collapse: collapse;
-      margin-top:20px;
-    }
-
-    th, td {
-      border:1px solid #ddd;
-      padding:10px;
-      text-align:center;
-    }
-
-    th {
-      background:#007bff;
-      color:white;
-    }
-
-    .status {
-      padding:5px 10px;
-      border-radius:5px;
-      color:white;
-    }
-
-    .pending { background:#ffc107; color:black; }
-    .done { background:#28a745; }
-
-    .back {
-      display:inline-block;
-      margin-bottom:15px;
-      text-decoration:none;
-      background:#333;
-      color:white;
-      padding:8px 12px;
-      border-radius:5px;
-    }
-
-    #empty {
-      text-align:center;
-      margin-top:20px;
-      color:#777;
-    }
-    .canceled {
-  background: #dc3545;
-}
-/* ===== الفوتر ===== */
-footer {
-  background: #222;
-  color: white;
-  text-align: center;
-  padding: 20px;
-  margin-top: 40px;
+  margin-top:40px;
 }
 
-footer a {
-  color: #ffd000;
-  text-decoration: none;
-  margin: 0 10px;
+footer a{
+  color:#facc15;
+  text-decoration:none;
+  margin:0 10px;
 }
-  </style>
+
+</style>
 </head>
 
 <body>
 
-<!-- ========== HEADER ========== -->
+<!-- ===== NAVBAR ===== -->
+
 <div class="navbar">
 
   <div class="right-side">
+
     <img id="storeImg"
          src="https://via.placeholder.com/45"
          class="store-img">
-    <span id="welcomeText">مرحبًا، التاجر</span>
+
+    <span id="welcomeText">
+      مرحبًا، التاجر
+    </span>
+
   </div>
 
   <div class="left-side">
+
     <div class="notification-wrapper">
-      <a class="notifications" href="notifications.html">🔔</a>
-      <span id="notifBadge" class="badge" style="display:none;">0</span>
+
+      <a class="notifications"
+         href="notifications.html">🔔</a>
+
+      <span id="notifBadge"
+            class="badge"
+            style="display:none;">0</span>
+
     </div>
 
-    <a class="logout" href="login.html"> تسجيل الخروج</a>
+    <a class="logout"
+       href="login.html">
+
+      تسجيل الخروج
+
+    </a>
+
     <div class="logo">Baro</div>
+
   </div>
 
 </div>
 
-<!-- ========== تخطيط الصفحة ========== -->
 <div class="layout">
 
-  <!-- ===== SIDEBAR ===== -->
-  <div class="sidebar">
-    <a href="dashboard.html">🏠 لوحة التحكم</a>
-    <a href="allorders.html">🛒 الطلبات</a>
-    <a href="settings.html">⚙️ الإعدادات</a>
-    <a href="addProduct.html">➕ إضافة منتج</a>
-  </div>
-   <!-- MAIN -->
-  <div class="main">
-  <!-- ===== المحتوى الرئيسي ===== -->
-<div class="container">
+<!-- ===== SIDEBAR ===== -->
 
-  <a class="back" href="dashboard.html">⬅ العودة للوحة التاجر</a>
+<div class="sidebar">
 
-  <h2>📦 طلبات المنتج</h2>
+  <a href="dashboard.html">
+    🏠 لوحة التحكم
+  </a>
 
-  <table>
-    <thead>
-  <tr>
-    <th>ID الطلب</th>
-    <th>اسم الزبون</th>
-    <th>الهاتف</th>
-    <th>الولاية</th>
-    <th>السعر الإجمالي</th>
-    <th>الحالة</th>
-    <th>الإجراءات</th>
-  </tr>
-</thead>
+  <a href="allorders.html"
+     class="active">
+    🛒 الطلبات
+  </a>
 
-    <tbody id="ordersBody"></tbody>
-  </table>
+  <a href="settings.html">
+    ⚙️ الإعدادات
+  </a>
 
-  <p id="empty"></p>
+  <a href="addProduct.html">
+    ➕ إضافة منتج
+  </a>
+
 </div>
-  </div></div>
-<script>
-const ordersBody = document.getElementById("ordersBody");
-const emptyMsg = document.getElementById("empty");
 
-// ===== قراءة البيانات المحفوظة =====
-const merchantId = localStorage.getItem("merchantId");
-const token = localStorage.getItem("token");
+<!-- ===== MAIN ===== -->
 
-if (!merchantId || !token) {
-  alert("الرجاء تسجيل الدخول أولاً");
-  window.location = "login.html";
-}
+<div class="main">
 
-// ===== قراءة productId من الرابط =====
-const params = new URLSearchParams(window.location.search);
-const productId = params.get("productId");
+  <div class="page-title">
+    🛒 إدارة الطلبات
+  </div>
 
-if (!productId) {
-  emptyMsg.textContent = "لم يتم تحديد المنتج!";
-  throw new Error("Product ID missing");
-}
+  <div class="page-subtitle">
+    راقب طلبات متجرك وقم بتحديث حالتها بسهولة
+  </div>
 
-// ===== جلب طلبات التاجر (مع التوكن) =====
-fetch(`https://order-platform-2.onrender.com/merchants/${merchantId}/orders`, {
-  headers: { "Authorization": `Bearer ${token}` }
-})
-.then(res => res.json())
-.then(data => {
+  <!-- ===== STATS ===== -->
 
-  const filteredOrders = data.filter(o => o.product.id == productId);
+  <div class="stats-grid">
 
-  if (filteredOrders.length === 0) {
-    emptyMsg.textContent = "لا توجد طلبات لهذا المنتج حالياً";
-    return;
-  }
+    <div class="stat-card">
+      <h3 id="totalOrders">0</h3>
+      <p>إجمالي الطلبات</p>
+    </div>
 
-  filteredOrders.forEach(order => {
-    const tr = document.createElement("tr");
+    <div class="stat-card pending-card">
+      <h3 id="pendingOrders">0</h3>
+      <p>طلبات معلقة</p>
+    </div>
 
-    tr.innerHTML = `
-      <td>${order.id}</td>
-      <td>${order.customerName}</td>
-      <td>${order.customerPhone}</td>
-      <td>${order.wilaya}</td>
-      <td>${order.totalPrice} دج</td>
-      <td id="status-${order.id}" 
-          class="status ${order.status}">
-        ${order.status === "done" ? "مكتمل" :
-          order.status === "canceled" ? "ملغى" : "معلّق"}
-      </td>
-      <td>
-        <button onclick="updateStatus(${order.id}, 'done')">✅ تأكيد</button>
-        <button onclick="updateStatus(${order.id}, 'canceled')">❌ إلغاء</button>
-      </td>
-    `;
+    <div class="stat-card done-card">
+      <h3 id="doneOrders">0</h3>
+      <p>طلبات مكتملة</p>
+    </div>
 
-    ordersBody.appendChild(tr);
-  });
-});
+    <div class="stat-card revenue-card">
+      <h3 id="totalRevenue">0 دج</h3>
+      <p>إجمالي الأرباح</p>
+    </div>
 
-// ===== تحديث الحالة (يعمل مع server.js عندك) =====
-function updateStatus(orderId, newStatus) {
-  fetch(`https://order-platform-2.onrender.com/orders/${orderId}`, {
-    method: "PATCH",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ status: newStatus })
-  })
-  .then(res => res.json())
-  .then(updated => {
+  </div>
 
-    const cell = document.getElementById(`status-${orderId}`);
+  <!-- ===== TOOLBAR ===== -->
 
-    if (newStatus === "done") {
-      cell.textContent = "مكتمل";
-      cell.className = "status done";
-    } 
-    else {
-      cell.textContent = "ملغى";
-      cell.className = "status canceled";
-    }
-  });
-}
-</script>
+  <div class="toolbar">
+
+    <div class="filters">
+
+      <button class="filter-btn active"
+              id="btnAll"
+              onclick="filterStatus('all')">
+
+        الكل
+
+      </button>
+
+      <button class="filter-btn"
+              id="btnPending"
+              onclick="filterStatus('pending')">
+
+        معلقة
+
+      </button>
+
+      <button class="filter-btn"
+              id="btnDone"
+              onclick="filterStatus('done')">
+
+        مكتملة
+
+      </button>
+
+    </div>
+
+    <div class="search-box">
+
+      🔍
+
+      <input type="text"
+             id="search"
+             placeholder="ابحث باسم الزبون أو الهاتف..."
+             onkeyup="searchOrders()">
+
+    </div>
+
+  </div>
+
+  <!-- ===== TABLE ===== -->
+
+  <div class="table-wrapper">
+
+    <table class="orders-table">
+
+      <thead>
+
+        <tr>
+
+          <th>#</th>
+          <th>المنتج</th>
+          <th>الزبون</th>
+          <th>الهاتف</th>
+          <th>السعر</th>
+          <th>الحالة</th>
+          <th>الإجراءات</th>
+
+        </tr>
+
+      </thead>
+
+      <tbody id="ordersBody"></tbody>
+
+    </table>
+
+  </div>
+
+</div>
+
+</div>
+
+<!-- ===== TOAST ===== -->
+
+<div class="toast" id="toast"></div>
+
 <footer>
+
   <p>
     <a href="#">من نحن</a> |
     <a href="#">اتصل بنا</a>
   </p>
-  <p>© 2026 Baro - جميع الحقوق محفوظة</p>
+
+  <p>
+    © 2026 Baro - جميع الحقوق محفوظة
+  </p>
+
 </footer>
+
+<script>
+
+/* ===== AUTH ===== */
+
+const merchantId =
+  localStorage.getItem("merchantId");
+
+const token =
+  localStorage.getItem("token");
+
+if(!merchantId || !token){
+
+  alert("الرجاء تسجيل الدخول أولاً");
+
+  window.location = "login.html";
+
+}
+
+/* ===== MERCHANT ===== */
+
+fetch(
+  `https://order-platform-2.onrender.com/merchants/${merchantId}`,
+  {
+    headers:{
+      "Authorization":`Bearer ${token}`
+    }
+  }
+)
+.then(r=>r.json())
+.then(merchant=>{
+
+  document.getElementById("welcomeText").textContent =
+    "مرحبًا، " + (merchant.name || "التاجر");
+
+  if(merchant.storeImage){
+
+    document.getElementById("storeImg").src =
+      merchant.storeImage;
+
+  }
+
+});
+
+/* ===== NOTIFICATIONS ===== */
+
+fetch(
+  `https://order-platform-2.onrender.com/merchants/${merchantId}/notifications`,
+  {
+    headers:{
+      "Authorization":`Bearer ${token}`
+    }
+  }
+)
+.then(r=>r.json())
+.then(notifs=>{
+
+  const unread =
+    notifs.filter(n=>!n.isRead).length;
+
+  const badge =
+    document.getElementById("notifBadge");
+
+  if(unread > 0){
+
+    badge.style.display = "flex";
+
+    badge.textContent = unread;
+
+  }
+
+});
+
+/* ===== ORDERS ===== */
+
+let allOrders = [];
+
+async function loadOrders(){
+
+  try{
+
+    const res =
+      await fetch(
+        `https://order-platform-2.onrender.com/merchants/${merchantId}/orders`,
+        {
+          headers:{
+            "Authorization":`Bearer ${token}`
+          }
+        }
+      );
+
+    const orders =
+      await res.json();
+
+    allOrders = orders;
+
+    renderTable(orders);
+
+    updateStats(orders);
+
+  }catch(err){
+
+    console.error(err);
+
+  }
+
+}
+
+function updateStats(orders){
+
+  const total =
+    orders.length;
+
+  const pending =
+    orders.filter(o=>o.status !== "done").length;
+
+  const done =
+    orders.filter(o=>o.status === "done").length;
+
+  const revenue =
+    orders
+      .filter(o=>o.status === "done")
+      .reduce((sum,o)=>sum + Number(o.totalPrice || 0),0);
+
+  document.getElementById("totalOrders").textContent =
+    total;
+
+  document.getElementById("pendingOrders").textContent =
+    pending;
+
+  document.getElementById("doneOrders").textContent =
+    done;
+
+  document.getElementById("totalRevenue").textContent =
+    revenue + " دج";
+
+}
+
+function renderTable(orders){
+
+  const body =
+    document.getElementById("ordersBody");
+
+  body.innerHTML = "";
+
+  if(orders.length === 0){
+
+    body.innerHTML = `
+
+      <tr>
+
+        <td colspan="7">
+
+          <div class="empty-state">
+
+            <h3>
+              لا توجد طلبات
+            </h3>
+
+            <p>
+              ستظهر الطلبات الجديدة هنا
+            </p>
+
+          </div>
+
+        </td>
+
+      </tr>
+
+    `;
+
+    return;
+
+  }
+
+  orders.forEach(o=>{
+
+    const statusHTML =
+      o.status === "done"
+      ?
+      `<span class="status done">
+        ✅ مكتمل
+      </span>`
+      :
+      `<span class="status pending">
+        ⏳ معلّق
+      </span>`;
+
+    const row =
+      document.createElement("tr");
+
+    row.innerHTML = `
+
+      <td>#${o.id}</td>
+
+      <td>
+        ${o.product?.name || "منتج"}
+      </td>
+
+      <td>
+        ${o.customerName || ""}
+      </td>
+
+      <td>
+        ${o.customerPhone || ""}
+      </td>
+
+      <td>
+        ${o.totalPrice || 0} دج
+      </td>
+
+      <td>
+        ${statusHTML}
+      </td>
+
+      <td>
+
+        <div class="actions">
+
+          ${
+            o.status !== "done"
+            ?
+            `
+            <button
+              class="action-btn done-btn"
+              onclick="markDone(${o.id})"
+            >
+              ✅ تم التسليم
+            </button>
+            `
+            :
+            ""
+          }
+
+          <a
+            href="tel:${o.customerPhone}"
+            class="action-btn call-btn"
+          >
+            📞 اتصال
+          </a>
+
+        </div>
+
+      </td>
+
+    `;
+
+    body.appendChild(row);
+
+  });
+
+}
+
+/* ===== FILTER ===== */
+
+function filterStatus(type){
+
+  document.querySelectorAll(".filter-btn")
+    .forEach(btn=>btn.classList.remove("active"));
+
+  if(type === "all"){
+
+    document.getElementById("btnAll")
+      .classList.add("active");
+
+    renderTable(allOrders);
+
+  }
+
+  else if(type === "pending"){
+
+    document.getElementById("btnPending")
+      .classList.add("active");
+
+    renderTable(
+      allOrders.filter(o=>o.status !== "done")
+    );
+
+  }
+
+  else{
+
+    document.getElementById("btnDone")
+      .classList.add("active");
+
+    renderTable(
+      allOrders.filter(o=>o.status === "done")
+    );
+
+  }
+
+}
+
+/* ===== SEARCH ===== */
+
+function searchOrders(){
+
+  const q =
+    document.getElementById("search")
+    .value
+    .toLowerCase();
+
+  const filtered =
+    allOrders.filter(o=>
+
+      (o.customerName || "")
+      .toLowerCase()
+      .includes(q)
+
+      ||
+
+      (o.customerPhone || "")
+      .includes(q)
+
+      ||
+
+      (o.product?.name || "")
+      .toLowerCase()
+      .includes(q)
+
+    );
+
+  renderTable(filtered);
+
+}
+
+/* ===== UPDATE STATUS ===== */
+
+async function markDone(orderId){
+
+  try{
+
+    await fetch(
+      `https://order-platform-2.onrender.com/orders/${orderId}`,
+      {
+        method:"PATCH",
+
+        headers:{
+          "Content-Type":"application/json",
+          "Authorization":`Bearer ${token}`
+        },
+
+        body:JSON.stringify({
+          status:"done"
+        })
+      }
+    );
+
+    allOrders =
+      allOrders.map(o=>
+
+        o.id === orderId
+        ?
+        {...o,status:"done"}
+        :
+        o
+
+      );
+
+    renderTable(allOrders);
+
+    updateStats(allOrders);
+
+    showToast(
+      "تم تحديث حالة الطلب بنجاح ✅"
+    );
+
+  }catch(err){
+
+    console.error(err);
+
+    alert("حدث خطأ");
+
+  }
+
+}
+
+/* ===== TOAST ===== */
+
+function showToast(message){
+
+  const toast =
+    document.getElementById("toast");
+
+  toast.textContent =
+    message;
+
+  toast.style.display =
+    "block";
+
+  setTimeout(()=>{
+
+    toast.style.display =
+      "none";
+
+  },3000);
+
+}
+
+/* ===== INIT ===== */
+
+loadOrders();
+
+</script>
+
 </body>
 </html>
