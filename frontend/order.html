@@ -83,6 +83,45 @@
 
     .success { color: green; }
     .error { color: red; }
+    #productFeatures{
+  margin-top:20px;
+}
+
+#productFeatures label{
+  display:block;
+  margin-top:15px;
+  margin-bottom:5px;
+  font-weight:bold;
+}
+
+.feature-select{
+  width:100%;
+  padding:10px;
+  border:1px solid #ddd;
+  border-radius:8px;
+}
+
+.total-box{
+  margin-top:20px;
+  background:#f8fafc;
+  padding:15px;
+  border-radius:12px;
+}
+
+.total-row{
+  font-size:22px;
+  font-weight:bold;
+  color:#16a34a;
+}
+
+.success-box{
+  background:#dcfce7;
+  color:#166534;
+  padding:15px;
+  border-radius:10px;
+  margin-top:20px;
+  text-align:center;
+}
   </style>
 </head>
 <body>
@@ -94,6 +133,26 @@
       <img id="productImage" src="https://via.placeholder.com/400x300?text=جارٍ+تحميل+الصورة" alt="صورة المنتج" />
       <h3 id="productName">جاري التحميل...</h3>
       <p>السعر: <span id="price"></span> دج</p>
+      <div id="productFeatures"></div>
+
+<div class="total-box">
+  <div>
+    سعر المنتج:
+    <span id="productPriceValue">0 دج</span>
+  </div>
+
+  <div>
+    التوصيل:
+    <span id="deliveryPriceValue">0 دج</span>
+  </div>
+
+  <hr>
+
+  <div class="total-row">
+    المجموع:
+    <span id="totalPrice">0 دج</span>
+  </div>
+</div>
     </div>
 
     <form id="orderForm">
@@ -209,12 +268,65 @@
           productName.textContent = product.error;
           return;
         }
+currentProduct = product;
 
+productPrice = Number(product.price);
+
+document.getElementById(
+  "productPriceValue"
+).innerText =
+  productPrice.toLocaleString() + " دج";
         productName.textContent = product.name;
         priceEl.textContent = product.price.toLocaleString();
         productIdEl.value = product.id;
-productImage.src = product.image || "placeholder.jpg";      })
-      .catch(err => {
+productImage.src = product.image || "placeholder.jpg";  
+const featuresContainer =
+  document.getElementById(
+    "productFeatures"
+  );
+// عرض الميزات الاختيارية للمنتج
+
+featuresContainer.innerHTML = "";
+
+(product.features || []).forEach(feature=>{
+
+  const div =
+    document.createElement("div");
+
+  div.innerHTML = `
+
+    <label>
+      ${feature.name}
+    </label>
+
+    <select
+      class="feature-select"
+      data-feature="${feature.name}"
+      required
+    >
+
+      <option value="">
+        اختر ${feature.name}
+      </option>
+
+      ${feature.values.map(v=>`
+
+        <option value="${v}">
+          ${v}
+        </option>
+
+      `).join("")}
+
+    </select>
+
+  `;
+
+  featuresContainer.appendChild(div);
+
+}); 
+   })
+     
+.catch(err => {
         console.error(err);
         productName.textContent = "حدث خطأ في جلب المنتج";
       });
@@ -300,7 +412,35 @@ wilayaSelect.addEventListener("change", function () {
     const form = document.getElementById("orderForm");
     form.addEventListener("submit", e => {
       e.preventDefault();
+// التحقق من اختيار جميع الميزات
+      const selectedFeatures = {};
 
+document
+.querySelectorAll(
+ ".feature-select"
+)
+.forEach(select=>{
+
+  selectedFeatures[
+    select.dataset.feature
+  ] = select.value;
+
+});
+
+const missing =
+Object.values(
+  selectedFeatures
+).some(v=>!v);
+
+if(missing){
+
+  alert(
+    "يرجى اختيار جميع الميزات"
+  );
+
+  return;
+}
+// جمع البيانات من النموذج
       const data = {
         productId: Number(productIdEl.value),
         customerName: document.getElementById("customerName").value,
@@ -309,6 +449,7 @@ wilayaSelect.addEventListener("change", function () {
         commune: document.getElementById("commune").value,
         address: document.getElementById("address").value,
         deliveryType: document.getElementById("deliveryType").value,
+        features: selectedFeatures,
       };
 
       fetch("https://order-platform-2.onrender.com/orders", {
@@ -333,6 +474,19 @@ wilayaSelect.addEventListener("change", function () {
         resultEl.className = "error";
       });
     }); 
+// حساب المجموع النهائي 
+function updateTotal(deliveryPrice){
+
+  const total =
+    productPrice +
+    Number(deliveryPrice);
+
+  document.getElementById(
+    "totalPrice"
+  ).innerText =
+    total.toLocaleString() + " دج";
+
+}
     //  تحديث سعر التوصيل عند تغيير الولاية أو طريقة التوصيل
     async function updatePrice() {
   const wilaya = document.getElementById("wilaya").value
